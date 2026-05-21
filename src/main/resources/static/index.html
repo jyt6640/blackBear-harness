@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방탈출 예약</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Room Escape</p>
+        <h1>방탈출 예약</h1>
+    </div>
+    <nav>
+        <a href="#reserve">예약</a>
+        <a href="#mine">내 예약</a>
+        <a href="#admin">관리</a>
+    </nav>
+</header>
+
+<main>
+    <section id="reserve" class="section reserve-layout">
+        <div class="panel">
+            <h2>예약하기</h2>
+            <label>
+                이름
+                <input id="reservation-name" type="text" placeholder="브라운">
+            </label>
+            <label>
+                날짜
+                <input id="reservation-date" type="date">
+            </label>
+            <label>
+                테마
+                <select id="reservation-theme"></select>
+            </label>
+            <div>
+                <div class="label-row">
+                    <span>예약 가능 시간</span>
+                    <button id="refresh-times" type="button">조회</button>
+                </div>
+                <div id="available-times" class="time-grid"></div>
+            </div>
+            <button id="create-reservation" class="primary" type="button">예약 생성</button>
+            <p id="reservation-message" class="message"></p>
+        </div>
+
+        <div class="theme-strip">
+            <h2>인기 테마</h2>
+            <div id="popular-themes" class="theme-list"></div>
+        </div>
+    </section>
+
+    <section id="mine" class="section two-column">
+        <div class="panel">
+            <h2>내 예약</h2>
+            <label>
+                이름
+                <input id="mine-name" type="text" placeholder="브라운">
+            </label>
+            <button id="load-mine" type="button">조회</button>
+            <div id="mine-list" class="reservation-list"></div>
+        </div>
+
+        <div class="panel">
+            <h2>예약 변경</h2>
+            <label>
+                예약 ID
+                <input id="change-id" type="number" min="1">
+            </label>
+            <label>
+                이름
+                <input id="change-name" type="text" placeholder="브라운">
+            </label>
+            <label>
+                변경 날짜
+                <input id="change-date" type="date">
+            </label>
+            <label>
+                변경 시간
+                <select id="change-time"></select>
+            </label>
+            <label>
+                테마
+                <select id="change-theme"></select>
+            </label>
+            <button id="change-reservation" class="primary" type="button">변경</button>
+            <p id="mine-message" class="message"></p>
+        </div>
+    </section>
+
+    <section id="admin" class="section two-column">
+        <div class="panel">
+            <h2>테마 관리</h2>
+            <label>
+                이름
+                <input id="theme-name" type="text">
+            </label>
+            <label>
+                설명
+                <textarea id="theme-description" rows="3"></textarea>
+            </label>
+            <label>
+                썸네일 URL
+                <input id="theme-thumbnail" type="url" placeholder="https://example.com/theme.jpg">
+            </label>
+            <button id="create-theme" class="primary" type="button">테마 추가</button>
+            <div id="theme-list" class="admin-list"></div>
+        </div>
+
+        <div class="panel">
+            <h2>시간 관리</h2>
+            <label>
+                시작 시간
+                <input id="time-start" type="time">
+            </label>
+            <button id="create-time" class="primary" type="button">시간 추가</button>
+            <div id="time-list" class="admin-list"></div>
+        </div>
+    </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>
