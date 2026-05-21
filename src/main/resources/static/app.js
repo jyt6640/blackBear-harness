@@ -43,15 +43,19 @@ async function loadThemes() {
     const themes = await request("/themes");
     const reservationTheme = $("#reservation-theme");
     const changeTheme = $("#change-theme");
+    const waitingTheme = $("#waiting-theme");
     reservationTheme.replaceChildren(...themes.map((theme) => option(theme.id, theme.name)));
     changeTheme.replaceChildren(...themes.map((theme) => option(theme.id, theme.name)));
+    waitingTheme.replaceChildren(...themes.map((theme) => option(theme.id, theme.name)));
     renderThemeList(themes);
 }
 
 async function loadTimes() {
     const times = await request("/times");
     const changeTime = $("#change-time");
+    const waitingTime = $("#waiting-time");
     changeTime.replaceChildren(...times.map((time) => option(time.id, time.startAt)));
+    waitingTime.replaceChildren(...times.map((time) => option(time.id, time.startAt)));
     renderTimeList(times);
 }
 
@@ -155,6 +159,44 @@ async function loadMe() {
         $("#member-info").replaceChildren(item);
     } catch (error) {
         setMessage("#login-message", error.message, true);
+    }
+}
+
+async function createWaiting() {
+    try {
+        const waiting = await request("/reservation-waitings", {
+            method: "POST",
+            body: JSON.stringify({
+                name: $("#waiting-name").value,
+                date: $("#waiting-date").value,
+                timeId: Number($("#waiting-time").value),
+                themeId: Number($("#waiting-theme").value),
+            }),
+        });
+        setMessage("#waiting-message", `${waiting.sequence}번으로 대기 등록되었습니다.`);
+        await loadWaitings();
+    } catch (error) {
+        setMessage("#waiting-message", error.message, true);
+    }
+}
+
+async function loadWaitings() {
+    try {
+        const date = $("#waiting-date").value;
+        const timeId = $("#waiting-time").value;
+        const themeId = $("#waiting-theme").value;
+        const waitings = await request(`/reservation-waitings?date=${date}&timeId=${timeId}&themeId=${themeId}`);
+        $("#waiting-list").replaceChildren(...waitings.map((waiting) => {
+            const item = document.createElement("div");
+            item.className = "item";
+            item.innerHTML = `
+                <p class="item-title">${waiting.sequence}번 ${waiting.name}</p>
+                <p class="item-meta">${waiting.date} ${waiting.time.startAt} · ${waiting.theme.name}</p>
+            `;
+            return item;
+        }));
+    } catch (error) {
+        setMessage("#waiting-message", error.message, true);
     }
 }
 
@@ -263,6 +305,8 @@ function bindEvents() {
     $("#signup").addEventListener("click", signup);
     $("#login").addEventListener("click", login);
     $("#load-me").addEventListener("click", loadMe);
+    $("#create-waiting").addEventListener("click", createWaiting);
+    $("#load-waitings").addEventListener("click", loadWaitings);
     $("#refresh-times").addEventListener("click", loadAvailableTimes);
     $("#create-reservation").addEventListener("click", createReservation);
     $("#load-mine").addEventListener("click", loadMine);
@@ -274,6 +318,7 @@ function bindEvents() {
 async function init() {
     const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
     $("#reservation-date").value = tomorrow;
+    $("#waiting-date").value = tomorrow;
     $("#change-date").value = tomorrow;
     bindEvents();
     await Promise.all([loadThemes(), loadTimes(), loadPopularThemes()]);

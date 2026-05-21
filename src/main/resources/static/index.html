@@ -15,6 +15,7 @@
     <nav>
         <a href="#auth">로그인</a>
         <a href="#reserve">예약</a>
+        <a href="#waiting">대기</a>
         <a href="#mine">내 예약</a>
         <a href="#admin">관리</a>
     </nav>
@@ -88,6 +89,38 @@
         <div class="theme-strip">
             <h2>인기 테마</h2>
             <div id="popular-themes" class="theme-list"></div>
+        </div>
+    </section>
+
+    <section id="waiting" class="section two-column">
+        <div class="panel">
+            <h2>예약 대기</h2>
+            <label>
+                이름
+                <input id="waiting-name" type="text" placeholder="포비">
+            </label>
+            <label>
+                날짜
+                <input id="waiting-date" type="date">
+            </label>
+            <label>
+                테마
+                <select id="waiting-theme"></select>
+            </label>
+            <label>
+                시간
+                <select id="waiting-time"></select>
+            </label>
+            <div class="button-row">
+                <button id="create-waiting" class="primary" type="button">대기 등록</button>
+                <button id="load-waitings" type="button">대기 조회</button>
+            </div>
+            <p id="waiting-message" class="message"></p>
+        </div>
+
+        <div class="panel">
+            <h2>대기 목록</h2>
+            <div id="waiting-list" class="reservation-list"></div>
         </div>
     </section>
 
