@@ -17,6 +17,9 @@
 - [x] 회원가입 API
 - [x] JWT 기반 로그인 API
 - [x] JWT로 내 회원 정보 조회
+- [ ] 예약 대기 등록 API
+- [ ] 예약 대기 조회 API
+- [ ] 예약 취소 시 첫 번째 대기 자동 예약 승격
 
 ## API 명세
 
@@ -39,6 +42,16 @@
 | 내 예약 변경 | `PATCH /reservations/{id}` | `{name, date, timeId, themeId}` | `{id, name, date, time, theme}` |
 | 내 예약 취소 | `DELETE /reservations/{id}?name=브라운` | - | `200 OK` |
 | 예약 가능 시간 조회 | `GET /available-times?date=2026-05-22&themeId=1` | - | `[{id, startAt}]` |
+
+### 예약 대기
+
+| 기능 | 메서드 / URL | 요청 | 응답 |
+| --- | --- | --- | --- |
+| 예약 대기 등록 | `POST /reservation-waitings` | `{name, date, timeId, themeId}` | `{id, name, date, time, theme, sequence}` |
+| 예약 대기 조회 | `GET /reservation-waitings?date=2026-05-22&timeId=1&themeId=1` | - | `[{id, name, date, time, theme, sequence}]` |
+
+예약 대기는 이미 예약된 날짜+시간+테마에만 등록할 수 있다.
+예약이 취소되면 같은 날짜+시간+테마의 가장 빠른 대기가 예약으로 승격되고, 나머지 대기 순번은 앞으로 당겨진다.
 
 초기 단계 테스트 호환을 위해 `POST /reservations`는 `{name, date, time}` 형식도 받을 수 있다.
 
@@ -76,6 +89,8 @@
 | 지난 일정 예약/변경/취소 | `400` | `RESERVATION_PAST`, `RESERVATION_PAST_CANCEL` |
 | 존재하지 않는 리소스 | `404` | `RESERVATION_NOT_FOUND`, `TIME_NOT_FOUND`, `THEME_NOT_FOUND` |
 | 중복 예약 | `409` | `RESERVATION_DUPLICATE` |
+| 대기 불가능한 예약 슬롯 | `400` | `WAITING_NOT_AVAILABLE` |
+| 중복 대기 | `409` | `WAITING_DUPLICATE` |
 | 예약이 존재하는 시간/테마 삭제 | `409` | `TIME_IN_USE`, `THEME_IN_USE` |
 | 본인 예약이 아님 | `403` | `RESERVATION_NOT_OWNER` |
 | 중복 이메일 | `409` | `MEMBER_DUPLICATE_EMAIL` |
@@ -91,6 +106,7 @@
 - `data.sql`의 인기 테마 검증 데이터는 테스트 리소스에 두고 `@Sql`로 필요한 테스트에서만 사용한다. 기본 미션 단계의 빈 DB 기대와 충돌하지 않게 하기 위한 선택이다.
 - 로그인은 JWT access token을 발급하고, 인증이 필요한 API는 `Authorization: Bearer` 헤더를 사용한다. 서버 세션을 만들지 않아 API 클라이언트와 브라우저 화면이 같은 방식으로 인증을 처리할 수 있기 때문이다.
 - 회원 테이블은 `member_account`로 이름 붙였다. `user` 같은 기술/DB 예약어 충돌 가능성이 있는 표현보다 현재 도메인의 회원 계정을 명시하기 위해서다.
+- 예약 대기는 별도 리소스 `reservation-waitings`로 분리한다. 대기는 예약과 상태가 다르고, 취소 시 예약으로 승격되는 후보 목록이라는 독립된 생명주기를 가지기 때문이다.
 
 ## 미션 중 기록
 
