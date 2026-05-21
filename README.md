@@ -14,8 +14,19 @@
 - [x] 서비스 정책 기반 에러 처리
 - [x] 내 예약 조회/변경/취소
 - [x] 사용자 화면에서 정상 흐름과 에러 메시지 확인
+- [ ] 회원가입 API
+- [ ] JWT 기반 로그인 API
+- [ ] JWT로 내 회원 정보 조회
 
 ## API 명세
+
+### 인증
+
+| 기능 | 메서드 / URL | 요청 | 응답 |
+| --- | --- | --- | --- |
+| 회원가입 | `POST /members` | `{name, email, password}` | `{id, name, email}` |
+| 로그인 | `POST /login` | `{email, password}` | `{accessToken, tokenType}` |
+| 내 정보 조회 | `GET /members/me` | `Authorization: Bearer {token}` | `{id, name, email}` |
 
 ### 예약
 
@@ -67,6 +78,9 @@
 | 중복 예약 | `409` | `RESERVATION_DUPLICATE` |
 | 예약이 존재하는 시간/테마 삭제 | `409` | `TIME_IN_USE`, `THEME_IN_USE` |
 | 본인 예약이 아님 | `403` | `RESERVATION_NOT_OWNER` |
+| 중복 이메일 | `409` | `MEMBER_DUPLICATE_EMAIL` |
+| 로그인 실패 | `401` | `AUTH_LOGIN_FAILED` |
+| 인증 토큰 없음/오류 | `401` | `AUTH_REQUIRED`, `AUTH_INVALID_TOKEN` |
 
 ## API 설계 결정과 이유
 
@@ -75,6 +89,7 @@
 - 예약 가능 시간은 예약 자체가 아니라 선택 보조 목록이므로 `GET /available-times`로 분리했다. 날짜와 테마가 필터 조건이라 query parameter로 표현했다.
 - 에러 응답은 `code`, `message`만 둔다. 사용자는 메시지로 다음 행동을 이해하고, 클라이언트는 code로 분기할 수 있다.
 - `data.sql`의 인기 테마 검증 데이터는 테스트 리소스에 두고 `@Sql`로 필요한 테스트에서만 사용한다. 기본 미션 단계의 빈 DB 기대와 충돌하지 않게 하기 위한 선택이다.
+- 로그인은 JWT access token을 발급하고, 인증이 필요한 API는 `Authorization: Bearer` 헤더를 사용한다. 서버 세션을 만들지 않아 API 클라이언트와 브라우저 화면이 같은 방식으로 인증을 처리할 수 있기 때문이다.
 
 ## 미션 중 기록
 
