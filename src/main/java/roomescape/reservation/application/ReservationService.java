@@ -9,6 +9,8 @@ import roomescape.global.exception.EntityNotFoundException;
 import roomescape.reservation.domain.Reservation;
 import roomescape.reservation.domain.ReservationErrorCode;
 import roomescape.reservation.domain.ReservationRepository;
+import roomescape.reservationwaiting.domain.ReservationWaiting;
+import roomescape.reservationwaiting.domain.ReservationWaitingRepository;
 import roomescape.theme.domain.Theme;
 import roomescape.theme.domain.ThemeErrorCode;
 import roomescape.theme.domain.ThemeRepository;
@@ -24,6 +26,7 @@ public class ReservationService {
     private final ReservationTimeRepository reservationTimeRepository;
     private final ThemeRepository themeRepository;
     private final ReservationValidator reservationValidator;
+    private final ReservationWaitingRepository reservationWaitingRepository;
     private final Clock clock;
 
     public ReservationService(
@@ -31,12 +34,14 @@ public class ReservationService {
             ReservationTimeRepository reservationTimeRepository,
             ThemeRepository themeRepository,
             ReservationValidator reservationValidator,
+            ReservationWaitingRepository reservationWaitingRepository,
             Clock clock
     ) {
         this.reservationRepository = reservationRepository;
         this.reservationTimeRepository = reservationTimeRepository;
         this.themeRepository = themeRepository;
         this.reservationValidator = reservationValidator;
+        this.reservationWaitingRepository = reservationWaitingRepository;
         this.clock = clock;
     }
 
@@ -86,6 +91,29 @@ public class ReservationService {
             reservation.validateCancelable(LocalDateTime.now(clock));
         }
         reservationRepository.deleteById(id);
+        promoteFirstWaiting(reservation);
+    }
+
+    private void promoteFirstWaiting(Reservation reservation) {
+        if (!reservation.hasStructuredSchedule()) {
+            return;
+        }
+        reservationWaitingRepository.findFirstBySchedule(
+                reservation.date(),
+                reservation.time().id(),
+                reservation.theme().id()
+        ).ifPresent(this::promote);
+    }
+
+    private void promote(ReservationWaiting waiting) {
+        reservationRepository.save(waiting.toReservation());
+        reservationWaitingRepository.deleteById(waiting.id());
+        reservationWaitingRepository.advanceSequences(
+                waiting.date(),
+                waiting.time().id(),
+                waiting.theme().id(),
+                waiting.sequence()
+        );
     }
 
     private Reservation getReservation(long id) {
