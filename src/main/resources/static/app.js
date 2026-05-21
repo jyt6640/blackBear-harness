@@ -18,6 +18,14 @@ async function request(url, options = {}) {
     return text ? JSON.parse(text) : null;
 }
 
+function authHeaders() {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+        return {};
+    }
+    return { Authorization: `Bearer ${token}` };
+}
+
 function setMessage(selector, message, error = false) {
     const element = $(selector);
     element.textContent = message;
@@ -99,6 +107,54 @@ async function createReservation() {
         await loadAvailableTimes();
     } catch (error) {
         setMessage("#reservation-message", error.message, true);
+    }
+}
+
+async function signup() {
+    try {
+        const member = await request("/members", {
+            method: "POST",
+            body: JSON.stringify({
+                name: $("#signup-name").value,
+                email: $("#signup-email").value,
+                password: $("#signup-password").value,
+            }),
+        });
+        setMessage("#signup-message", `${member.name}님, 가입되었습니다.`);
+    } catch (error) {
+        setMessage("#signup-message", error.message, true);
+    }
+}
+
+async function login() {
+    try {
+        const result = await request("/login", {
+            method: "POST",
+            body: JSON.stringify({
+                email: $("#login-email").value,
+                password: $("#login-password").value,
+            }),
+        });
+        localStorage.setItem("accessToken", result.accessToken);
+        setMessage("#login-message", "로그인되었습니다.");
+        await loadMe();
+    } catch (error) {
+        setMessage("#login-message", error.message, true);
+    }
+}
+
+async function loadMe() {
+    try {
+        const member = await request("/members/me", { headers: authHeaders() });
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+            <p class="item-title">${member.name}</p>
+            <p class="item-meta">${member.email}</p>
+        `;
+        $("#member-info").replaceChildren(item);
+    } catch (error) {
+        setMessage("#login-message", error.message, true);
     }
 }
 
@@ -204,6 +260,9 @@ async function createTime() {
 }
 
 function bindEvents() {
+    $("#signup").addEventListener("click", signup);
+    $("#login").addEventListener("click", login);
+    $("#load-me").addEventListener("click", loadMe);
     $("#refresh-times").addEventListener("click", loadAvailableTimes);
     $("#create-reservation").addEventListener("click", createReservation);
     $("#load-mine").addEventListener("click", loadMine);

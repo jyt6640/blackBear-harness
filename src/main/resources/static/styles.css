@@ -86,6 +86,12 @@ button {
     padding: 0 14px;
 }
 
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 button:hover,
 nav a:hover {
     border-color: var(--brand);

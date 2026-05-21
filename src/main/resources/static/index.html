@@ -13,6 +13,7 @@
         <h1>방탈출 예약</h1>
     </div>
     <nav>
+        <a href="#auth">로그인</a>
         <a href="#reserve">예약</a>
         <a href="#mine">내 예약</a>
         <a href="#admin">관리</a>
@@ -20,6 +21,44 @@
 </header>
 
 <main>
+    <section id="auth" class="section two-column">
+        <div class="panel">
+            <h2>회원가입</h2>
+            <label>
+                이름
+                <input id="signup-name" type="text" placeholder="브라운">
+            </label>
+            <label>
+                이메일
+                <input id="signup-email" type="email" placeholder="brown@example.com">
+            </label>
+            <label>
+                비밀번호
+                <input id="signup-password" type="password" minlength="8">
+            </label>
+            <button id="signup" class="primary" type="button">회원가입</button>
+            <p id="signup-message" class="message"></p>
+        </div>
+
+        <div class="panel">
+            <h2>로그인</h2>
+            <label>
+                이메일
+                <input id="login-email" type="email" placeholder="brown@example.com">
+            </label>
+            <label>
+                비밀번호
+                <input id="login-password" type="password">
+            </label>
+            <div class="button-row">
+                <button id="login" class="primary" type="button">로그인</button>
+                <button id="load-me" type="button">내 정보</button>
+            </div>
+            <div id="member-info" class="admin-list"></div>
+            <p id="login-message" class="message"></p>
+        </div>
+    </section>
+
     <section id="reserve" class="section reserve-layout">
         <div class="panel">
             <h2>예약하기</h2>
