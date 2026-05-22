@@ -38,6 +38,40 @@
 
 ---
 
+## Domain 생성 방식
+
+Domain Entity / Aggregate는 기본적으로 class를 사용한다.
+
+class를 기본으로 하는 이유:
+
+- 도메인 객체는 단순 데이터 묶음이 아니라 상태와 행위를 가진다.
+- 생성 검증, 상태 변경, 정책 메서드가 늘어날 수 있다.
+- record의 자동 accessor가 도메인 외부 판단을 유도할 수 있다.
+- 도메인 객체의 생명주기와 책임을 명시적으로 표현하기 쉽다.
+
+record를 사용할 수 있는 경우:
+
+- Command
+- Query
+- Request / Response DTO
+- 값 전달 목적의 단순 Value Object
+- 불변 값 자체가 의미인 객체
+
+지양:
+
+    public record Reservation(...) {
+    }
+
+권장:
+
+    public class Reservation {
+        ...
+    }
+
+Domain Entity / Aggregate를 record로 만들고 싶다면, 값 객체인지 생명주기를 가진 도메인 객체인지 먼저 검토한다.
+
+---
+
 ## 책임 배치 기준
 
 책임 위치가 헷갈리면 아래 기준으로 판단한다.
