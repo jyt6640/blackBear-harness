@@ -71,6 +71,35 @@
 
 ---
 
+## Production Class 직접 테스트 원칙
+
+모든 production class는 직접 테스트하는 것을 기본으로 한다.
+
+직접 테스트 대상:
+
+- Domain Entity / Aggregate
+- Domain Policy
+- Application Validator
+- Application Service
+- Repository 구현체
+- Controller
+- 예외 응답 변환기
+
+직접 테스트 예외 가능 대상:
+
+- 단순 Request / Response DTO
+- 단순 Command / Query DTO
+- 설정 클래스
+- Spring Boot 부트스트랩 클래스
+- ErrorCode 같은 단순 상수형 클래스
+
+단, 제외하는 경우에도 이유가 명확해야 한다.
+
+Service 테스트가 Domain, Policy, Validator 테스트를 대체해서는 안 된다.
+Service 테스트는 흐름 조율을 검증하고, 각 책임의 판단은 해당 class 테스트에서 직접 검증한다.
+
+---
+
 ## 테스트 구조
 
 - given / when / then 구조를 유지한다.
@@ -99,6 +128,20 @@
 - Service 테스트에서는 Spring을 띄우지 않는다.
 - 필요한 레이어만 슬라이스 테스트로 실행한다.
 - @SpringBootTest는 전체 흐름 검증에만 사용한다.
+
+### 테스트 패키지 구조
+
+테스트 패키지는 main 패키지 구조와 일치시킨다.
+
+예시:
+
+    src/main/java/roomescape/member/domain/Member.java
+    src/test/java/roomescape/member/domain/MemberTest.java
+
+    src/main/java/roomescape/member/application/MemberValidator.java
+    src/test/java/roomescape/member/application/MemberValidatorTest.java
+
+테스트 위치가 main 구조와 다르면 책임 위치를 다시 검토한다.
 
 ### TDD 방향
 - 테스트를 먼저 작성하는 흐름을 지향한다.

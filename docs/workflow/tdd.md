@@ -29,29 +29,70 @@ TDD는 테스트를 먼저 작성하는 형식이 아니라,
 
 ---
 
+## 새 기능 구현 순서
+
+1. 작업을 책임 단위로 분해한다.
+2. 각 Domain public behavior 테스트를 먼저 작성한다.
+3. 각 Application Validator public validation 테스트를 먼저 작성한다.
+4. Service는 흐름 조율만 테스트한다.
+5. Repository는 SQL과 매핑을 테스트한다.
+6. Controller는 HTTP 계약과 DTO 변환을 테스트한다.
+7. Acceptance Test는 전체 사용자 시나리오만 검증한다.
+
+---
+
 ## 작성 단위
 
-기능은 레이어 단위가 아니라 기능 슬라이스 단위로 작성한다.
+테스트 단위는 큰 기능명이 아니라 production class의 public behavior 단위로 잡는다.
 
-각 슬라이스는 기대 행위 단위로 나누고,
+예를 들어 "회원가입"은 하나의 테스트 단위가 아니다.
+아래처럼 책임 단위로 쪼갠다.
+
+- Member 생성 성공
+- Member 이메일 형식 검증 실패
+- Member 비밀번호 정책 검증 실패
+- MemberValidator 중복 이메일 검증 실패
+- MemberService 회원 저장 흐름 성공
+- JdbcMemberRepository 저장 및 조회 성공
+- MemberController 요청 DTO 변환 및 HTTP 응답 검증
+- 회원가입 Acceptance 시나리오 검증
+
+private method를 직접 테스트하지 않는다.
+private method로 숨겨진 책임은 public behavior 테스트를 통해 드러나야 한다.
+
+Acceptance Test는 시작점이 아니라 마지막 검증이다.
+Domain, Validator, Service, Repository, Controller 테스트가 먼저 작성된 뒤 전체 사용자 시나리오만 Acceptance Test로 확인한다.
+
+기능은 레이어 전체 단위가 아니라 작은 기능 슬라이스 단위로 작성한다.
+각 슬라이스는 production class의 public behavior 단위로 더 나누고,
 기본 흐름은 테스트 커밋 → 구현 커밋 순서로 진행한다.
 
 좋은 흐름:
 
-    Domain Test
+    Domain public behavior Test
     Domain
-    Service Test
+    Application Validator Test
+    Application Validator
+    Service orchestration Test
     Service
-    Repository Test
+    Repository SQL/Mapping Test
     Repository
-    Controller Test
+    Controller HTTP/DTO Test
     Controller
+    Acceptance Scenario Test
+    Acceptance
 
 지양하는 흐름:
 
+    Acceptance Test
     모든 Domain 작성
     모든 Service 작성
     모든 Controller 작성
+
+    또는
+
+    회원가입 Acceptance Test
+    회원가입 전체 구현
 
 ---
 

@@ -107,6 +107,32 @@ DTO는 역할에 따라 분리한다.
 
 - HTTP 스펙 변경과 비즈니스 요구사항 변경은 다른 이유로 변경된다.
 
+## DTO 패키지 위치
+
+DTO는 사용하는 레이어 내부의 dto 패키지에 둔다.
+
+예시:
+
+    member/
+    ├── presentation/
+    │   ├── MemberController.java
+    │   └── dto/
+    │       ├── MemberCreateRequest.java
+    │       └── MemberResponse.java
+    ├── application/
+    │   ├── MemberService.java
+    │   ├── MemberValidator.java
+    │   └── dto/
+    │       └── MemberCreateCommand.java
+    ├── domain/
+    └── infrastructure/
+
+Presentation DTO와 Application DTO는 변경 이유가 다르므로 분리한다.
+
+- Request / Response는 presentation/dto에 둔다.
+- Command / Query는 application/dto에 둔다.
+- Domain 객체를 DTO처럼 사용하지 않는다.
+
 ### Presentation DTO
 
 HTTP 요청/응답 표현
