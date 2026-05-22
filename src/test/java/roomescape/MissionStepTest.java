@@ -9,27 +9,53 @@ import io.restassured.http.ContentType;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import roomescape.reservation.presentation.ReservationController;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MissionStepTest {
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private ReservationController reservationController;
+
+    @TestConfiguration
+    static class FixedClockConfig {
+
+        @Bean
+        @Primary
+        Clock fixedClock() {
+            return Clock.fixed(Instant.parse("2026-05-21T00:00:00Z"), ZoneId.systemDefault());
+        }
+    }
+
+    @BeforeEach
+    void setUpPort() {
+        RestAssured.port = port;
+    }
 
     @Test
     void 예약_조회() {
@@ -160,7 +186,7 @@ class MissionStepTest {
         long themeId = createTheme();
         long ten = createTime("10:00");
         createTime("11:00");
-        String date = LocalDate.now().plusDays(1).toString();
+        String date = testToday().plusDays(1).toString();
 
         RestAssured.given().log().all()
                 .queryParam("date", date)
@@ -200,7 +226,7 @@ class MissionStepTest {
         long firstThemeId = createTheme();
         long secondThemeId = createTheme("북촌의 밤");
         long timeId = createTime("10:00");
-        String date = LocalDate.now().plusDays(1).toString();
+        String date = testToday().plusDays(1).toString();
 
         createReservation("브라운", date, timeId, firstThemeId)
                 .log().all()
@@ -218,7 +244,7 @@ class MissionStepTest {
     void 중복_예약과_지난_예약은_거부한다() {
         long themeId = createTheme();
         long timeId = createTime("10:00");
-        String futureDate = LocalDate.now().plusDays(1).toString();
+        String futureDate = testToday().plusDays(1).toString();
 
         createReservation("브라운", futureDate, timeId, themeId)
                 .log().all()
@@ -229,7 +255,7 @@ class MissionStepTest {
                 .statusCode(409)
                 .body("code", equalTo("RESERVATION_DUPLICATE"));
 
-        createReservation("라이언", LocalDate.now().minusDays(1).toString(), timeId, themeId)
+        createReservation("라이언", testToday().minusDays(1).toString(), timeId, themeId)
                 .log().all()
                 .statusCode(400)
                 .body("code", equalTo("RESERVATION_PAST"));
@@ -239,7 +265,7 @@ class MissionStepTest {
     void 예약이_존재하는_시간은_삭제할_수_없다() {
         long themeId = createTheme();
         long timeId = createTime("10:00");
-        createReservation("브라운", LocalDate.now().plusDays(1).toString(), timeId, themeId)
+        createReservation("브라운", testToday().plusDays(1).toString(), timeId, themeId)
                 .log().all()
                 .statusCode(200);
 
@@ -255,8 +281,8 @@ class MissionStepTest {
         long themeId = createTheme();
         long firstTimeId = createTime("10:00");
         long secondTimeId = createTime("11:00");
-        String firstDate = LocalDate.now().plusDays(1).toString();
-        String secondDate = LocalDate.now().plusDays(2).toString();
+        String firstDate = testToday().plusDays(1).toString();
+        String secondDate = testToday().plusDays(2).toString();
         createReservation("브라운", firstDate, firstTimeId, themeId)
                 .log().all()
                 .statusCode(200);
@@ -321,6 +347,10 @@ class MissionStepTest {
 
     private long createTheme() {
         return createTheme("잠실 미스터리");
+    }
+
+    private LocalDate testToday() {
+        return LocalDate.parse("2026-05-21");
     }
 
     private long createTheme(String name) {

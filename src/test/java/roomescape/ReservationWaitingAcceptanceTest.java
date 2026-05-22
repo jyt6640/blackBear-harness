@@ -8,13 +8,23 @@ import io.restassured.http.ContentType;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ReservationWaitingAcceptanceTest {
+
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    void setUpPort() {
+        RestAssured.port = port;
+    }
 
     @Test
     void 예약_취소시_첫번째_대기가_예약으로_승격되고_남은_대기_순번이_당겨진다() {
