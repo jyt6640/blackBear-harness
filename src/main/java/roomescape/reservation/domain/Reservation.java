@@ -4,26 +4,33 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 import roomescape.global.exception.BadRequestException;
 import roomescape.global.exception.BusinessException;
 import roomescape.theme.domain.Theme;
 import roomescape.time.domain.ReservationTime;
 
-public record Reservation(
-        Long id,
-        String name,
-        String date,
-        String legacyTime,
-        ReservationTime time,
-        Theme theme
-) {
+public class Reservation {
 
-    public Reservation {
+    private final Long id;
+    private final String name;
+    private final String date;
+    private final String legacyTime;
+    private final ReservationTime time;
+    private final Theme theme;
+
+    public Reservation(Long id, String name, String date, String legacyTime, ReservationTime time, Theme theme) {
         validateName(name);
         validateDate(date);
         if (legacyTime != null && !legacyTime.isBlank()) {
             validateTime(legacyTime);
         }
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.legacyTime = legacyTime;
+        this.time = time;
+        this.theme = theme;
     }
 
     public static Reservation legacy(String name, String date, String time) {
@@ -74,6 +81,49 @@ public record Reservation(
             return time.startAt();
         }
         return legacyTime;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public String date() {
+        return date;
+    }
+
+    public String legacyTime() {
+        return legacyTime;
+    }
+
+    public ReservationTime time() {
+        return time;
+    }
+
+    public Theme theme() {
+        return theme;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Reservation reservation)) {
+            return false;
+        }
+        return id != null && Objects.equals(id, reservation.id);
+    }
+
+    @Override
+    public int hashCode() {
+        if (id == null) {
+            return System.identityHashCode(this);
+        }
+        return Objects.hash(id);
     }
 
     private LocalDateTime schedule() {
