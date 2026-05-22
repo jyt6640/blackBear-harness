@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import roomescape.reservationwaiting.application.ReservationWaitingCreateCommand;
 import roomescape.reservationwaiting.application.ReservationWaitingService;
 import roomescape.reservationwaiting.domain.ReservationWaiting;
@@ -27,7 +27,7 @@ class ReservationWaitingControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private ReservationWaitingService service;
 
     @Test
