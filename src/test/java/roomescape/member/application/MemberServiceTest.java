@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import roomescape.global.exception.EntityNotFoundException;
+import roomescape.member.application.dto.MemberCreateCommand;
 import roomescape.member.domain.Member;
 import roomescape.member.domain.MemberErrorCode;
 import roomescape.member.domain.MemberRepository;

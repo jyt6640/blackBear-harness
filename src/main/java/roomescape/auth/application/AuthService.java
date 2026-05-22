@@ -2,6 +2,8 @@ package roomescape.auth.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import roomescape.auth.application.dto.LoginCommand;
+import roomescape.auth.application.dto.LoginResult;
 import roomescape.auth.domain.AuthErrorCode;
 import roomescape.auth.domain.TokenPayload;
 import roomescape.auth.domain.TokenProvider;

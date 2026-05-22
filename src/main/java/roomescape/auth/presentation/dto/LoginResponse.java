@@ -1,6 +1,6 @@
-package roomescape.auth.presentation;
+package roomescape.auth.presentation.dto;
 
-import roomescape.auth.application.LoginResult;
+import roomescape.auth.application.dto.LoginResult;
 
 public record LoginResponse(String accessToken, String tokenType) {
 

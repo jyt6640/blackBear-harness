@@ -14,8 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import roomescape.auth.application.AuthService;
-import roomescape.auth.application.LoginCommand;
-import roomescape.auth.application.LoginResult;
+import roomescape.auth.application.dto.LoginCommand;
+import roomescape.auth.application.dto.LoginResult;
 
 @WebMvcTest(AuthController.class)
 class AuthControllerTest {

@@ -2,6 +2,7 @@ package roomescape.member.application;
 
 import org.springframework.stereotype.Component;
 import roomescape.global.exception.BusinessException;
+import roomescape.member.application.dto.MemberCreateCommand;
 import roomescape.member.domain.MemberErrorCode;
 import roomescape.member.domain.MemberRepository;
 

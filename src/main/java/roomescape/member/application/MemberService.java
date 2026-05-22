@@ -3,6 +3,7 @@ package roomescape.member.application;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.global.exception.EntityNotFoundException;
+import roomescape.member.application.dto.MemberCreateCommand;
 import roomescape.member.domain.Member;
 import roomescape.member.domain.MemberErrorCode;
 import roomescape.member.domain.MemberRepository;

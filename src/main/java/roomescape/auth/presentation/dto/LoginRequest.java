@@ -1,6 +1,6 @@
-package roomescape.auth.presentation;
+package roomescape.auth.presentation.dto;
 
-import roomescape.auth.application.LoginCommand;
+import roomescape.auth.application.dto.LoginCommand;
 
 public record LoginRequest(String email, String password) {
 

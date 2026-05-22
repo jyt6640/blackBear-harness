@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import roomescape.global.exception.EntityNotFoundException;
 import roomescape.reservation.domain.ReservationRepository;
+import roomescape.reservationwaiting.application.dto.ReservationWaitingCreateCommand;
 import roomescape.reservationwaiting.domain.ReservationWaiting;
 import roomescape.reservationwaiting.domain.ReservationWaitingRepository;
 import roomescape.theme.domain.Theme;

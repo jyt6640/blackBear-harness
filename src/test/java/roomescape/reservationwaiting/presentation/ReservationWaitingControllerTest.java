@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import roomescape.reservationwaiting.application.ReservationWaitingCreateCommand;
+import roomescape.reservationwaiting.application.dto.ReservationWaitingCreateCommand;
 import roomescape.reservationwaiting.application.ReservationWaitingService;
 import roomescape.reservationwaiting.domain.ReservationWaiting;
 import roomescape.theme.domain.Theme;

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import roomescape.auth.application.dto.LoginCommand;
+import roomescape.auth.application.dto.LoginResult;
 import roomescape.auth.domain.AuthErrorCode;
 import roomescape.auth.domain.TokenPayload;
 import roomescape.auth.domain.TokenProvider;

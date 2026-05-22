@@ -1,6 +1,6 @@
-package roomescape.reservation.presentation;
+package roomescape.reservation.presentation.dto;
 
-import roomescape.reservation.application.ReservationUpdateCommand;
+import roomescape.reservation.application.dto.ReservationUpdateCommand;
 
 public record ReservationUpdateRequest(String name, String date, Long timeId, Long themeId) {
 

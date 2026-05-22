@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import roomescape.auth.application.AuthService;
 import roomescape.auth.domain.TokenPayload;
 import roomescape.member.application.MemberService;
+import roomescape.member.presentation.dto.MemberCreateRequest;
+import roomescape.member.presentation.dto.MemberResponse;
 
 @RestController
 public class MemberController {

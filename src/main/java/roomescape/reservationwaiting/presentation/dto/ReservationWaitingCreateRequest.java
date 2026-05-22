@@ -1,6 +1,6 @@
-package roomescape.reservationwaiting.presentation;
+package roomescape.reservationwaiting.presentation.dto;
 
-import roomescape.reservationwaiting.application.ReservationWaitingCreateCommand;
+import roomescape.reservationwaiting.application.dto.ReservationWaitingCreateCommand;
 
 public record ReservationWaitingCreateRequest(String name, String date, long timeId, long themeId) {
 

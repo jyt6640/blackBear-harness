@@ -3,6 +3,7 @@ package roomescape.reservationwaiting.application;
 import org.springframework.stereotype.Component;
 import roomescape.global.exception.BusinessException;
 import roomescape.reservation.domain.ReservationRepository;
+import roomescape.reservationwaiting.application.dto.ReservationWaitingCreateCommand;
 import roomescape.reservationwaiting.domain.ReservationWaitingErrorCode;
 import roomescape.reservationwaiting.domain.ReservationWaitingRepository;
 

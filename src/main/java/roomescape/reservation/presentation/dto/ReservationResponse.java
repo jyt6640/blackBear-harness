@@ -1,8 +1,8 @@
-package roomescape.reservation.presentation;
+package roomescape.reservation.presentation.dto;
 
 import roomescape.reservation.domain.Reservation;
-import roomescape.theme.presentation.ThemeResponse;
-import roomescape.time.presentation.ReservationTimeResponse;
+import roomescape.theme.presentation.dto.ThemeResponse;
+import roomescape.time.presentation.dto.ReservationTimeResponse;
 
 public record ReservationResponse(
         Long id,

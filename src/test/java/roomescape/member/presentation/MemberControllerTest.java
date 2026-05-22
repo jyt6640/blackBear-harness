@@ -17,7 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import roomescape.auth.application.AuthService;
 import roomescape.auth.domain.TokenPayload;
-import roomescape.member.application.MemberCreateCommand;
+import roomescape.member.application.dto.MemberCreateCommand;
 import roomescape.member.application.MemberService;
 import roomescape.member.domain.Member;
 

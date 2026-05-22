@@ -1,8 +1,8 @@
-package roomescape.reservationwaiting.presentation;
+package roomescape.reservationwaiting.presentation.dto;
 
 import roomescape.reservationwaiting.domain.ReservationWaiting;
-import roomescape.theme.presentation.ThemeResponse;
-import roomescape.time.presentation.ReservationTimeResponse;
+import roomescape.theme.presentation.dto.ThemeResponse;
+import roomescape.time.presentation.dto.ReservationTimeResponse;
 
 public record ReservationWaitingResponse(
         Long id,

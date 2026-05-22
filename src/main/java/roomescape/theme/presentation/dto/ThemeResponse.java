@@ -1,4 +1,4 @@
-package roomescape.theme.presentation;
+package roomescape.theme.presentation.dto;
 
 import roomescape.theme.domain.Theme;
 

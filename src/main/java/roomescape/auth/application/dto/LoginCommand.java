@@ -1,4 +1,4 @@
-package roomescape.auth.application;
+package roomescape.auth.application.dto;
 
 public record LoginCommand(String email, String password) {
 }

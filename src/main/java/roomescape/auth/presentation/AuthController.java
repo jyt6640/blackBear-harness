@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import roomescape.auth.application.AuthService;
+import roomescape.auth.presentation.dto.LoginRequest;
+import roomescape.auth.presentation.dto.LoginResponse;
 
 @RestController
 public class AuthController {

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import roomescape.reservationwaiting.application.ReservationWaitingService;
+import roomescape.reservationwaiting.presentation.dto.ReservationWaitingCreateRequest;
+import roomescape.reservationwaiting.presentation.dto.ReservationWaitingResponse;
 
 @RestController
 public class ReservationWaitingController {

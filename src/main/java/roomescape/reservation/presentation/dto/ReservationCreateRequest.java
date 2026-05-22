@@ -1,6 +1,6 @@
-package roomescape.reservation.presentation;
+package roomescape.reservation.presentation.dto;
 
-import roomescape.reservation.application.ReservationCreateCommand;
+import roomescape.reservation.application.dto.ReservationCreateCommand;
 
 public record ReservationCreateRequest(
         String name,

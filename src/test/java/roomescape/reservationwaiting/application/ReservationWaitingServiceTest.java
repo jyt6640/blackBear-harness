@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import roomescape.global.exception.BusinessException;
 import roomescape.reservation.domain.Reservation;
 import roomescape.reservation.domain.ReservationRepository;
+import roomescape.reservationwaiting.application.dto.ReservationWaitingCreateCommand;
 import roomescape.reservationwaiting.domain.ReservationWaiting;
 import roomescape.reservationwaiting.domain.ReservationWaitingErrorCode;
 import roomescape.reservationwaiting.domain.ReservationWaitingRepository;

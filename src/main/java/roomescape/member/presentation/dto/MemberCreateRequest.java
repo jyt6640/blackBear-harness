@@ -1,6 +1,6 @@
-package roomescape.member.presentation;
+package roomescape.member.presentation.dto;
 
-import roomescape.member.application.MemberCreateCommand;
+import roomescape.member.application.dto.MemberCreateCommand;
 
 public record MemberCreateRequest(String name, String email, String password) {
 
