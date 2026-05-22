@@ -3,9 +3,7 @@ package roomescape.time.application;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import roomescape.global.exception.BusinessException;
 import roomescape.global.exception.EntityNotFoundException;
-import roomescape.reservation.domain.ReservationRepository;
 import roomescape.time.domain.ReservationTime;
 import roomescape.time.domain.ReservationTimeErrorCode;
 import roomescape.time.domain.ReservationTimeRepository;
@@ -15,14 +13,14 @@ import roomescape.time.domain.ReservationTimeRepository;
 public class ReservationTimeService {
 
     private final ReservationTimeRepository reservationTimeRepository;
-    private final ReservationRepository reservationRepository;
+    private final ReservationTimeValidator reservationTimeValidator;
 
     public ReservationTimeService(
             ReservationTimeRepository reservationTimeRepository,
-            ReservationRepository reservationRepository
+            ReservationTimeValidator reservationTimeValidator
     ) {
         this.reservationTimeRepository = reservationTimeRepository;
-        this.reservationRepository = reservationRepository;
+        this.reservationTimeValidator = reservationTimeValidator;
     }
 
     @Transactional(readOnly = true)
@@ -35,8 +33,7 @@ public class ReservationTimeService {
     }
 
     public void delete(long id) {
-        validateExists(id);
-        validateNotUsed(id);
+        reservationTimeValidator.validateRemovable(id);
         reservationTimeRepository.deleteById(id);
     }
 
@@ -52,14 +49,4 @@ public class ReservationTimeService {
         return reservationTimeRepository.save(ReservationTime.create("10:00"));
     }
 
-    private void validateExists(long id) {
-        reservationTimeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ReservationTimeErrorCode.TIME_NOT_FOUND));
-    }
-
-    private void validateNotUsed(long id) {
-        if (reservationRepository.existsByTimeId(id)) {
-            throw new BusinessException(ReservationTimeErrorCode.TIME_IN_USE);
-        }
-    }
 }

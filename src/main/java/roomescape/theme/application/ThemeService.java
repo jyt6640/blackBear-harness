@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import roomescape.global.exception.BusinessException;
 import roomescape.global.exception.EntityNotFoundException;
-import roomescape.reservation.domain.ReservationRepository;
 import roomescape.theme.domain.Theme;
 import roomescape.theme.domain.ThemeErrorCode;
 import roomescape.theme.domain.ThemeRanking;
@@ -20,12 +18,12 @@ public class ThemeService {
     private static final int POPULAR_THEME_LIMIT = 10;
 
     private final ThemeRepository themeRepository;
-    private final ReservationRepository reservationRepository;
+    private final ThemeValidator themeValidator;
     private final Clock clock;
 
-    public ThemeService(ThemeRepository themeRepository, ReservationRepository reservationRepository, Clock clock) {
+    public ThemeService(ThemeRepository themeRepository, ThemeValidator themeValidator, Clock clock) {
         this.themeRepository = themeRepository;
-        this.reservationRepository = reservationRepository;
+        this.themeValidator = themeValidator;
         this.clock = clock;
     }
 
@@ -52,19 +50,7 @@ public class ThemeService {
     }
 
     public void delete(long id) {
-        validateExists(id);
-        validateNotUsed(id);
+        themeValidator.validateRemovable(id);
         themeRepository.deleteById(id);
-    }
-
-    private void validateExists(long id) {
-        themeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ThemeErrorCode.THEME_NOT_FOUND));
-    }
-
-    private void validateNotUsed(long id) {
-        if (reservationRepository.existsByThemeId(id)) {
-            throw new BusinessException(ThemeErrorCode.THEME_IN_USE);
-        }
     }
 }

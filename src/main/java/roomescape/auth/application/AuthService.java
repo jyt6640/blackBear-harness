@@ -19,15 +19,18 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final AuthValidator authValidator;
 
     public AuthService(
             MemberRepository memberRepository,
             PasswordEncoder passwordEncoder,
-            TokenProvider tokenProvider
+            TokenProvider tokenProvider,
+            AuthValidator authValidator
     ) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
+        this.authValidator = authValidator;
     }
 
     public LoginResult login(LoginCommand command) {
@@ -38,13 +41,7 @@ public class AuthService {
     }
 
     public TokenPayload authenticate(String authorizationHeader) {
-        if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            throw new BusinessException(AuthErrorCode.AUTH_REQUIRED);
-        }
-        if (!authorizationHeader.startsWith(TOKEN_TYPE + " ")) {
-            throw new BusinessException(AuthErrorCode.INVALID_TOKEN);
-        }
-        return tokenProvider.parse(authorizationHeader.substring((TOKEN_TYPE + " ").length()));
+        return tokenProvider.parse(authValidator.extractToken(authorizationHeader));
     }
 
     private void validatePassword(String rawPassword, Member member) {

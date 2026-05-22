@@ -2,7 +2,6 @@ package roomescape.member.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import roomescape.global.exception.BusinessException;
 import roomescape.global.exception.EntityNotFoundException;
 import roomescape.member.domain.Member;
 import roomescape.member.domain.MemberErrorCode;
@@ -15,14 +14,16 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberValidator memberValidator;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, MemberValidator memberValidator) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
+        this.memberValidator = memberValidator;
     }
 
     public Member create(MemberCreateCommand command) {
-        validateUniqueEmail(command.email());
+        memberValidator.validateCreatable(command);
         return memberRepository.save(Member.create(
                 command.name(),
                 command.email(),
@@ -34,11 +35,5 @@ public class MemberService {
     public Member getById(long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MemberErrorCode.MEMBER_NOT_FOUND));
-    }
-
-    private void validateUniqueEmail(String email) {
-        if (memberRepository.existsByEmail(email)) {
-            throw new BusinessException(MemberErrorCode.DUPLICATE_EMAIL);
-        }
     }
 }
