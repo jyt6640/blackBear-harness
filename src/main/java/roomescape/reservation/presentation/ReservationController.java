@@ -1,5 +1,6 @@
 package roomescape.reservation.presentation;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations")
-    public ReservationResponse create(@RequestBody ReservationCreateRequest request) {
+    public ReservationResponse create(@Valid @RequestBody ReservationCreateRequest request) {
         return ReservationResponse.from(reservationService.create(request.toCommand()));
     }
 
@@ -52,7 +53,7 @@ public class ReservationController {
     @PatchMapping("/reservations/{id}")
     public ReservationResponse update(
             @PathVariable long id,
-            @RequestBody ReservationUpdateRequest request
+            @Valid @RequestBody ReservationUpdateRequest request
     ) {
         return ReservationResponse.from(reservationService.update(request.toCommand(id)));
     }

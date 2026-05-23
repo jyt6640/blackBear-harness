@@ -1,5 +1,6 @@
 package roomescape.time.presentation;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class ReservationTimeController {
     }
 
     @PostMapping("/times")
-    public ReservationTimeResponse create(@RequestBody ReservationTimeCreateRequest request) {
+    public ReservationTimeResponse create(@Valid @RequestBody ReservationTimeCreateRequest request) {
         return ReservationTimeResponse.from(reservationTimeService.create(request.startAt()));
     }
 

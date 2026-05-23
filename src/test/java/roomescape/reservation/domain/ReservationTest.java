@@ -30,14 +30,6 @@ class   ReservationTest {
     }
 
     @Test
-    void create_fail_with_blank_name() {
-        assertThatThrownBy(() -> Reservation.create(" ", "2026-05-22", time(), theme()))
-                .isInstanceOf(BadRequestException.class)
-                .extracting("errorCode")
-                .isEqualTo(ReservationErrorCode.INVALID_RESERVATION);
-    }
-
-    @Test
     void create_fail_with_invalid_date() {
         assertThatThrownBy(() -> Reservation.create("브라운", "2026/05/22", time(), theme()))
                 .isInstanceOf(BadRequestException.class)

@@ -52,9 +52,6 @@ public class ReservationTime {
     }
 
     private static void validateStartAt(String startAt) {
-        if (startAt == null || startAt.isBlank()) {
-            throw new BadRequestException(ReservationTimeErrorCode.INVALID_START_AT);
-        }
         try {
             LocalTime.parse(startAt);
         } catch (DateTimeParseException exception) {

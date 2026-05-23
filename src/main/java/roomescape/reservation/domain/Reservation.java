@@ -20,9 +20,8 @@ public class Reservation {
     private final Theme theme;
 
     private Reservation(Long id, String name, String date, String legacyTime, ReservationTime time, Theme theme) {
-        validateName(name);
         validateDate(date);
-        if (legacyTime != null && !legacyTime.isBlank()) {
+        if (legacyTime != null) {
             validateTime(legacyTime);
         }
         this.id = id;
@@ -141,16 +140,7 @@ public class Reservation {
         return LocalDateTime.of(LocalDate.parse(date), LocalTime.parse(time.startAt()));
     }
 
-    private static void validateName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new BadRequestException(ReservationErrorCode.INVALID_RESERVATION);
-        }
-    }
-
     private static void validateDate(String date) {
-        if (date == null || date.isBlank()) {
-            throw new BadRequestException(ReservationErrorCode.INVALID_RESERVATION);
-        }
         try {
             LocalDate.parse(date);
         } catch (DateTimeParseException exception) {

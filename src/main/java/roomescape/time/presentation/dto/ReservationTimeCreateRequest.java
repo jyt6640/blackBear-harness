@@ -1,4 +1,6 @@
 package roomescape.time.presentation.dto;
 
-public record ReservationTimeCreateRequest(String startAt) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ReservationTimeCreateRequest(@NotBlank String startAt) {
 }

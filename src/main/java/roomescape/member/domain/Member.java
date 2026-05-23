@@ -13,9 +13,7 @@ public class Member {
     private final String passwordHash;
 
     private Member(Long id, String name, String email, String passwordHash) {
-        validateName(name);
         validateEmail(email);
-        validatePasswordHash(passwordHash);
         this.id = id;
         this.name = name;
         this.email = email;
@@ -50,20 +48,8 @@ public class Member {
         return passwordEncoder.matches(rawPassword, passwordHash);
     }
 
-    private static void validateName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new BadRequestException(MemberErrorCode.INVALID_MEMBER);
-        }
-    }
-
     private static void validateEmail(String email) {
-        if (email == null || email.isBlank() || !EMAIL_PATTERN.matcher(email).matches()) {
-            throw new BadRequestException(MemberErrorCode.INVALID_MEMBER);
-        }
-    }
-
-    private static void validatePasswordHash(String passwordHash) {
-        if (passwordHash == null || passwordHash.isBlank()) {
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
             throw new BadRequestException(MemberErrorCode.INVALID_MEMBER);
         }
     }

@@ -1,5 +1,6 @@
 package roomescape.theme.presentation;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class ThemeController {
     }
 
     @PostMapping("/themes")
-    public ThemeResponse create(@RequestBody ThemeCreateRequest request) {
+    public ThemeResponse create(@Valid @RequestBody ThemeCreateRequest request) {
         return ThemeResponse.from(themeService.create(
                 request.name(),
                 request.description(),

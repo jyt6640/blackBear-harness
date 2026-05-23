@@ -1,7 +1,6 @@
 package roomescape.theme.domain;
 
 import java.util.Objects;
-import roomescape.global.exception.BadRequestException;
 
 public class Theme {
 
@@ -11,9 +10,6 @@ public class Theme {
     private final String thumbnailUrl;
 
     private Theme(Long id, String name, String description, String thumbnailUrl) {
-        validateText(name);
-        validateText(description);
-        validateText(thumbnailUrl);
         this.id = id;
         this.name = name;
         this.description = description;
@@ -63,9 +59,4 @@ public class Theme {
         return Objects.hash(id);
     }
 
-    private static void validateText(String value) {
-        if (value == null || value.isBlank()) {
-            throw new BadRequestException(ThemeErrorCode.INVALID_THEME);
-        }
-    }
 }

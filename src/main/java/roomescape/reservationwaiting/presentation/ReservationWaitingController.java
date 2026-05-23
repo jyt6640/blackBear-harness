@@ -1,5 +1,6 @@
 package roomescape.reservationwaiting.presentation;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class ReservationWaitingController {
     }
 
     @PostMapping("/reservation-waitings")
-    public ReservationWaitingResponse create(@RequestBody ReservationWaitingCreateRequest request) {
+    public ReservationWaitingResponse create(@Valid @RequestBody ReservationWaitingCreateRequest request) {
         return ReservationWaitingResponse.from(service.create(request.toCommand()));
     }
 

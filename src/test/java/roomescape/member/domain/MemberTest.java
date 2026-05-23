@@ -18,14 +18,6 @@ class MemberTest {
     }
 
     @Test
-    void create_fail_with_blank_name() {
-        assertThatThrownBy(() -> Member.create(" ", "brown@example.com", "encoded-password"))
-                .isInstanceOf(BadRequestException.class)
-                .extracting("errorCode")
-                .isEqualTo(MemberErrorCode.INVALID_MEMBER);
-    }
-
-    @Test
     void create_fail_with_invalid_email() {
         assertThatThrownBy(() -> Member.create("브라운", "brown", "encoded-password"))
                 .isInstanceOf(BadRequestException.class)
