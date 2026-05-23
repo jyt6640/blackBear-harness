@@ -57,6 +57,20 @@ class ThemeControllerTest {
     }
 
     @Test
+    void create_fail_with_blank_description() throws Exception {
+        mockMvc.perform(post("/themes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "잠실 미스터리",
+                                  "description": " ",
+                                  "thumbnailUrl": "https://example.com/theme.jpg"
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void delete_success() throws Exception {
         mockMvc.perform(delete("/themes/1"))
                 .andExpect(status().isOk());

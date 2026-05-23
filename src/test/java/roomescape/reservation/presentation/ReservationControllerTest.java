@@ -65,6 +65,21 @@ class ReservationControllerTest {
     }
 
     @Test
+    void create_fail_with_blank_name() throws Exception {
+        mockMvc.perform(post("/reservations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": " ",
+                                  "date": "2026-05-22",
+                                  "timeId": 1,
+                                  "themeId": 1
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void update_success() throws Exception {
         given(reservationService.update(any(ReservationUpdateCommand.class)))
                 .willReturn(reservation());

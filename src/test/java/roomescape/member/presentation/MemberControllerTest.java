@@ -55,6 +55,20 @@ class MemberControllerTest {
     }
 
     @Test
+    void create_fail_with_blank_name() throws Exception {
+        mockMvc.perform(post("/members")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": " ",
+                                  "email": "brown@example.com",
+                                  "password": "password1234"
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void findMe_success() throws Exception {
         given(authService.authenticate("Bearer access-token"))
                 .willReturn(new TokenPayload(1L, "brown@example.com", "브라운"));

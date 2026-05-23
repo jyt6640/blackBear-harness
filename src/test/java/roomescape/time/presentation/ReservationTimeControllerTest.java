@@ -54,6 +54,18 @@ class ReservationTimeControllerTest {
     }
 
     @Test
+    void create_fail_with_blank_startAt() throws Exception {
+        mockMvc.perform(post("/times")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "startAt": " "
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void delete_success() throws Exception {
         mockMvc.perform(delete("/times/1"))
                 .andExpect(status().isOk());
