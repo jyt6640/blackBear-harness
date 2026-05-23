@@ -202,6 +202,25 @@ HTTP 요청/응답 표현
 
 ---
 
+## Test Fake 패키지
+
+테스트 Fake는 테스트 대상 클래스 내부가 아니라 test source의 fake 패키지에 둔다.
+
+Repository Fake는 Repository 인터페이스가 위치한 도메인 패키지를 기준으로 배치한다.
+
+예시:
+
+    src/main/java/roomescape/member/domain/MemberRepository.java
+    src/test/java/roomescape/member/domain/fake/FakeMemberRepository.java
+
+    src/main/java/roomescape/reservation/domain/ReservationRepository.java
+    src/test/java/roomescape/reservation/domain/fake/FakeReservationRepository.java
+
+Fake가 여러 테스트에서 사용되지 않더라도 내부 class로 만들지 않는다.
+테스트 보조 객체도 위치와 책임을 명확히 표현한다.
+
+---
+
 ## 패키지 설계 신호
 
 아래 상황은 패키지 구조 재검토 신호로 본다.

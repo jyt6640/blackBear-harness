@@ -38,6 +38,39 @@
 
 ---
 
+## Domain 생성자 정책
+
+Domain Entity / Aggregate의 생성자는 private로 막는다.
+
+Domain 객체는 정적 팩터리 메서드로 생성한다.
+
+예시:
+
+    public class Reservation {
+        private Reservation(...) {
+            ...
+        }
+
+        public static Reservation create(...) {
+            ...
+        }
+
+        public static Reservation restore(...) {
+            ...
+        }
+    }
+
+정적 팩터리 메서드 기준:
+
+- `create`: 신규 도메인 생성
+- `restore`: DB 조회 결과로 도메인 복원
+- `of`: 값 객체 생성
+
+생성자가 public이면 Domain 생성 규칙이 여러 레이어로 흩어질 수 있다.
+따라서 Entity / Aggregate는 생성 경로를 명시적으로 제한한다.
+
+---
+
 ## Domain 생성 방식
 
 Domain Entity / Aggregate는 기본적으로 class를 사용한다.
@@ -83,6 +116,48 @@ YES:
 
 NO:
 - Application Validator 책임
+
+---
+
+## 입력 검증 위치
+
+HTTP 입력의 null / blank 검증은 Request DTO에서 수행한다.
+
+Request DTO 책임:ㄹ
+
+- null 검증
+- blank 검증
+- 필수값 검증
+- 기본 형식 검증
+- 길이 제한 등 HTTP 입력 계약 검증
+
+Domain 책임:
+
+- 도메인 의미 검증
+- 상태 전이 규칙
+- 예약 가능 여부
+- 취소 가능 여부
+- 소유자 검증
+- 도메인 값 객체의 불변성 검증
+
+Service 책임:
+
+- 검증을 직접 수행하지 않는다.
+- Domain / Policy / Validator 호출 흐름만 조율한다.
+
+예시:
+
+    public record MemberCreateRequest(
+            @NotBlank String name,
+            @NotBlank @Email String email,
+            @NotBlank String password
+    ) {
+        public MemberCreateCommand toCommand() {
+            return new MemberCreateCommand(name, email, password);
+        }
+    }
+
+null / blank 같은 HTTP 입력 필수값 검증을 Domain 또는 Service에 누적하지 않는다.
 
 ---
 
