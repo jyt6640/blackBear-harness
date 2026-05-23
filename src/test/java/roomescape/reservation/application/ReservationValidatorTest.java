@@ -56,15 +56,15 @@ class ReservationValidatorTest {
     }
 
     private Reservation reservation(Long id) {
-        return new Reservation(id, "브라운", "2026-05-22", null, time(), theme());
+        return Reservation.restore(id, "브라운", "2026-05-22", null, time(), theme());
     }
 
     private ReservationTime time() {
-        return new ReservationTime(1L, "10:00");
+        return ReservationTime.restore(1L, "10:00");
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 
     private static class FakeReservationRepository implements ReservationRepository {
@@ -92,7 +92,7 @@ class ReservationValidatorTest {
 
         @Override
         public Reservation save(Reservation reservation) {
-            Reservation saved = new Reservation(
+            Reservation saved = Reservation.restore(
                     (long) reservations.size() + 1,
                     reservation.name(),
                     reservation.date(),

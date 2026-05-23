@@ -10,7 +10,7 @@ public class Theme {
     private final String description;
     private final String thumbnailUrl;
 
-    public Theme(Long id, String name, String description, String thumbnailUrl) {
+    private Theme(Long id, String name, String description, String thumbnailUrl) {
         validateText(name);
         validateText(description);
         validateText(thumbnailUrl);
@@ -22,6 +22,10 @@ public class Theme {
 
     public static Theme create(String name, String description, String thumbnailUrl) {
         return new Theme(null, name, description, thumbnailUrl);
+    }
+
+    public static Theme restore(Long id, String name, String description, String thumbnailUrl) {
+        return new Theme(id, name, description, thumbnailUrl);
     }
 
     public Long id() {

@@ -56,7 +56,7 @@ public class JdbcThemeRepository implements ThemeRepository {
 
     @Override
     public List<Theme> findAll() {
-        return jdbcTemplate.query(FIND_ALL, (resultSet, rowNumber) -> new Theme(
+        return jdbcTemplate.query(FIND_ALL, (resultSet, rowNumber) -> Theme.restore(
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
                 resultSet.getString("description"),
@@ -68,7 +68,7 @@ public class JdbcThemeRepository implements ThemeRepository {
     public Optional<Theme> findById(long id) {
         List<Theme> themes = jdbcTemplate.query(
                 FIND_BY_ID,
-                (resultSet, rowNumber) -> new Theme(
+                (resultSet, rowNumber) -> Theme.restore(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
@@ -89,7 +89,7 @@ public class JdbcThemeRepository implements ThemeRepository {
             statement.setString(3, theme.thumbnailUrl());
             return statement;
         }, keyHolder);
-        return new Theme(keyHolder.getKey().longValue(), theme.name(), theme.description(), theme.thumbnailUrl());
+        return Theme.restore(keyHolder.getKey().longValue(), theme.name(), theme.description(), theme.thumbnailUrl());
     }
 
     @Override
@@ -102,7 +102,7 @@ public class JdbcThemeRepository implements ThemeRepository {
         return jdbcTemplate.query(
                 FIND_POPULAR_THEMES,
                 (resultSet, rowNumber) -> new ThemeRanking(
-                        new Theme(
+                        Theme.restore(
                                 resultSet.getLong("id"),
                                 resultSet.getString("name"),
                                 resultSet.getString("description"),

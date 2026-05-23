@@ -85,7 +85,7 @@ class ThemeServiceTest {
 
         @Override
         public Theme save(Theme theme) {
-            Theme saved = new Theme((long) themes.size() + 1, theme.name(), theme.description(), theme.thumbnailUrl());
+            Theme saved = Theme.restore((long) themes.size() + 1, theme.name(), theme.description(), theme.thumbnailUrl());
             themes.add(saved);
             return saved;
         }

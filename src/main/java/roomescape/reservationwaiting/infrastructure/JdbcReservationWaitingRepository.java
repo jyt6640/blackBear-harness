@@ -65,12 +65,12 @@ public class JdbcReservationWaitingRepository implements ReservationWaitingRepos
             """;
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<ReservationWaiting> rowMapper = (resultSet, rowNumber) -> new ReservationWaiting(
+    private final RowMapper<ReservationWaiting> rowMapper = (resultSet, rowNumber) -> ReservationWaiting.restore(
             resultSet.getLong("waiting_id"),
             resultSet.getString("waiting_name"),
             resultSet.getString("waiting_date"),
-            new ReservationTime(resultSet.getLong("time_id"), resultSet.getString("start_at")),
-            new Theme(
+            ReservationTime.restore(resultSet.getLong("time_id"), resultSet.getString("start_at")),
+            Theme.restore(
                     resultSet.getLong("theme_id"),
                     resultSet.getString("theme_name"),
                     resultSet.getString("theme_description"),
@@ -105,7 +105,7 @@ public class JdbcReservationWaitingRepository implements ReservationWaitingRepos
             statement.setInt(5, waiting.sequence());
             return statement;
         }, keyHolder);
-        return new ReservationWaiting(
+        return ReservationWaiting.restore(
                 keyHolder.getKey().longValue(),
                 waiting.name(),
                 waiting.date(),

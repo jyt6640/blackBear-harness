@@ -19,7 +19,7 @@ class JwtTokenProviderTest {
     void createToken_parse_success() {
         JwtTokenProvider tokenProvider = tokenProvider(3600);
 
-        String token = tokenProvider.createToken(new Member(1L, "브라운", "brown@example.com", "encoded-password"));
+        String token = tokenProvider.createToken(Member.restore(1L, "브라운", "brown@example.com", "encoded-password"));
         TokenPayload payload = tokenProvider.parse(token);
 
         assertThat(payload.memberId()).isEqualTo(1L);
@@ -29,7 +29,7 @@ class JwtTokenProviderTest {
     @Test
     void parse_fail_with_tampered_signature() {
         JwtTokenProvider tokenProvider = tokenProvider(3600);
-        String token = tokenProvider.createToken(new Member(1L, "브라운", "brown@example.com", "encoded-password"));
+        String token = tokenProvider.createToken(Member.restore(1L, "브라운", "brown@example.com", "encoded-password"));
 
         assertThatThrownBy(() -> tokenProvider.parse(token + "tampered"))
                 .isInstanceOf(BusinessException.class)
@@ -40,7 +40,7 @@ class JwtTokenProviderTest {
     @Test
     void parse_fail_with_expired_token() {
         JwtTokenProvider tokenProvider = tokenProvider(-1);
-        String token = tokenProvider.createToken(new Member(1L, "브라운", "brown@example.com", "encoded-password"));
+        String token = tokenProvider.createToken(Member.restore(1L, "브라운", "brown@example.com", "encoded-password"));
 
         assertThatThrownBy(() -> tokenProvider.parse(token))
                 .isInstanceOf(BusinessException.class)

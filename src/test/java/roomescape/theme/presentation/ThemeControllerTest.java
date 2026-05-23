@@ -75,6 +75,6 @@ class ThemeControllerTest {
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 }

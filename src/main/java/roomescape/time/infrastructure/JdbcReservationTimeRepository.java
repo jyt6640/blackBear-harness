@@ -44,7 +44,7 @@ public class JdbcReservationTimeRepository implements ReservationTimeRepository 
 
     @Override
     public List<ReservationTime> findAll() {
-        return jdbcTemplate.query(FIND_ALL, (resultSet, rowNumber) -> new ReservationTime(
+        return jdbcTemplate.query(FIND_ALL, (resultSet, rowNumber) -> ReservationTime.restore(
                 resultSet.getLong("id"),
                 resultSet.getString("start_at")
         ));
@@ -54,7 +54,7 @@ public class JdbcReservationTimeRepository implements ReservationTimeRepository 
     public Optional<ReservationTime> findById(long id) {
         List<ReservationTime> reservationTimes = jdbcTemplate.query(
                 FIND_BY_ID,
-                (resultSet, rowNumber) -> new ReservationTime(
+                (resultSet, rowNumber) -> ReservationTime.restore(
                         resultSet.getLong("id"),
                         resultSet.getString("start_at")
                 ),
@@ -71,7 +71,7 @@ public class JdbcReservationTimeRepository implements ReservationTimeRepository 
             statement.setString(1, reservationTime.startAt());
             return statement;
         }, keyHolder);
-        return new ReservationTime(keyHolder.getKey().longValue(), reservationTime.startAt());
+        return ReservationTime.restore(keyHolder.getKey().longValue(), reservationTime.startAt());
     }
 
     @Override

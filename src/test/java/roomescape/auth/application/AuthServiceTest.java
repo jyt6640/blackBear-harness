@@ -107,7 +107,7 @@ class AuthServiceTest {
 
         @Override
         public Member save(Member member) {
-            Member saved = new Member((long) members.size() + 1, member.name(), member.email(), member.passwordHash());
+            Member saved = Member.restore((long) members.size() + 1, member.name(), member.email(), member.passwordHash());
             members.add(saved);
             return saved;
         }

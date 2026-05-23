@@ -74,7 +74,7 @@ class ReservationTimeServiceTest {
 
         @Override
         public ReservationTime save(ReservationTime reservationTime) {
-            ReservationTime saved = new ReservationTime((long) times.size() + 1, reservationTime.startAt());
+            ReservationTime saved = ReservationTime.restore((long) times.size() + 1, reservationTime.startAt());
             times.add(saved);
             return saved;
         }

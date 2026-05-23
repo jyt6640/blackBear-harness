@@ -63,7 +63,7 @@ public class JdbcMemberRepository implements MemberRepository {
             statement.setString(3, member.passwordHash());
             return statement;
         }, keyHolder);
-        return new Member(keyHolder.getKey().longValue(), member.name(), member.email(), member.passwordHash());
+        return Member.restore(keyHolder.getKey().longValue(), member.name(), member.email(), member.passwordHash());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class JdbcMemberRepository implements MemberRepository {
     private List<Member> query(String sql, Object... args) {
         return jdbcTemplate.query(
                 sql,
-                (resultSet, rowNumber) -> new Member(
+                (resultSet, rowNumber) -> Member.restore(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("email"),

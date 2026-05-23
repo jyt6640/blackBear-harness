@@ -19,7 +19,7 @@ public class Reservation {
     private final ReservationTime time;
     private final Theme theme;
 
-    public Reservation(Long id, String name, String date, String legacyTime, ReservationTime time, Theme theme) {
+    private Reservation(Long id, String name, String date, String legacyTime, ReservationTime time, Theme theme) {
         validateName(name);
         validateDate(date);
         if (legacyTime != null && !legacyTime.isBlank()) {
@@ -39,6 +39,17 @@ public class Reservation {
 
     public static Reservation create(String name, String date, ReservationTime time, Theme theme) {
         return new Reservation(null, name, date, null, time, theme);
+    }
+
+    public static Reservation restore(
+            Long id,
+            String name,
+            String date,
+            String legacyTime,
+            ReservationTime time,
+            Theme theme
+    ) {
+        return new Reservation(id, name, date, legacyTime, time, theme);
     }
 
     public Reservation changeSchedule(String date, ReservationTime time, Theme theme) {

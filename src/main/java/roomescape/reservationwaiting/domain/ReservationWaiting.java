@@ -14,7 +14,7 @@ public class ReservationWaiting {
     private final Theme theme;
     private final int sequence;
 
-    public ReservationWaiting(Long id, String name, String date, ReservationTime time, Theme theme, int sequence) {
+    private ReservationWaiting(Long id, String name, String date, ReservationTime time, Theme theme, int sequence) {
         if (sequence < 1) {
             throw new IllegalArgumentException("대기 순번은 1 이상이어야 합니다.");
         }
@@ -34,6 +34,17 @@ public class ReservationWaiting {
             int sequence
     ) {
         return new ReservationWaiting(null, name, date, time, theme, sequence);
+    }
+
+    public static ReservationWaiting restore(
+            Long id,
+            String name,
+            String date,
+            ReservationTime time,
+            Theme theme,
+            int sequence
+    ) {
+        return new ReservationWaiting(id, name, date, time, theme, sequence);
     }
 
     public Reservation toReservation() {

@@ -84,8 +84,8 @@ class   ReservationTest {
 
     @Test
     void changeSchedule_success() {
-        Reservation reservation = new Reservation(1L, "브라운", "2026-05-22", null, time(), theme());
-        ReservationTime changedTime = new ReservationTime(2L, "12:00");
+        Reservation reservation = Reservation.restore(1L, "브라운", "2026-05-22", null, time(), theme());
+        ReservationTime changedTime = ReservationTime.restore(2L, "12:00");
 
         Reservation changed = reservation.changeSchedule("2026-05-23", changedTime, theme());
 
@@ -95,10 +95,10 @@ class   ReservationTest {
     }
 
     private ReservationTime time() {
-        return new ReservationTime(1L, "10:00");
+        return ReservationTime.restore(1L, "10:00");
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 }

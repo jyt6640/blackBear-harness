@@ -10,7 +10,7 @@ public class ReservationTime {
     private final Long id;
     private final String startAt;
 
-    public ReservationTime(Long id, String startAt) {
+    private ReservationTime(Long id, String startAt) {
         validateStartAt(startAt);
         this.id = id;
         this.startAt = startAt;
@@ -18,6 +18,10 @@ public class ReservationTime {
 
     public static ReservationTime create(String startAt) {
         return new ReservationTime(null, startAt);
+    }
+
+    public static ReservationTime restore(Long id, String startAt) {
+        return new ReservationTime(id, startAt);
     }
 
     public Long id() {

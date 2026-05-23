@@ -67,12 +67,12 @@ class ReservationWaitingControllerTest {
     }
 
     private ReservationWaiting waiting(String name, int sequence) {
-        return new ReservationWaiting(
+        return ReservationWaiting.restore(
                 (long) sequence,
                 name,
                 "2026-05-22",
-                new ReservationTime(1L, "10:00"),
-                new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg"),
+                ReservationTime.restore(1L, "10:00"),
+                Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg"),
                 sequence
         );
     }

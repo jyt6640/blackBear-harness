@@ -12,7 +12,7 @@ public class Member {
     private final String email;
     private final String passwordHash;
 
-    public Member(Long id, String name, String email, String passwordHash) {
+    private Member(Long id, String name, String email, String passwordHash) {
         validateName(name);
         validateEmail(email);
         validatePasswordHash(passwordHash);
@@ -24,6 +24,10 @@ public class Member {
 
     public static Member create(String name, String email, String passwordHash) {
         return new Member(null, name, email, passwordHash);
+    }
+
+    public static Member restore(Long id, String name, String email, String passwordHash) {
+        return new Member(id, name, email, passwordHash);
     }
 
     public Long id() {

@@ -109,17 +109,17 @@ public class JdbcReservationRepository implements ReservationRepository {
         ReservationTime time = null;
         Theme theme = null;
         if (timeId != null) {
-            time = new ReservationTime(timeId, resultSet.getString("start_at"));
+            time = ReservationTime.restore(timeId, resultSet.getString("start_at"));
         }
         if (themeId != null) {
-            theme = new Theme(
+            theme = Theme.restore(
                     themeId,
                     resultSet.getString("theme_name"),
                     resultSet.getString("theme_description"),
                     resultSet.getString("theme_thumbnail_url")
             );
         }
-        return new Reservation(
+        return Reservation.restore(
                 resultSet.getLong("reservation_id"),
                 resultSet.getString("reservation_name"),
                 resultSet.getString("reservation_date"),

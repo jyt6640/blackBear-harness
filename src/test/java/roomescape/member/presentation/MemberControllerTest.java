@@ -36,7 +36,7 @@ class MemberControllerTest {
     @Test
     void create_success() throws Exception {
         given(memberService.create(any(MemberCreateCommand.class)))
-                .willReturn(new Member(1L, "브라운", "brown@example.com", "encoded-password"));
+                .willReturn(Member.restore(1L, "브라운", "brown@example.com", "encoded-password"));
 
         mockMvc.perform(post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ class MemberControllerTest {
         given(authService.authenticate("Bearer access-token"))
                 .willReturn(new TokenPayload(1L, "brown@example.com", "브라운"));
         given(memberService.getById(1L))
-                .willReturn(new Member(1L, "브라운", "brown@example.com", "encoded-password"));
+                .willReturn(Member.restore(1L, "브라운", "brown@example.com", "encoded-password"));
 
         mockMvc.perform(get("/members/me")
                         .header("Authorization", "Bearer access-token"))

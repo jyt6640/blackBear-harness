@@ -30,7 +30,7 @@ class ReservationTimeControllerTest {
     @Test
     void findAll_success() throws Exception {
         given(reservationTimeService.findAll())
-                .willReturn(List.of(new ReservationTime(1L, "10:00")));
+                .willReturn(List.of(ReservationTime.restore(1L, "10:00")));
 
         mockMvc.perform(get("/times"))
                 .andExpect(status().isOk())
@@ -40,7 +40,7 @@ class ReservationTimeControllerTest {
     @Test
     void create_success() throws Exception {
         given(reservationTimeService.create("10:00"))
-                .willReturn(new ReservationTime(1L, "10:00"));
+                .willReturn(ReservationTime.restore(1L, "10:00"));
 
         mockMvc.perform(post("/times")
                         .contentType(MediaType.APPLICATION_JSON)

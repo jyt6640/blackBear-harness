@@ -54,7 +54,7 @@ class ReservationWaitingTest {
 
     @Test
     void advanceSequence_success() {
-        ReservationWaiting waiting = new ReservationWaiting(
+        ReservationWaiting waiting = ReservationWaiting.restore(
                 1L,
                 "브라운",
                 "2026-05-22",
@@ -70,10 +70,10 @@ class ReservationWaitingTest {
     }
 
     private ReservationTime reservationTime() {
-        return new ReservationTime(1L, "10:00");
+        return ReservationTime.restore(1L, "10:00");
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 }

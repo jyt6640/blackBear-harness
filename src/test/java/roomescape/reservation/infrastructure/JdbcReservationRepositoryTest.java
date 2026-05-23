@@ -47,7 +47,7 @@ class JdbcReservationRepositoryTest {
     @Test
     void update_success() {
         Reservation saved = repository.save(reservation(null));
-        Reservation changed = new Reservation(saved.id(), "브라운", "2026-05-23", null, time(), theme());
+        Reservation changed = Reservation.restore(saved.id(), "브라운", "2026-05-23", null, time(), theme());
 
         repository.update(changed);
 
@@ -64,14 +64,14 @@ class JdbcReservationRepositoryTest {
     }
 
     private Reservation reservation(Long id) {
-        return new Reservation(id, "브라운", "2026-05-22", null, time(), theme());
+        return Reservation.restore(id, "브라운", "2026-05-22", null, time(), theme());
     }
 
     private ReservationTime time() {
-        return new ReservationTime(1L, "10:00");
+        return ReservationTime.restore(1L, "10:00");
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 }

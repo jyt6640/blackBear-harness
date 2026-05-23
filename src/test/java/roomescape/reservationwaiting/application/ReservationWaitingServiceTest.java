@@ -92,15 +92,15 @@ class ReservationWaitingServiceTest {
     }
 
     private ReservationWaiting waiting(String name, int sequence) {
-        return new ReservationWaiting(1L, name, "2026-05-22", time(), theme(), sequence);
+        return ReservationWaiting.restore(1L, name, "2026-05-22", time(), theme(), sequence);
     }
 
     private ReservationTime time() {
-        return new ReservationTime(1L, "10:00");
+        return ReservationTime.restore(1L, "10:00");
     }
 
     private Theme theme() {
-        return new Theme(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
+        return Theme.restore(1L, "잠실 미스터리", "설명", "https://example.com/theme.jpg");
     }
 
     private class FakeReservationWaitingRepository implements ReservationWaitingRepository {
@@ -119,7 +119,7 @@ class ReservationWaitingServiceTest {
 
         @Override
         public ReservationWaiting save(ReservationWaiting waiting) {
-            ReservationWaiting saved = new ReservationWaiting(
+            ReservationWaiting saved = ReservationWaiting.restore(
                     (long) waitings.size() + 1,
                     waiting.name(),
                     waiting.date(),
