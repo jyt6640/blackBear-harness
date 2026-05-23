@@ -50,6 +50,21 @@
 
 ## Fake와 Mock
 
+## Fake 위치
+
+Fake는 테스트 클래스 내부 class로 두지 않는다.
+
+Repository Fake는 해당 도메인의 test package 아래 fake 패키지에 둔다.
+
+예시:
+
+    src/test/java/roomescape/member/fake/FakeMemberRepository.java
+    src/test/java/roomescape/reservation/fake/FakeReservationRepository.java
+    src/test/java/roomescape/theme/fake/FakeThemeRepository.java
+    src/test/java/roomescape/time/fake/FakeReservationTimeRepository.java
+
+Service / Validator 테스트는 이 Fake를 주입해서 사용한다.
+
 ### Fake
 
 - 흐름과 상태를 검증할 때 사용한다.
@@ -105,6 +120,44 @@ Service 테스트는 흐름 조율을 검증하고, 각 책임의 판단은 해�
 - given / when / then 구조를 유지한다.
 - 테스트 이름만으로 의도를 이해 가능해야 한다.
 - 성공과 실패 케이스를 모두 고려한다.
+
+---
+
+## 테스트 코드 형식
+
+모든 테스트는 아래 형식을 기본으로 따른다.
+
+```java
+    @Test
+    @DisplayName("회원을 생성한다")
+    void create_success() {
+        // given
+
+        // when
+
+        // then
+    }
+```
+
+규칙:
+
+- 모든 테스트는 `@Test`와 `@DisplayName`을 작성한다.
+- `@DisplayName`은 한국어로 작성한다.
+- 테스트 메서드명은 `method_success`, `method_fail_with_이유`, `method_success_when_조건` 형식을 따른다.
+- 테스트 본문은 given / when / then 주석을 기본으로 사용한다.
+- given이 필요 없으면 생략할 수 있다.
+- when과 then이 합쳐지는 예외 검증은 `// when & then`으로 작성한다.
+
+예시:
+```java
+    @Test
+    @DisplayName("이메일이 공백이면 회원을 생성할 수 없다")
+    void create_fail_with_blank_email() {
+        // when & then
+        assertThatThrownBy(() -> Member.create("", "password"))
+                .isInstanceOf(BusinessException.class);
+    }
+```
 
 ---
 

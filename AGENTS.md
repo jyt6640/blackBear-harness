@@ -32,17 +32,15 @@
 
 - 구현 전 요청을 작업 유형으로 분류하고 필수 문서를 먼저 확인한다.
 - 새 코드는 기존 원칙, 현재 코드 흐름, accepted decision을 확인한 뒤 작성한다.
-- 현재 프로젝트의 구조와 의도를 우선한다.
-- 추상적인 일반론보다 현재 코드베이스의 일관성을 우선한다.
+- 현재 프로젝트의 구조, 의도, 일관성을 우선한다.
+- 현재 요구사항 해결에 필요한 범위만 최소 변경한다.
+- 관련 없는 리팩터링은 함께 진행하지 않는다.
 - 구조는 먼저 지키되 추상화는 필요해질 때만 도입한다.
 - 재사용보다 명시성을 우선한다.
-- 현재 요구사항 해결에 필요한 범위만 수정한다.
-- 관련 없는 리팩터링은 함께 진행하지 않는다.
-- 기존 구조를 유지한 채 최소 변경으로 해결하는 것을 우선한다.
-- 현재 코드에 존재하지 않는 패턴을 임의로 도입하지 않는다.
-- 사용 중이지 않은 라이브러리나 프레임워크를 가정하지 않는다.
+- 현재 코드에 없는 패턴, 라이브러리, 프레임워크를 임의로 도입하지 않는다.
 - 근거 없는 디자인 패턴과 추상화를 추가하지 않는다.
 - Spring 백엔드 기준으로 판단한다.
+- 메서드 단위로 항상 git commit을 진행하지만 절대 push를 하지 않는다.
 
 ---
 
@@ -90,10 +88,13 @@
 - Acceptance Test부터 시작하는 구현
 - Service 테스트로 Domain / Policy / Validator 책임 검증을 대체하는 방식
 - production class를 직접 테스트하지 않고 통합 테스트로만 덮는 방식
+- 코드 리뷰 보강, 테스트 보강, 리팩터링을 커밋 없이 진행하는 방식
+- 리팩터링과 동작 변경을 한 커밋에 섞는 방식
+- Fake를 테스트 클래스 내부 class로 작성하는 방식
+- Domain Entity / Aggregate의 생성자를 public으로 여는 방식
+- Request DTO에서 처리할 null / blank 검증을 Domain / Service에 누적하는 방식
 - 의미 없는 공통화와 추상화
-- 도메인 용어 대신 기술 용어 사용
 - 책임이 불분명한 Helper / Util / Manager 클래스 추가
-- 여러 역할을 동시에 가지는 Service 작성
 - Domain 책임을 Service에 누적
 - 검증 책임을 Controller에 누적
 - Infrastructure에서 비즈니스 규칙 판단
@@ -104,21 +105,20 @@
 
 - 큰 요구사항은 기능 목록 / API 명세 / 에러 명세를 먼저 정리한 뒤 시작한다.
 - 새 기능은 Domain → Application Validator → Service → Repository → Controller → Acceptance 순서로 테스트와 구현을 진행한다.
-- Controller는 HTTP 요청/응답만 담당한다.
-- Controller는 DB 접근을 직접 하지 않는다.
-- Service는 흐름만 조율하고 판단은 Domain / Policy / Validator에 위임한다.
-- Repository 인터페이스는 Domain에 둔다.
-- JDBC / SQL 구현은 Infrastructure에 둔다.
-- 새 기능은 실패 테스트 작성 → 실패 확인 → 구현 → 통과 확인 → 리팩터링 순서로 진행한다.
+- 코드 리뷰 보강, 테스트 보강, 리팩터링도 public behavior 또는 책임 단위로 커밋한다.
 - 커밋은 테스트 커밋 → 구현 커밋 순서로 분리한다.
-- 테스트 없이 먼저 구현해야 하면 이유를 README.md 또는 docs에 기록한다.
-- Acceptance Test는 시작점이 아니라 최종 검증이다.
-- Service 테스트가 Domain / Policy / Validator 책임 검증을 대체해서는 안 된다.
+- 리팩터링 커밋은 행위 변경 없이 하나의 구조 개선만 포함한다.
+- Service는 흐름만 조율하고 판단은 Domain / Policy / Validator에 위임한다.
+- Controller는 HTTP 요청/응답만 담당하고 DB 접근을 직접 하지 않는다.
+- Repository 인터페이스는 Domain에 두고 JDBC / SQL 구현은 Infrastructure에 둔다.
 - 테스트 단위는 기능명이 아니라 production class의 public behavior 기준으로 잡는다.
 - private method를 직접 테스트하지 않는다. private method로 숨겨진 책임은 public behavior 테스트로 드러나야 한다.
 - 테스트 패키지 구조는 main 패키지 구조와 일치시킨다.
-- 커밋 메시지 type과 scope는 영어로 작성한다.
-- 커밋 메시지 summary와 본문은 한국어로 작성한다.
+- Fake는 test source의 fake 패키지에 분리한다.
+- Domain Entity / Aggregate 생성자는 private로 막고 정적 팩터리 메서드로 생성한다.
+- null / blank 같은 HTTP 입력 필수값 검증은 Request DTO에서 수행한다.
+- 커밋 메시지 type과 scope는 영어로, summary와 본문은 한국어로 작성한다.
+- 테스트 없이 먼저 구현해야 하면 이유를 README.md 또는 docs에 기록한다.
 
 ---
 
@@ -138,13 +138,12 @@
 최종 응답 전 아래 항목을 확인한다.
 
 - TDD 순서를 지켰는가
-- 테스트 커밋과 구현 커밋이 분리되었는가
+- 테스트 / 구현 / 리팩터링 커밋이 책임 단위로 분리되었는가
 - 모든 production class는 직접 테스트되었는가
-- 직접 테스트하지 않았다면 단순 DTO / 설정 / 부트스트랩 / 상수처럼 제외 가능한 이유가 있는가
+- 직접 테스트하지 않았다면 제외 가능한 이유가 있는가
 - Service 테스트에 묻혀 Validator, Policy, Domain 책임 검증을 생략하지 않았는가
-- 테스트 패키지 구조가 main 패키지 구조와 일치하는가
-- 레이어 책임이 유지되었는가
-- 불필요한 추상화가 추가되지 않았는가
-- 최소 변경 원칙을 지켰는가
+- 테스트 패키지 구조와 Fake 위치가 기준에 맞는가
+- Domain 생성자와 Request DTO 검증 위치가 기준에 맞는가
+- 레이어 책임과 최소 변경 원칙을 지켰는가
 - README 또는 docs 업데이트가 필요한가
 - accepted decision과 충돌하지 않는가
