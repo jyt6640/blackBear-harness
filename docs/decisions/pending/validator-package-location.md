@@ -118,7 +118,7 @@ Validator는:
 
 ## 현재 판단
 
-현재 프로젝트는:
+이 하네스의 잠정 기준은:
 
 - 흐름과 검증 분리
 - 저장소 의존 분리
@@ -127,7 +127,7 @@ Validator는:
 를 더 중요하게 판단한다.
 
 따라서 Repository 조회 기반 검증은
-Application Validator 구조를 유지한다.
+Application Validator 구조를 잠정 유지한다.
 
 ---
 

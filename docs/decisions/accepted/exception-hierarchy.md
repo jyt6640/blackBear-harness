@@ -30,9 +30,11 @@ accepted
 
 ---
 
-## 현재 구조
+## 기본 구조
 
-    RoomEscapeException
+최상위 예외 이름은 프로젝트 이름을 따른다.
+
+    ShopException (예: shop 프로젝트의 최상위 예외)
     ├── BusinessException
     ├── EntityNotFoundException
     └── BadRequestException
@@ -55,7 +57,7 @@ accepted
 
 예시:
 
-    RESERVATION_NOT_FOUND
+    ORDER_NOT_FOUND
     ORDER_ALREADY_CANCELED
 
 이런 의미는
@@ -145,7 +147,7 @@ rollback 정책 관리 비용이 증가할 수 있다.
 
 ## 현재 판단
 
-현재 프로젝트는:
+이 하네스는:
 
 - 비즈니스 의미 명확성
 - rollback 일관성
@@ -154,7 +156,7 @@ rollback 정책 관리 비용이 증가할 수 있다.
 을 더 중요하게 판단한다.
 
 따라서 RuntimeException 기반의
-프로젝트 전용 예외 계층을 유지한다.
+프로젝트 전용 예외 계층을 기본 입장으로 둔다.
 
 ---
 
