@@ -34,6 +34,16 @@
 
 ---
 
+# 실행 모드
+
+- 단일 작업자 모드 (기본): 위 작업 시퀀스를 한 작업자가 수행한다.
+- 단계 분리 모드: Test → Feat → Review를 스킬(/test-agent, /feat-agent, /review-agent)로 분리 실행한다.
+  각 단계는 md 산출물을 남기고, 이전 산출물 없이 다음 단계를 시작하지 않는다.
+  각 역할의 하네스는 [sub-agent](./sub-agent), 산출물 규칙은 [agent-handoff-by-artifact](./docs/decisions/accepted/agent-handoff-by-artifact.md)를 따른다.
+- 오케스트레이션 모드 (pending): [orchestrator](./orchestrator)가 단계 분리 모드를 자동으로 강제한다. → [orchestration-architecture](./docs/decisions/pending/orchestration-architecture.md)
+
+---
+
 # 판단 우선순위
 
 충돌 시 아래 우선순위로 판단한다.

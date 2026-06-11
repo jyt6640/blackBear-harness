@@ -34,10 +34,18 @@ pending
 
 ### 하네스 분리
 
-- `orchestrator/` 패키지에 오케스트레이션 하네스 1개를 둔다.
-- `sub-agent/` 패키지에 개발(서브에이전트) 하네스 1개를 둔다.
-- 현재 base 하네스의 내용은 sub-agent 하네스의 모체가 된다.
+- `orchestrator/` 패키지에 오케스트레이션 하네스를 둔다. (backend-orchestrator 작성됨)
+- `sub-agent/` 패키지에 역할별 하네스를 둔다. (backend-test-agent, backend-feat-agent, backend-review-agent 작성됨)
+- 오케스트레이터는 일을 내리는 팀장 역할만 한다. 내용 검토는 Review Agent에 위임한다.
+- 현재 base 하네스의 docs는 각 에이전트가 역할별 범위만 읽는 공유 정본이다.
 - harness-interview와 how-to-create-project-harness는 오케스트레이터 책임으로 이동한다.
+
+### 단계 간 핸드오프
+
+- 모든 단계는 md 산출물을 남기고, 산출물이 단계 간 인터페이스다.
+  → [agent-handoff-by-artifact](../accepted/agent-handoff-by-artifact.md)
+- 이 원칙은 이미 단일 모드(스킬 /test-agent, /feat-agent, /review-agent)에서 적용 중이다.
+  이 pending은 그 순서 강제를 오케스트레이터가 자동화하는 시점의 결정이다.
 
 ### 작업 위임 방식
 
