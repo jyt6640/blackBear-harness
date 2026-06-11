@@ -1,6 +1,6 @@
 ---
 name: refactor-agent
-description: 행위 변경 없는 구조 개선 단계. 리팩터링 작업 카드나 Review 반려 항목을 기준으로 public behavior를 유지하며 구조를 개선하고 리팩터링 결과 보고서를 산출한다.
+description: Test → Feat → Refactor → Review 릴레이의 3단계 또는 refactor 전용 카드 단계. 리팩터링 작업 카드나 Review 반려 항목을 기준으로 public behavior를 유지하며 구조를 개선하고 리팩터링 결과 보고서를 산출한다.
 ---
 
 # Refactor Agent 실행
@@ -19,5 +19,7 @@ description: 행위 변경 없는 구조 개선 단계. 리팩터링 작업 카�
 3. 하네스의 책임 / 금지 / 완료 기준대로 실행한다.
    public behavior를 바꾸지 않는다.
 
-4. 완료 기준을 모두 충족하면 리팩터링 결과 보고서를 작성하고,
-   필요한 경우 /review-agent를 안내한다.
+4. 완료 기준을 모두 충족하면 02-refactor-report.md를 작성하고 멈춘다.
+   개선할 것이 없으면 "개선 사항 없음"과 행위 보존 확인을 기록한다.
+   다음 단계를 직접 실행하지 않는다.
+   사용자에게 "Refactor 단계 완료. /review-agent를 실행해주세요."라고 요청한다.

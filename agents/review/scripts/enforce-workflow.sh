@@ -12,11 +12,14 @@ if [ -z "$TASK" ]; then
 else
     WORK="$ROOT/next-step/work/$TASK"
     [ -f "$WORK/00-task-card.md" ] || err "Review 시작 전 00-task-card.md가 필요하다: $WORK/00-task-card.md"
-    if [ -f "$WORK/02-refactor-report.md" ]; then
-        : # refactor 카드: 행위 변경이 없으므로 01-test-report 없이 진행할 수 있다
-    else
+    if [ -f "$WORK/02-implementation-report.md" ]; then
+        # feature 카드: Test → Feat → Refactor 산출물이 모두 필요하다
         [ -f "$WORK/01-test-report.md" ] || err "Review 시작 전 01-test-report.md가 필요하다: $WORK/01-test-report.md"
-        [ -f "$WORK/02-implementation-report.md" ] || err "Review 시작 전 02-implementation-report.md가 필요하다 (refactor 카드라면 02-refactor-report.md): $WORK/02-implementation-report.md"
+        [ -f "$WORK/02-refactor-report.md" ] || err "Review 시작 전 02-refactor-report.md가 필요하다 (개선할 것이 없어도 행위 보존 확인을 기록한다): $WORK/02-refactor-report.md"
+    elif [ -f "$WORK/02-refactor-report.md" ]; then
+        : # refactor 전용 카드: 행위 변경이 없으므로 01 / 02-implementation 없이 진행할 수 있다
+    else
+        err "Review 시작 전 02-implementation-report.md(feature) 또는 02-refactor-report.md(refactor 전용)가 필요하다"
     fi
 fi
 

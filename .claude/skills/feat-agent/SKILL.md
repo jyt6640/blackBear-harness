@@ -1,6 +1,6 @@
 ---
 name: feat-agent
-description: Test → Feat → Review 사이클의 2단계. 01-test-report의 실패 테스트를 최소 구현으로 통과시키고 02-implementation-report.md를 산출한다. 테스트 작성이 끝났을 때, 사용자가 "/feat-agent" 또는 "구현하자"라고 할 때 사용한다.
+description: Test → Feat → Refactor → Review 릴레이의 2단계. 01-test-report의 실패 테스트를 최소 구현으로 통과시키고 02-implementation-report.md를 산출한다. 테스트 작성이 끝났을 때, 사용자가 "/feat-agent" 또는 "구현하자"라고 할 때 사용한다.
 ---
 
 # Feat Agent 실행
@@ -19,5 +19,6 @@ description: Test → Feat → Review 사이클의 2단계. 01-test-report의 �
 3. 하네스의 책임 / 금지 / 완료 기준대로 실행한다.
    테스트는 절대 수정하지 않는다. 테스트가 잘못됐으면 반려 사유와 함께 멈춘다.
 
-4. 완료 기준을 모두 충족하면 02-implementation-report.md를 작성하고,
-   다음 단계로 /review-agent를 안내한다.
+4. 완료 기준을 모두 충족하면 02-implementation-report.md를 작성하고 멈춘다.
+   다음 단계를 직접 실행하지 않는다.
+   사용자에게 "Feat 단계 완료. /refactor-agent를 실행해주세요."라고 요청한다.

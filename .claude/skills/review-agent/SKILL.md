@@ -1,6 +1,6 @@
 ---
 name: review-agent
-description: Test → Feat → Review 사이클의 3단계. 작업 diff를 작업 카드와 하네스 기준으로 검증해 승인/반려를 03-review-report.md로 산출한다. 구현이 끝났을 때, 사용자가 "/review-agent" 또는 "리뷰하자"라고 할 때 사용한다.
+description: Test → Feat → Refactor → Review 릴레이의 마지막 단계. 작업 diff를 작업 카드와 하네스 기준으로 검증해 승인/반려를 03-review-report.md로 산출한다. Refactor 단계가 끝났을 때, 사용자가 "/review-agent" 또는 "리뷰하자"라고 할 때 사용한다.
 ---
 
 # Review Agent 실행
@@ -20,6 +20,7 @@ description: Test → Feat → Review 사이클의 3단계. 작업 diff를 작�
 3. 하네스의 책임 / 금지 / 완료 기준대로 실행한다.
    코드를 직접 수정하지 않는다. 판정과 수정 요구까지만이다.
 
-4. 03-review-report.md를 작성한다.
-   - 승인이면 작업 완료를 보고한다.
-   - 반려면 수정 요구 목록과 함께 /feat-agent(구현 문제) 또는 /test-agent(행위 정의 문제) 재실행을 안내한다.
+4. 03-review-report.md를 작성하고 멈춘다. 직접 수정하거나 다음 단계를 실행하지 않는다.
+   - 승인이면 사용자에게 "/orchestrate로 마무리(04-summary 작성과 정리)를 진행해주세요."라고 요청한다.
+   - 반려면 수정 요구 목록과 함께 사유에 따라 재실행을 요청한다.
+     구현 문제 → /feat-agent, 구조 문제 → /refactor-agent, 행위 정의 문제 → /test-agent.

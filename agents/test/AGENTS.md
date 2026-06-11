@@ -66,6 +66,7 @@ production code 구현은 담당하지 않는다.
 - 실패가 작업 카드의 기대 행위 부재 때문에 발생한다.
 - 테스트가 production class의 public behavior를 직접 검증한다.
 - `01-test-report.md`가 작성됐다.
+- 멈추고 사용자에게 /feat-agent 실행을 요청했다. Feat 단계를 직접 시작하지 않는다.
 
 ---
 

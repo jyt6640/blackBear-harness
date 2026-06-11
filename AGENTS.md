@@ -49,10 +49,11 @@
 3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. 프로젝트 하네스가 이미 있으면 생성 문서를 읽지 않고 프로젝트 하네스를 따른다. → [harness-interview](./docs/workflow/harness-interview.md)
 4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
 5. 기능 개발이면 `next-step/work/<작업명>/00-task-card.md`를 먼저 작성한다.
-6. Test -> Feat -> Review 순서로 산출물 체인을 진행한다.
-7. Refactor는 기능 구현과 섞지 않고 별도 단계 또는 별도 작업 카드로 다룬다.
-8. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
-9. 기능 완료 후 `next-step/work/<작업명>`은 삭제한다.
+6. 카드 작성이 끝나면 멈추고 사용자에게 /test-agent 실행을 요청한다. Test 단계를 직접 시작하지 않는다.
+7. 단계 릴레이: Test → Feat → Refactor → Review. 각 단계는 사용자의 스킬 호출로만 시작하고, 단계가 끝나면 멈추고 다음 스킬 실행을 요청한다. 단계를 연속 실행하지 않는다.
+8. Review가 반려하면 사유에 따라 /feat-agent(구현), /refactor-agent(구조), /test-agent(행위 정의) 재실행을 안내한다.
+9. 승인 후 `04-summary.md`를 작성하고, 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
+10. 기능 완료 후 `next-step/work/<작업명>`은 삭제한다.
 
 ---
 
@@ -64,6 +65,7 @@
     ├── 00-task-card.md
     ├── 01-test-report.md
     ├── 02-implementation-report.md
+    ├── 02-refactor-report.md
     ├── 03-review-report.md
     └── 04-summary.md
 
@@ -81,7 +83,8 @@
 - `00-task-card.md`가 없으면 Test를 시작하지 않는다.
 - `01-test-report.md`가 없으면 Feat를 시작하지 않는다.
 - `02-implementation-report.md`가 없으면 Review를 시작하지 않는다.
-- refactor 카드는 행위 변경이 없으므로 `01-test-report.md` 없이 진행할 수 있고, `02-refactor-report.md`를 `02-implementation-report.md`와 동등하게 인정한다.
+- feature 카드는 `02-refactor-report.md` 없이 Review를 시작하지 않는다. 개선할 것이 없으면 보고서에 "개선 사항 없음"과 행위 보존 확인을 기록한다.
+- refactor 전용 카드는 행위 변경이 없으므로 `01-test-report.md` 없이 진행할 수 있고, `02-refactor-report.md`를 `02-implementation-report.md`와 동등하게 인정한다.
 - Review가 반려하면 Feat 또는 Test로 되돌린다.
 - 승인 없이 기능 완료로 보고하지 않는다.
 
@@ -93,9 +96,12 @@
 
 # 실행 모드
 
-- 단일 작업자 모드 (기본): 한 작업자가 오케스트레이터, Test, Feat, Review 역할을 순서대로 수행한다. 역할은 겸임할 수 있지만 산출물 경계는 생략하지 않는다.
-- 역할 분리 모드: Test -> Feat -> Review를 각각 [agents/test](./agents/test), [agents/feat](./agents/feat), [agents/review](./agents/review)로 분리 실행한다.
-- Refactor 모드: 행위 변경 없는 구조 개선만 [agents/refactor](./agents/refactor)로 분리 실행한다.
+- 사용자 릴레이 모드 (기본): 각 단계는 사용자의 스킬 호출로만 시작한다.
+  /orchestrate → /test-agent → /feat-agent → /refactor-agent → /review-agent.
+  한 모델이 여러 역할을 수행할 수 있지만, 단계가 끝나면 반드시 멈추고 사용자에게 다음 스킬 실행을 요청한다.
+  산출물 경계와 정지 규칙은 생략할 수 없다.
+- Refactor 전용 카드: 행위 변경 없는 구조 개선만 별도 카드로 다룬다. [agents/refactor](./agents/refactor)
+- 오케스트레이션 모드 (pending): 오케스트레이터가 단계 전환을 자동화한다. → [orchestration-architecture](./docs/decisions/pending/orchestration-architecture.md)
 
 스킬은 역할 실행을 시작하는 얇은 런처다.
 정본은 루트 문서, 역할별 AGENTS.md, 역할별 docs, decisions에 있다.
@@ -262,7 +268,9 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 최종 응답 전 아래 항목을 확인한다.
 
 - 작업 카드가 필요한 작업인데 `00-task-card.md` 없이 진행하지 않았는가
+- 단계 전환을 사용자 스킬 호출 없이 연속 실행하지 않았는가
 - Feat 단계가 `01-test-report.md` 없이 시작되지 않았는가
+- Review 단계가 Refactor 단계 보고서 없이 시작되지 않았는가 (feature 카드)
 - Review 단계가 `02-implementation-report.md` 없이 시작되지 않았는가
 - TDD 순서를 지켰는가
 - 테스트 / 구현 / 리팩터링 커밋이 책임 단위로 분리되었는가

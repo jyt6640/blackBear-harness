@@ -65,6 +65,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 최종 점검 항목을 판정했다.
 - 승인 또는 반려가 명확하다.
 - `03-review-report.md`가 작성됐다.
+- 멈추고 판정에 따라 사용자에게 다음 실행을 요청했다. 승인 → /orchestrate 마무리, 반려 → /feat-agent · /refactor-agent · /test-agent 중 사유에 맞는 재실행.
 
 ---
 

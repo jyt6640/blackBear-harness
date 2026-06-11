@@ -70,6 +70,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - 기존 테스트도 통과한다.
 - 구현이 작업 카드 범위를 넘지 않는다.
 - `02-implementation-report.md`가 작성됐다.
+- 멈추고 사용자에게 /refactor-agent 실행을 요청했다. 다음 단계를 직접 시작하지 않는다.
 
 ---
 
