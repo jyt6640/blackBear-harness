@@ -29,9 +29,11 @@
 - 커밋 메시지:
 - PR 설명:
 
-## 삭제할 임시 산출물
+## History 보존
 
-- `next-step/work/<작업명>`
+- 이동 전: `next-step/work/<작업명>`
+- 이동 후: `next-step/history/<작업명>`
+- 백로그 완료 시: `next-step/work/backlog.md` → `next-step/history/<백로그명>-backlog.md`
 
 ## 남은 질문
 

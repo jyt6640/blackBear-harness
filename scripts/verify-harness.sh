@@ -82,6 +82,7 @@ if git ls-files 'next-step/work/*' | grep -q .; then
 fi
 
 grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없음"
+[ -f "next-step/history/README.md" ] || err "next-step/history/README.md 없음"
 
 # 9. next-step 템플릿 존재
 for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md; do

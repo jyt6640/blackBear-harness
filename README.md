@@ -84,8 +84,10 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 ### /orchestrate — 마무리
 
 - `04-summary.md` 작성, 백로그 상태 갱신.
-- 영구화할 결정만 decisions / docs / 커밋 메시지로 승격하고 `work/<작업명>`을 삭제한다.
+- 영구화할 결정만 decisions / docs / 커밋 메시지로 승격한다.
+- `work/<작업명>`은 삭제하지 않고 `history/<작업명>/`으로 이동해 완료 기록으로 보존한다.
 - 백로그에 다음 카드가 있으면 정지: "다음 카드입니다. /orchestrate를 실행해주세요."
+- 모든 카드가 끝나면 `work/backlog.md`도 `history/<백로그명>-backlog.md`로 이동한다.
 
 ---
 

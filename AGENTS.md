@@ -55,7 +55,8 @@
 9. 단계 릴레이: Test → Feat → Refactor → Review. 사용자 릴레이 모드에서는 각 단계를 사용자의 스킬 호출로 시작한다. 자동 모드에서는 오케스트레이터가 역할별 로컬 에이전트를 직렬 호출하되 산출물 경계와 게이트를 동일하게 지킨다.
 10. Review가 반려하면 사유에 따라 Feat, Refactor, Test로 되돌린다. 자동 모드는 보고서의 `재실행 단계`를 읽어 제한 횟수 안에서 재실행하고, 한도를 넘으면 오케스트레이터에게 올린다.
 11. 승인 후 `04-summary.md`를 작성하고 백로그 상태를 갱신한다. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
-12. 카드 완료 후 `next-step/work/<작업명>`은 삭제한다. 백로그의 모든 카드가 끝나면 `backlog.md`도 삭제한다.
+12. 카드 완료 후 `next-step/work/<작업명>`을 삭제하지 않고 `next-step/history/<작업명>/`으로 이동해 보존한다.
+13. 백로그의 모든 카드가 끝나면 `next-step/work/backlog.md`를 `next-step/history/<백로그명>-backlog.md`로 이동해 보존한다.
 
 ---
 
@@ -93,7 +94,8 @@
 - 승인 없이 기능 완료로 보고하지 않는다.
 
 `next-step/work/`는 모델 교체와 단계 분리를 위한 단기 작업 메모리다.
-기본적으로 커밋하지 않고, 완료 후 삭제한다.
+작업 중에는 커밋하지 않는다. Review 승인과 `04-summary.md` 작성이 끝나면
+`next-step/history/`로 이동하고 완료 기록으로 커밋한다.
 산출물 형식의 정본은 [next-step/templates](./next-step/templates/00-task-card.md)에 둔다.
 
 ---
@@ -289,4 +291,4 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - Refactor가 public behavior 변경과 섞이지 않았는가
 - README 또는 docs 업데이트가 필요한가
 - 프로젝트와 하네스의 accepted decision과 충돌하지 않는가
-- 완료 후 `next-step/work/<작업명>`에서 영구화할 지식만 승격하고 임시 산출물을 삭제했는가
+- 완료 후 `next-step/work/<작업명>`에서 영구화할 지식을 승격하고 전체 산출물을 `next-step/history/<작업명>/`으로 이동했는가
