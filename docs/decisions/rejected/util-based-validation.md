@@ -22,6 +22,11 @@ rejected
 
 형태로 검증을 처리하는 구조다.
 
+Spring MVC Request DTO의 null / blank 입력 검증을
+`ValidationUtils.requireNotBlank(...)`,
+`ValidationUtils.requireNotNull(...)`
+같은 전역 유틸로 모으는 방식도 같은 문제로 본다.
+
 ---
 
 ## 검토한 방향
@@ -45,6 +50,9 @@ rejected
 검증은 책임을 가진 객체 근처에 둔다.
 
 즉:
+
+- HTTP 입력 계약 검증
+    → Request DTO / Bean Validation annotation
 
 - 자기 상태 기반 검증
     → Domain / Policy
@@ -107,6 +115,7 @@ Util 기반 구조는 시간이 지나며 아래 형태로 커지기 쉽다.
 - 책임 경계 약화
 - 도메인 응집도 감소
 - 거대한 공통 클래스 증가
+- 입력 검증이 Domain / Service / Validator로 새는 문제
 
 문제를 만들 가능성이 높다.
 
@@ -128,7 +137,7 @@ Policy / Validator 객체가 늘어날 수 있다.
 
 ## 현재 판단
 
-현재 프로젝트는:
+이 하네스는:
 
 - 도메인 책임 강화
 - 흐름과 판단 분리

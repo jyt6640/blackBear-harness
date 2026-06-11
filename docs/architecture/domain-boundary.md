@@ -214,6 +214,38 @@ null / blank 같은 HTTP 입력 필수값 검증을 Domain 또는 Service에 누
 
 ---
 
+## 도메인 간 협력 포트
+
+다른 도메인과 협력할 때 Application Service가 상대 도메인의 Repository를 직접 참조해
+객체를 가져오고 내부 상태를 판단하는 방식을 피한다.
+
+도메인 간 상호작용은 필요한 쪽 application 패키지에 Reference 포트를 두고,
+실제 협력 수단을 가진 도메인의 application Adapter가 구현한다.
+
+Reference 포트는 순환참조를 끊기 위한 기술 장치일 뿐 아니라,
+도메인 간 협력을 Tell, Don't Ask 방식으로 캡슐화하는 경계다.
+
+### Reference 포트 위치
+
+- 인터페이스는 협력이 필요한 쪽 application 패키지에 둔다.
+- 구현 Adapter는 실제 Repository 또는 협력 수단을 가진 도메인의 application 패키지에 둔다.
+- Adapter는 상대 도메인의 객체를 노출하기보다 필요한 협력만 제공한다.
+
+### Reference 포트 역할
+
+Reference 포트는 두 종류의 협력을 표현할 수 있다.
+
+- 사실 확인: `exists...`, `is...` 등 boolean 반환
+- 행위 요청: 다른 도메인에 생성, 변경, 승격 같은 협력 행위 요청
+
+사실 확인 포트는 상대 도메인의 객체를 노출하지 않고 필요한 사실만 반환한다.
+그 사실을 바탕으로 현재 유스케이스의 검증 실패를 어떤 예외로 표현할지는 현재 Validator / Application 책임이다.
+
+행위 요청 포트에서 실패가 발생하면 기본적으로 실패 규칙을 소유한 도메인의 ErrorCode를 사용한다.
+다만 호출한 유스케이스가 사용자에게 다른 실패 의미를 제공해야 한다면 호출 쪽에서 예외를 감싸거나 변환할 수 있다.
+
+---
+
 ## Tell, Don't Ask
 
 가능하면 객체에게 상태를 묻기보다 행위를 요청한다.

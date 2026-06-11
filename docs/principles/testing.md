@@ -25,8 +25,9 @@
 
 ### Service / Validator Test
 
-- 비즈니스 흐름과 검증 로직을 테스트한다.
-- Repository는 Fake로 대체한다.
+- Service 테스트는 유스케이스 흐름과 협력 호출을 검증한다.
+- Validator 테스트는 저장소 조회 기반 검증 책임을 검증한다.
+- 테스트 더블은 테스트 대상 책임에 따라 Mock 또는 Fake를 선택한다.
 - Spring Context를 사용하지 않는다.
 
 ### Repository Test
@@ -46,6 +47,13 @@
 - 사용자 시나리오 전체 흐름을 검증한다.
 - 실제 애플리케이션을 실행한 상태로 테스트한다.
 
+### Concurrency Test
+
+- 동시성 위험이 있는 유스케이스의 최종 상태를 검증한다.
+- 실제 Spring Context와 DB를 사용한다.
+- 트랜잭션, DB lock, unique constraint, Repository 구현이 함께 동작한 결과를 검증한다.
+- 일반 Service 단위 테스트를 대체하지 않는다.
+
 ---
 
 ## Fake와 Mock
@@ -63,18 +71,29 @@ Repository Fake는 해당 도메인의 test package 아래 fake 패키지에 둔
     src/test/java/roomescape/theme/fake/FakeThemeRepository.java
     src/test/java/roomescape/time/fake/FakeReservationTimeRepository.java
 
-Service / Validator 테스트는 이 Fake를 주입해서 사용한다.
-
 ### Fake
 
-- 흐름과 상태를 검증할 때 사용한다.
+- 상태 기반 책임을 검증할 때 사용한다.
 - 실제 동작을 단순하게 재현한다.
-- 주로 Repository 대체에 사용한다.
+- Validator처럼 저장소 조회 기반 검증 책임 자체를 테스트할 때 자연스럽다.
 
 ### Mock
 
 - 호출 여부와 위임을 검증할 때 사용한다.
-- Controller → Service 호출 검증 등에 사용한다.
+- Service의 orchestration 검증에 사용할 수 있다.
+- 예외 발생 시 다음 협력이 끊기는지, 후속 작업이 호출되는지 검증할 때 자연스럽다.
+
+### 선택 기준
+
+테스트 더블은 Mock과 Fake 중 하나를 일괄 우선하지 않는다.
+테스트 대상의 책임에 따라 선택한다.
+
+- Service: 흐름과 협력 호출을 검증하므로 Mock이 자연스럽다.
+- Validator: 상태 기반 검증 책임을 검증하므로 Fake가 자연스러운 경우가 많다.
+- Controller: HTTP 레이어 위임을 검증하므로 Mock이 자연스럽다.
+
+Service 테스트가 Domain, Policy, Validator의 판단 책임을 대신하지 않는다.
+각 판단 책임은 해당 production class의 직접 테스트에서 검증한다.
 
 ---
 
@@ -180,7 +199,18 @@ Service 테스트는 흐름 조율을 검증하고, 각 책임의 판단은 해�
 - 가능한 작은 범위만 로드한다.
 - Service 테스트에서는 Spring을 띄우지 않는다.
 - 필요한 레이어만 슬라이스 테스트로 실행한다.
-- @SpringBootTest는 전체 흐름 검증에만 사용한다.
+- @SpringBootTest는 전체 흐름 검증 또는 동시성 검증처럼 실제 실행 환경이 필요한 경우에만 사용한다.
+
+### 동시성 테스트 정책
+
+동시성 테스트는 단위 테스트가 아니다.
+실제 Spring Context와 DB를 사용하는 통합 테스트로 작성한다.
+
+동시에 요청 또는 유스케이스를 실행했을 때,
+트랜잭션, DB lock, unique constraint, Repository 구현이 함께 만들어내는 최종 상태를 검증한다.
+
+Mock/Fake 기반 테스트는 동시성 위험을 대체 검증할 수 없다.
+다만 이 원칙이 모든 Service 테스트를 @SpringBootTest로 작성하는 근거가 되어서는 안 된다.
 
 ### 테스트 패키지 구조
 

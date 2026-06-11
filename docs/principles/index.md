@@ -79,6 +79,18 @@
 
 ---
 
+## Lombok
+
+Lombok 사용 기준을 정의한다.
+
+- Lombok은 보일러플레이트를 줄이는 도구다.
+- 객체의 생성 경로와 상태 변경 권한을 외부에 열면 안 된다.
+- Domain 객체, Persistence Entity, DTO의 역할에 따라 사용 기준을 다르게 판단한다.
+
+→ [lombok.md](./lombok.md)
+
+---
+
 ## 추가 문서
 
 - [architecture-evolution.md](./architecture-evolution.md)
