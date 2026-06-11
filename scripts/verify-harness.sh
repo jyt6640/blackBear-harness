@@ -16,7 +16,7 @@ while IFS= read -r line; do
     target=$(python3 -c "import os; print(os.path.normpath(os.path.join('$dir','$link')))")
     [ -f "$target" ] || err "깨진 링크: $f → $link"
 done < <(
-    for f in AGENTS.md ARCHITECTURE.md $(find docs agents next-step .claude/skills -name "*.md" 2>/dev/null); do
+    for f in AGENTS.md ARCHITECTURE.md README.md $(find docs agents next-step .claude/skills -name "*.md" 2>/dev/null); do
         grep -oE '\]\(\.{1,2}/[^)]+\.md\)' "$f" 2>/dev/null | sed "s|](\(.*\))|\1|" | while IFS= read -r l; do
             echo "$f:$l"
         done
