@@ -6,7 +6,7 @@ superseded
 
 대체 결정:
 
-- [test-double-by-responsibility.md](./test-double-by-responsibility.md)
+- [test-double-by-responsibility.md](../accepted/test-double-by-responsibility.md)
 
 ---
 
