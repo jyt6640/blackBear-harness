@@ -35,9 +35,12 @@ base 하네스의 비워진 슬롯을 질문으로 채우고,
 
 ## 1단계: 규모 파악
 
-먼저 아래 다섯 가지를 묻는다. 답이 이후 질문 세트를 결정한다.
+먼저 아래 다섯 가지를 묻는다. 답이 이후 질문의 깊이를 결정한다.
 
-1. 팀 인원과 역할 구성은 어떻게 되는가?
+팀 인원이 아니라 사용자 규모가 분기 기준이다.
+사용자 규모가 동시성, 인증, 성능, 운영 요구를 결정하기 때문이다.
+
+1. 예상 사용자 규모와 트래픽은? (내부 도구 / 소수 사용자 | 일반 서비스 | 대규모·성장 예상)
 2. 예상 수명은? (과제 / 프로토타입 | 운영 목표 | 장기 운영·확장)
 3. 기술 스택(DB, 프레임워크)은 고정인가, 교체 가능성이 있는가?
 4. 동시 쓰기 경쟁이 있는 유스케이스가 있는가? (재고, 선착순, 중복 방지 등)
@@ -47,42 +50,69 @@ base 하네스의 비워진 슬롯을 질문으로 채우고,
 
 | 프로파일 | 신호 | 질문 범위 |
 |---|---|---|
-| 소형 | 1~3인, 과제/프로토타입, 기술 고정 | 필수 질문만 |
-| 중형 | 운영 목표, 3인 이상, 도메인 다수 | 필수 + 구조 질문 |
-| 대형 | 장기 운영, 교체/확장 가능성, MSA | 전체 질문 + 기본 입장 override 검토 |
+| 소형 | 내부 도구·소수 사용자, 과제/프로토타입, 기술 고정 | 필수 영역만, 나머지는 base 일괄 수용 확인 |
+| 중형 | 일반 서비스 규모, 운영 목표 | 필수 + 구조·책임·컨벤션 영역 |
+| 대형 | 대규모 트래픽, 장기 운영, 교체·확장 가능성, MSA | 전체 영역 + base 기본 입장 override 검토 |
 
 프로파일이 애매하면 작은 쪽으로 시작하고,
 재검토 신호가 나타나면 상위 프로파일의 질문으로 돌아온다.
 
 ---
 
-## 2단계: 슬롯 질문
+## 2단계: 결정 영역 질문
 
-각 질문은 답이 기록될 decision과 연결된다.
+인터뷰는 아래 여섯 영역을 채운다.
+각 질문은 답이 기록될 decision과 연결되고,
+영역별 깊이는 1단계 프로파일에 따라 달라진다.
 
-### 필수 질문 (모든 규모)
+### 영역 1: 기본 기술 스택 (모든 규모)
 
-| 질문 | 기록될 decision |
+| 질문 | 기록 위치 |
+|---|---|
+| 언어 / 프레임워크 / DB / 인프라는 무엇인가? | 프로젝트 사실 |
+| 이 스택은 고정인가, 교체 가능성이 있는가? | [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md) |
+
+기술 스택은 선정 시점의 결정이다.
+개발 중 새 기술이 추가될 수 있으며, 추가할 때마다 draft decision으로 기록한다.
+
+### 영역 2: 영속성 컨텍스트 (모든 규모)
+
+| 질문 | 기록 위치 |
+|---|---|
+| 영속성 기술(JPA / JDBC / MyBatis 등)은 무엇인가? | 프로젝트 사실 |
+| Domain과 Persistence Entity를 분리하는가? Domain이 영속성 기술에 의존해도 되는가? | [domain-entity-separation](../decisions/pending/domain-entity-separation.md) |
+| 트랜잭션 경계는 base 기본 입장(Service)을 따르는가? | [transaction-boundary-in-service](../decisions/accepted/transaction-boundary-in-service.md) override 여부 |
+
+### 영역 3: 아키텍처 구조 (모든 규모, 깊이는 프로파일별)
+
+| 질문 | 기록 위치 |
+|---|---|
+| 패키지 구조는 base 기본 입장(도메인 우선)을 따르는가? | [domain-first-package-structure](../decisions/accepted/domain-first-package-structure.md) override 여부 |
+| 도메인 간 협력에 이벤트 기반 구조를 도입하는가? (중형 이상) | [event-driven-boundary](../decisions/pending/event-driven-boundary.md) |
+| Aggregate 경계와 강한 일관성 범위 기준은? (대형) | [aggregate-boundary](../decisions/pending/aggregate-boundary.md) |
+
+### 영역 4: 레이어드 책임 (중형 이상, 소형은 base 일괄 수용 확인만)
+
+| 질문 | 기록 위치 |
+|---|---|
+| base의 레이어 책임 분리(Presentation / Application / Domain / Infrastructure)를 그대로 쓰는가? | [ARCHITECTURE.md](../../ARCHITECTURE.md) override 여부 |
+| 검증 책임 배치(Domain Policy / Application Validator)와 Validator 위치는? | [validator-package-location](../decisions/pending/validator-package-location.md) |
+
+### 영역 5: 코드 컨벤션 (모든 규모, 소형은 base 일괄 수용 확인만)
+
+| 질문 | 기록 위치 |
+|---|---|
+| 네이밍 / 커밋 / 테스트 컨벤션 중 base와 다르게 갈 부분이 있는가? | 해당 base 문서 override decision |
+| Lombok 사용 기준은 base를 따르는가? | [lombok-usage-guideline](../decisions/accepted/lombok-usage-guideline.md) override 여부 |
+| Fake 위치 같은 테스트 컨벤션은? | [fake-package-location](../decisions/pending/fake-package-location.md) |
+
+### 영역 6: 사용자 규모 파생 결정 (1단계 답에 따라)
+
+| 질문 | 기록 위치 |
 |---|---|
 | 인증 / 권한 요구가 있는가? 어떤 방식인가? | [security-auth-pattern](../decisions/pending/security-auth-pattern.md) |
 | 동시 쓰기 경쟁 유스케이스의 최종 일관성 기준은 무엇인가? | 프로젝트 decision (동시성 제어 방식) |
 | 후속 작업(알림, 적립 등) 실패가 원 작업을 실패시켜야 하는가? 재시도 인프라는 무엇인가? | [follow-up-failure-boundary](../decisions/accepted/follow-up-failure-boundary.md)의 운영 전제 |
-| Spring DAO 예외의 Application 전파를 허용하는가? (3번 기술 고정성 답에서 도출) | [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md) |
-
-### 구조 질문 (중형 이상)
-
-| 질문 | 기록될 decision |
-|---|---|
-| Domain과 Persistence Entity를 분리하는가? | [domain-entity-separation](../decisions/pending/domain-entity-separation.md) |
-| 도메인 간 협력에 이벤트 기반 구조를 도입하는가? | [event-driven-boundary](../decisions/pending/event-driven-boundary.md) |
-| Validator / Fake 위치 같은 팀 컨벤션을 base와 다르게 가져가는가? | [validator-package-location](../decisions/pending/validator-package-location.md), [fake-package-location](../decisions/pending/fake-package-location.md) |
-
-### 전체 질문 (대형)
-
-| 질문 | 기록될 decision |
-|---|---|
-| Aggregate 경계와 강한 일관성 범위 기준은? | [aggregate-boundary](../decisions/pending/aggregate-boundary.md) |
-| 트랜잭션 경계, Repository 위치 같은 base 기본 입장 중 override할 것이 있는가? | 해당 base decision을 링크하는 프로젝트 decision |
 
 ### 질문 방식
 
