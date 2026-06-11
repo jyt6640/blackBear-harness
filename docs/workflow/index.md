@@ -83,6 +83,7 @@ Git 기록은 작업 흐름과 변경 의도를 표현해야 한다.
 
 - [how-to-add-new-feature.md](./how-to-add-new-feature.md)
 - [how-to-review-legacy-code.md](./how-to-review-legacy-code.md)
+- [how-to-create-project-harness.md](./how-to-create-project-harness.md)
 
 ---
 
