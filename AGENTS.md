@@ -26,7 +26,7 @@
 
 1. 요청을 작업 유형으로 분류하고 필수 문서를 확인한다.
 2. 상위 전제(저장소 기술 고정 여부, Domain / Persistence Entity 분리 여부, 트랜잭션 성공 기준 등)를 프로젝트의 production code, 문서, accepted decision에서 확인한다.
-3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. → [harness-interview](./docs/workflow/harness-interview.md)
+3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. 프로젝트 하네스가 이미 있으면 생성 문서를 읽지 않고 프로젝트 하네스를 따른다. → [harness-interview](./docs/workflow/harness-interview.md)
 4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
 5. 큰 요구사항은 기능 목록 / API 명세 / 에러 명세를 먼저 정리한다.
 6. Domain → Application Validator → Service → Repository → Controller → Acceptance 순서로 테스트 → 구현 → 리팩터링을 반복한다.
