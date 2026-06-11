@@ -24,14 +24,14 @@
 ### 예시
 
 좋은 예시:
-- ReservationPolicy
-- ReservationValidator
-- ReservationCommand
+- OrderPolicy
+- OrderValidator
+- OrderCommand
 
 지양하는 예시:
-- ReservationManager
-- ReservationHelper
-- ReservationUtil
+- OrderManager
+- OrderHelper
+- OrderUtil
 
 ---
 
@@ -63,9 +63,9 @@
 
 ### 예시
 
-- ReservationCreateRequest
-- ReservationCreateCommand
-- ReservationResponse
+- OrderCreateRequest
+- OrderCreateCommand
+- OrderResponse
 
 ---
 
@@ -76,9 +76,9 @@
 
 ### 예시
 
-- reservations
-- reservationTimes
-- ReservationTimes
+- orders
+- orderItems
+- OrderItems
 
 ---
 

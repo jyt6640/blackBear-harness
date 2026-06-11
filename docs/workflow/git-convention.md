@@ -157,9 +157,9 @@ PR에는 아래 내용을 포함한다.
 
 좋은 예시:
 
-    test(reservation): 예약 변경 중복 검증 테스트 보강
-    feat(reservation): 예약 변경 중복 검증 처리
-    refactor(reservation): 예약 변경 검증 책임 분리
+    test(order): 주문 변경 중복 검증 테스트 보강
+    feat(order): 주문 변경 중복 검증 처리
+    refactor(order): 주문 변경 검증 책임 분리
 
 지양하는 예시:
 
@@ -173,7 +173,7 @@ PR에는 아래 내용을 포함한다.
 좋은 예시:
 
     test(member): 회원 생성 공백 입력 테스트 보강
-    test(reservation): 예약 취소 소유자 검증 테스트 보강
+    test(order): 주문 취소 소유자 검증 테스트 보강
 
 지양하는 예시:
 
@@ -185,7 +185,7 @@ PR에는 아래 내용을 포함한다.
 
 좋은 예시:
 
-    refactor(test): 예약 서비스 fake 분리
+    refactor(test): 주문 서비스 fake 분리
     refactor(member): 회원 생성 정적 팩터리 분리
 
 지양하는 예시:

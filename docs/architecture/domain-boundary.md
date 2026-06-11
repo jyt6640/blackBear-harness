@@ -29,11 +29,11 @@
 ### 예시
 
 좋은 예시:
-- reservation.validateOwner()
-- reservation.cancel()
+- order.validateOwner()
+- order.cancel()
 
 지양하는 예시:
-- service에서 reservation 상태 직접 비교
+- service에서 order 상태 직접 비교
 - getter로 상태를 꺼내 외부에서 판단
 
 ---
@@ -46,16 +46,16 @@ Domain 객체는 정적 팩터리 메서드로 생성한다.
 
 예시:
 
-    public class Reservation {
-        private Reservation(...) {
+    public class Order {
+        private Order(...) {
             ...
         }
 
-        public static Reservation create(...) {
+        public static Order create(...) {
             ...
         }
 
-        public static Reservation restore(...) {
+        public static Order restore(...) {
             ...
         }
     }
@@ -92,12 +92,12 @@ record를 사용할 수 있는 경우:
 
 지양:
 
-    public record Reservation(...) {
+    public record Order(...) {
     }
 
 권장:
 
-    public class Reservation {
+    public class Order {
         ...
     }
 
@@ -123,7 +123,7 @@ NO:
 
 HTTP 입력의 null / blank 검증은 Request DTO에서 수행한다.
 
-Request DTO 책임:ㄹ
+Request DTO 책임:
 
 - null 검증
 - blank 검증
@@ -135,7 +135,7 @@ Domain 책임:
 
 - 도메인 의미 검증
 - 상태 전이 규칙
-- 예약 가능 여부
+- 주문 가능 여부
 - 취소 가능 여부
 - 소유자 검증
 - 도메인 값 객체의 불변성 검증
@@ -174,8 +174,8 @@ null / blank 같은 HTTP 입력 필수값 검증을 Domain 또는 Service에 누
 
 ### 예시
 
-- ReservationPolicy
-- ReservationCancellationPolicy
+- OrderPolicy
+- OrderCancellationPolicy
 
 ---
 
@@ -204,12 +204,12 @@ null / blank 같은 HTTP 입력 필수값 검증을 Domain 또는 Service에 누
 
 ### 좋은 예시
 
-- Reservation이 Theme 정보를 사용
-- Reservation이 자기 규칙을 직접 검증
+- Order가 Product 정보를 사용
+- Order가 자기 규칙을 직접 검증
 
 ### 지양하는 예시
 
-- Theme가 Reservation 상태를 직접 변경
+- Product가 Order 상태를 직접 변경
 - Service가 여러 도메인 규칙을 직접 판단
 
 ---
@@ -236,7 +236,7 @@ Reference 포트는 순환참조를 끊기 위한 기술 장치일 뿐 아니라
 Reference 포트는 두 종류의 협력을 표현할 수 있다.
 
 - 사실 확인: `exists...`, `is...` 등 boolean 반환
-- 행위 요청: 다른 도메인에 생성, 변경, 승격 같은 협력 행위 요청
+- 행위 요청: 다른 도메인에 생성, 변경, 상태 전환 같은 협력 행위 요청
 
 사실 확인 포트는 상대 도메인의 객체를 노출하지 않고 필요한 사실만 반환한다.
 그 사실을 바탕으로 현재 유스케이스의 검증 실패를 어떤 예외로 표현할지는 현재 Validator / Application 책임이다.
@@ -252,12 +252,12 @@ Reference 포트는 두 종류의 협력을 표현할 수 있다.
 
 ### 좋은 예시
 
-- reservation.validatePast()
+- order.validateCancelable()
 
 ### 지양하는 예시
 
-- reservation.getDate()
-- reservation.getTime()
+- order.getStatus()
+- order.getOrderedAt()
 - service에서 직접 비교
 
 ---

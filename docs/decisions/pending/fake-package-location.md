@@ -21,6 +21,7 @@ Fake Repository와 같은 테스트 더블의 위치를 어디에 둘지 결정�
 
 하지만 아래 선택지도 가능하다.
 
+- 도메인의 domain 패키지 하위 fake (Repository 인터페이스 위치 기준, 예: order/domain/fake)
 - infrastructure/fake
 - testFixtures
 - 별도 shared test module

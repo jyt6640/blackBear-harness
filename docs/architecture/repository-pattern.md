@@ -24,7 +24,7 @@ Infrastructure는 이를 구현하는 어댑터 역할을 한다.
 Repository 인터페이스를 정의한다.
 
 domain/
-└── ReservationRepository.java
+└── OrderRepository.java
 
 도메인은:
 
@@ -38,7 +38,7 @@ domain/
 Repository 구현체를 작성한다.
 
 infrastructure/
-└── JdbcReservationRepository.java
+└── JdbcOrderRepository.java
 
 Infrastructure는:
 
@@ -70,11 +70,11 @@ Infrastructure는 Domain의 인터페이스를 구현한다.
 ### 예시
 
 좋은 예시:
-- findByDateAndThemeId()
-- existsByReservationTimeId()
+- findByMemberIdAndStatus()
+- existsByProductId()
 
 지양하는 예시:
-- selectReservation()
+- selectOrder()
 - executeQuery()
 
 ---
@@ -122,7 +122,7 @@ Infrastructure는 Domain의 인터페이스를 구현한다.
 
 private static final String FIND_BY_ID = """
     SELECT *
-    FROM reservation
+    FROM orders
     WHERE id = ?
     """;
 

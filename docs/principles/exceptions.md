@@ -48,8 +48,8 @@
 
 ### 예시
 
-- ReservationErrorCode
-- ThemeErrorCode
+- OrderErrorCode
+- ProductErrorCode
 - CommonErrorCode
 
 ---
@@ -76,10 +76,10 @@
 ### 예시
 
 좋은 예시:
-- "지난 일정은 예약할 수 없습니다."
+- "품절된 상품은 주문할 수 없습니다."
 
 지양하는 예시:
-- "NullPointerException at ReservationService line 42"
+- "NullPointerException at OrderService line 42"
 
 ---
 

@@ -66,10 +66,9 @@ Repository Fake는 해당 도메인의 test package 아래 fake 패키지에 둔
 
 예시:
 
-    src/test/java/roomescape/member/fake/FakeMemberRepository.java
-    src/test/java/roomescape/reservation/fake/FakeReservationRepository.java
-    src/test/java/roomescape/theme/fake/FakeThemeRepository.java
-    src/test/java/roomescape/time/fake/FakeReservationTimeRepository.java
+    src/test/java/project/member/fake/FakeMemberRepository.java
+    src/test/java/project/order/fake/FakeOrderRepository.java
+    src/test/java/project/product/fake/FakeProductRepository.java
 
 ### Fake
 
@@ -218,11 +217,11 @@ Mock/Fake 기반 테스트는 동시성 위험을 대체 검증할 수 없다.
 
 예시:
 
-    src/main/java/roomescape/member/domain/Member.java
-    src/test/java/roomescape/member/domain/MemberTest.java
+    src/main/java/project/member/domain/Member.java
+    src/test/java/project/member/domain/MemberTest.java
 
-    src/main/java/roomescape/member/application/MemberValidator.java
-    src/test/java/roomescape/member/application/MemberValidatorTest.java
+    src/main/java/project/member/application/MemberValidator.java
+    src/test/java/project/member/application/MemberValidatorTest.java
 
 테스트 위치가 main 구조와 다르면 책임 위치를 다시 검토한다.
 
