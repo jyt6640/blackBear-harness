@@ -45,6 +45,21 @@ Git은 단순 버전 관리 도구가 아니라,
 
 ---
 
+## 단계별 커밋 책임 (릴레이)
+
+Test → Feat → Refactor 단계는 각자 자기 type의 커밋만 만든다.
+
+- Test Agent: test 커밋만 만든다. 메서드(public behavior) 단위로 나눈다.
+- Feat Agent: feat 커밋만 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
+- Refactor Agent: refactor 커밋만 만든다. 한 커밋은 행위 변경 없는 하나의 구조 개선이다.
+- Review Agent: 커밋을 만들지 않는다. 커밋 단위 위반은 반려 사유다.
+
+릴레이에서는 단계가 묶여 진행되지만 커밋 단위는 여전히 메서드다.
+카드가 행위 3개를 다루면 test 커밋 3개 → feat 커밋 3개가 기본이다.
+각 단계는 자기 커밋 목록을 단계 보고서에 기록한다.
+
+---
+
 ## Commit Message
 
 커밋 제목은 Conventional Commit 형식을 따른다.

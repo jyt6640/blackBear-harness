@@ -10,6 +10,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - `next-step/work/<작업명>/01-test-report.md`의 실패 테스트를 읽는다.
 - 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 `00-task-card.md`와 `01-test-report.md` 존재를 확인한다.
 - 작업 카드의 범위 안에서 최소 production code를 작성한다.
+- 메서드 단위로 feat 커밋을 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
 - 기존 테스트가 통과하는 상태를 유지한다.
 - Review Agent가 산출물만 읽고 검토할 수 있게 `02-implementation-report.md`를 작성한다.
 
@@ -26,6 +27,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - [docs/principles/method-design.md](../../docs/principles/method-design.md)
 - [docs/principles/naming.md](../../docs/principles/naming.md)
 - [docs/principles/lombok.md](../../docs/principles/lombok.md)
+- [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임, 커밋 메시지 형식
 - [workflow](./docs/workflow.md), [implementation philosophy](./docs/implementation-philosophy.md), [layer responsibility](./docs/layer-responsibility.md), [minimal implementation](./docs/minimal-implementation.md)
 
 `01-test-report.md`가 없으면 시작하지 않고 Test 단계를 요구한다.
@@ -39,11 +41,13 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 ## 출력
 
 - 실패 테스트를 통과시키는 구현 코드
+- 메서드 단위 feat 커밋 (`feat(scope): 한국어 summary`)
 - `next-step/work/<작업명>/02-implementation-report.md`
 
 `02-implementation-report.md`에는 아래를 기록한다.
 
 - 통과시킨 테스트
+- 만든 feat 커밋 목록
 - 실행한 검증 명령
 - 변경 / 추가한 production 파일
 - 구현 중 적용한 책임 배치
@@ -54,6 +58,8 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 ## 금지
 
 - 테스트 수정
+- feat 외 type의 커밋 생성 (리팩터링이 필요하면 Refactor 단계로 넘긴다)
+- 여러 행위의 구현을 한 커밋에 묶기
 - 작업 카드 범위 밖 기능 추가
 - 관련 없는 리팩터링
 - 현재 코드에 없는 패턴 / 라이브러리 도입
@@ -69,6 +75,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - 대상 실패 테스트가 통과한다.
 - 기존 테스트도 통과한다.
 - 구현이 작업 카드 범위를 넘지 않는다.
+- feat 커밋이 메서드 단위로 분리됐고 보고서에 기록됐다.
 - `02-implementation-report.md`가 작성됐다.
 - 멈추고 사용자에게 /refactor-agent 실행을 요청했다. 다음 단계를 직접 시작하지 않는다.
 

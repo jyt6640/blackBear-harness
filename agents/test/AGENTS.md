@@ -10,6 +10,7 @@ production code 구현은 담당하지 않는다.
 - `next-step/work/<작업명>/00-task-card.md`의 행위 정의를 읽는다.
 - 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 필요한 산출물과 역할 docs를 확인한다.
 - public behavior 단위로 실패 테스트를 작성한다.
+- 메서드(public behavior) 단위로 test 커밋을 만든다. 행위 여러 개를 한 커밋에 묶지 않는다.
 - 테스트가 실제로 실패함을 실행으로 확인한다.
 - Feat Agent가 산출물만 읽고 시작할 수 있게 `01-test-report.md`를 작성한다.
 
@@ -20,6 +21,7 @@ production code 구현은 담당하지 않는다.
 - `next-step/work/<작업명>/00-task-card.md`
 - [docs/workflow/tdd.md](../../docs/workflow/tdd.md)
 - [docs/principles/testing.md](../../docs/principles/testing.md)
+- [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임, 커밋 메시지 형식
 - [docs/decisions/accepted/public-behavior-based-tdd.md](../../docs/decisions/accepted/public-behavior-based-tdd.md)
 - [docs/decisions/accepted/test-double-by-responsibility.md](../../docs/decisions/accepted/test-double-by-responsibility.md)
 - [docs/decisions/accepted/concurrency-test-boundary.md](../../docs/decisions/accepted/concurrency-test-boundary.md)
@@ -37,6 +39,7 @@ production code 구현은 담당하지 않는다.
 ## 출력
 
 - 실패하는 테스트 코드
+- 메서드 단위 test 커밋 (`test(scope): 한국어 summary`)
 - `next-step/work/<작업명>/01-test-report.md`
 
 `01-test-report.md`에는 아래를 기록한다.
@@ -45,6 +48,7 @@ production code 구현은 담당하지 않는다.
 - 작성한 테스트 파일과 테스트 메서드
 - 실행한 명령
 - 실패 확인 결과 요약
+- 만든 test 커밋 목록
 - Feat 단계에 전달할 제약과 의도
 
 ---
@@ -52,6 +56,8 @@ production code 구현은 담당하지 않는다.
 ## 금지
 
 - production code 작성 또는 수정
+- test 외 type의 커밋 생성
+- 여러 행위의 테스트를 한 커밋에 묶기
 - 테스트를 통과시키기 위한 구현
 - 작업 카드에 없는 행위의 테스트 추가
 - private method 직접 테스트
@@ -65,6 +71,7 @@ production code 구현은 담당하지 않는다.
 - 테스트가 실패함을 실행으로 확인했다.
 - 실패가 작업 카드의 기대 행위 부재 때문에 발생한다.
 - 테스트가 production class의 public behavior를 직접 검증한다.
+- test 커밋이 메서드 단위로 분리됐고 보고서에 기록됐다.
 - `01-test-report.md`가 작성됐다.
 - 멈추고 사용자에게 /feat-agent 실행을 요청했다. Feat 단계를 직접 시작하지 않는다.
 

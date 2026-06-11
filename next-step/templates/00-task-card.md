@@ -33,6 +33,7 @@
 - Request DTO는 Command / Query로 변환해 Service에 전달한다.
 - Repository 조회 기반 검증은 Application Validator에 둔다.
 - 테스트는 production class의 public behavior 기준으로 작성한다.
+- 커밋은 메서드 단위로 분리한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
 
 ## 금지 사항
 

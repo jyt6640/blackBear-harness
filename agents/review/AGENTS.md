@@ -7,6 +7,8 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 
 ## 책임
 
+- 커밋 이력이 test → feat → refactor 순서와 메서드 단위 규칙을 지켰는지 검증한다. 위반은 반려 사유다.
+
 - 작업 카드, 테스트 보고서, 구현 보고서, diff를 함께 검토한다.
 - 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 산출물 체인을 확인한다.
 - 산출물 체인이 지켜졌는지 확인한다.
@@ -22,6 +24,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - `next-step/work/<작업명>/02-implementation-report.md` (refactor 카드는 `02-refactor-report.md`)
 - 해당 작업의 diff
 - [docs/workflow/code-review.md](../../docs/workflow/code-review.md)
+- [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임
 - [docs/principles/testing.md](../../docs/principles/testing.md)
 - [AGENTS.md](../../AGENTS.md)의 최종 점검, 불변 철학, 기본 입장
 - [workflow](./docs/workflow.md), [review philosophy](./docs/review-philosophy.md), [rejection criteria](./docs/rejection-criteria.md), [final checklist](./docs/final-checklist.md)
