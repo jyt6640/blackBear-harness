@@ -38,7 +38,7 @@ base와 다른 결정만 기록하는 diff 문서다.
 
 base의 [AGENTS.md](../../AGENTS.md) 작업 시퀀스가 확인을 요구하는 항목이다.
 
-- 저장소 기술 고정 여부
+- 저장소 기술 고정 여부 — Spring DAO 예외 전파와 Repository 예외 계약 수준을 함께 정한다 → [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md)
 - Domain / Persistence Entity 분리 여부 → [domain-entity-separation](../decisions/pending/domain-entity-separation.md)
 - 트랜잭션 성공 기준과 후속 작업 실패 경계 → [follow-up-failure-boundary](../decisions/accepted/follow-up-failure-boundary.md)
 
@@ -52,6 +52,7 @@ base의 [docs/decisions/pending](../decisions/pending) 목록이 곧 인터뷰 �
 - Fake 패키지 세부 위치
 - 인증 / 권한 패턴
 - Validator 패키지 위치
+- Spring DAO 예외 전파와 Repository 예외 계약 수준
 
 ### 프로젝트 사실
 

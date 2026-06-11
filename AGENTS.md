@@ -84,6 +84,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - Service 입력은 Request DTO가 아니라 Command로 분리한다. → [request-command-separation](./docs/decisions/accepted/request-command-separation.md)
 - HTTP 입력 필수값(null / blank) 검증은 Request DTO에서 수행하고, Domain / Service에 누적하지 않는다. → [domain-boundary](./docs/architecture/domain-boundary.md)
 - 후속 작업 실패는 사용자의 성공 기준으로 트랜잭션 분리를 판단한다. → [follow-up-failure-boundary](./docs/decisions/accepted/follow-up-failure-boundary.md)
+- Repository의 기술 예외는 Infrastructure에서 저장소 의미 예외로 변환하고, Application이 필요한 경우 유스케이스 의미로 변환한다. → [infrastructure-exception-translation](./docs/decisions/accepted/infrastructure-exception-translation.md)
 - 책임이 불분명한 Helper / Util / Manager 클래스를 만들지 않는다. → [naming](./docs/principles/naming.md), [common-util-package](./docs/decisions/rejected/common-util-package.md)
 
 ## 테스트

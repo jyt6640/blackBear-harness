@@ -67,6 +67,18 @@
 
 ---
 
+## 기술 예외 변환
+
+- Infrastructure는 구체 기술 예외를 저장소 의미 예외로 변환한다.
+- Application은 필요한 경우에만 저장소 의미 예외를 유스케이스 의미(BusinessException / ErrorCode)로 변환한다.
+- 여러 도메인이 공유하는 저장소 예외는 global에 둔다.
+- 잘 추상화된 Spring 예외의 전파 허용 여부는 프로젝트의 기술 고정성에 따라 정한다.
+
+→ [infrastructure-exception-translation](../decisions/accepted/infrastructure-exception-translation.md)
+→ [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md)
+
+---
+
 ## 메시지 정책
 
 - 기본적으로 정적 메시지를 사용한다.
