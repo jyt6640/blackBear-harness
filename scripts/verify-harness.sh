@@ -88,8 +88,24 @@ for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-r
     [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
 done
 
-# 10. 강제 스크립트와 훅 존재 / 실행 권한
-for sc in scripts/check-commit-message.sh scripts/check-commit-chain.sh .githooks/pre-commit .githooks/commit-msg; do
+# 10. 자동 로컬 에이전트 입력 계약
+for section in "## 필수 상위 문서" "## 역할별 추가 문서" "### Test" "### Feat" "### Refactor" "### Review"; do
+    grep -q "^$section" next-step/templates/00-task-card.md || err "00-task-card.md에 '$section' 섹션 없음"
+done
+grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
+
+# 11. 강제 스크립트와 훅 존재 / 실행 권한
+for sc in \
+    scripts/check-commit-message.sh \
+    scripts/check-commit-chain.sh \
+    scripts/local-agent/lib.sh \
+    scripts/local-agent/check-provider.sh \
+    scripts/local-agent/run-stage.sh \
+    scripts/local-agent/run-pipeline.sh \
+    scripts/local-agent/test-runner.sh \
+    .githooks/pre-commit \
+    .githooks/commit-msg
+do
     [ -x "$sc" ] || err "강제 스크립트 없음 또는 실행 권한 없음: $sc"
 done
 

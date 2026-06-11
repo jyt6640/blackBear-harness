@@ -112,4 +112,31 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 | base 갱신 반영 | `/harness-sync` |
 
 기능 하나 = 인터뷰 0회(이미 있으니) + 카드당 스킬 호출 6번.
-모든 전환점에서 시스템이 멈추고, 다음 단계로 가는 결정은 항상 사용자의 것이다.
+사용자 릴레이 모드에서는 모든 전환점에서 시스템이 멈추고 다음 단계는 사용자가 호출한다.
+
+---
+
+## 4. 자동 로컬 에이전트 모드
+
+상위 오케스트레이터가 작업 카드를 작성한 뒤 Test → Feat → Refactor → Review를
+Codex profile에 연결된 로컬 LLM에 맡길 수 있다.
+
+머신별 provider 주소, 모델, token은 저장소에 넣지 않고 Codex profile로 관리한다.
+
+```bash
+scripts/local-agent/check-provider.sh --profile <profile>
+scripts/local-agent/run-stage.sh test <작업명> --profile <profile> --dry-run
+scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
+```
+
+역할 에이전트가 읽는 입력:
+
+- `agents/<role>/AGENTS.md`
+- `agents/<role>/docs/*.md`
+- 작업 카드의 `필수 상위 문서`
+- 작업 카드의 해당 `역할별 추가 문서`
+- 작업 카드와 이전 단계 산출물
+
+한 카드 안의 단계는 직렬 실행한다. Review 반려 시 `03-review-report.md`의
+`재실행 단계`부터 제한 횟수만 다시 실행하고, 한도를 넘으면 상위 오케스트레이터가
+판단한다. 사용자 릴레이 모드는 fallback으로 계속 사용할 수 있다.

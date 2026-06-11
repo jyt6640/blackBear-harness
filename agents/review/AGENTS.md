@@ -20,7 +20,8 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 
 - `next-step/work/<작업명>/00-task-card.md`
 - `next-step/work/<작업명>/01-test-report.md` (refactor 카드는 생략될 수 있다)
-- `next-step/work/<작업명>/02-implementation-report.md` (refactor 카드는 `02-refactor-report.md`)
+- `next-step/work/<작업명>/02-implementation-report.md` (feature 카드)
+- `next-step/work/<작업명>/02-refactor-report.md` (feature와 refactor 카드)
 - 해당 작업의 diff
 - [docs/workflow/code-review.md](../../docs/workflow/code-review.md)
 - [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임
@@ -50,6 +51,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 판정: 승인 / 반려
 - 위반 항목과 근거 문서 링크
 - 반려 시 수정 요구 목록
+- 반려 시 재실행 단계: test / feat / refactor 중 하나
 - 범위 밖 발견 사항
 - 남은 위험 또는 테스트 공백
 
@@ -71,7 +73,8 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 최종 점검 항목을 판정했다.
 - 승인 또는 반려가 명확하다.
 - `03-review-report.md`가 작성됐다.
-- 멈추고 판정에 따라 사용자에게 다음 실행을 요청했다. 승인 → /orchestrate 마무리, 반려 → /feat-agent · /refactor-agent · /test-agent 중 사유에 맞는 재실행.
+- 사용자 릴레이 모드에서는 판정에 따라 다음 실행을 요청한다.
+- 자동 로컬 에이전트 모드에서는 판정과 재실행 단계를 기록하고 결과를 반환한 뒤 종료한다.
 
 ---
 

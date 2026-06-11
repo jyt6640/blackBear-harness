@@ -12,7 +12,8 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 ## 시작 순서
 
 1. `agents/review/scripts/enforce-workflow.sh <작업명>`을 실행한다.
-2. `00-task-card.md`, `01-test-report.md`, `02-implementation-report.md`를 읽는다.
+2. `00-task-card.md`, `01-test-report.md`, `02-implementation-report.md`,
+   `02-refactor-report.md`를 읽는다.
 3. 해당 작업의 diff를 확인한다.
 4. 산출물 체인이 실제 변경과 일치하는지 확인한다.
 5. 최종 점검 기준으로 승인 / 반려를 판정한다.
@@ -44,6 +45,7 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 
 - `01-test-report.md` 없이 구현이 진행됐다.
 - `02-implementation-report.md` 없이 Review가 요청됐다.
+- feature 카드에 `02-refactor-report.md` 없이 Review가 요청됐다.
 - 테스트가 실패 상태인지 확인하지 않았다.
 - Feat 단계에서 테스트를 수정했다.
 - Service가 Domain / Policy / Validator 판단을 대신한다.
@@ -94,6 +96,7 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 - 확인한 산출물
 - 주요 findings
 - 반려 시 수정 요구 목록
+- 반려 시 재실행 단계: test / feat / refactor
 - 범위 밖 발견 사항
 - 남은 위험 또는 테스트 공백
 

@@ -39,6 +39,31 @@
 - 테스트는 production class의 public behavior 기준으로 작성한다.
 - 커밋은 메서드 단위로 분리한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
 
+## 필수 상위 문서
+
+모든 역할이 공통으로 읽어야 하는 작업 관련 정본만 적는다.
+전체 `docs/`를 넣지 않는다.
+
+- `docs/...`
+
+## 역할별 추가 문서
+
+### Test
+
+- `docs/...`
+
+### Feat
+
+- `docs/...`
+
+### Refactor
+
+- `docs/...`
+
+### Review
+
+- `docs/...`
+
 ## 금지 사항
 
 - 작업 카드 밖 기능 추가
@@ -68,5 +93,6 @@
 
 - `01-test-report.md`가 작성되고 실패가 확인됐다.
 - `02-implementation-report.md`가 작성되고 대상 테스트와 기존 테스트가 통과한다.
+- `02-refactor-report.md`가 작성되고 행위 보존이 확인됐다.
 - `03-review-report.md`가 승인이다.
 - 영구화할 decision / docs 후보가 정리됐다.

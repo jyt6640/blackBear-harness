@@ -13,6 +13,7 @@
 - `00-task-card.md` 없이 진행했다.
 - Feat가 `01-test-report.md` 없이 시작됐다.
 - Review가 `02-implementation-report.md` 없이 시작됐다.
+- feature 카드가 `02-refactor-report.md` 없이 Review를 시작했다.
 - 실패 확인 로그가 없다.
 
 ---

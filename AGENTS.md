@@ -50,11 +50,12 @@
 4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
 5. 카드가 2장 이상 필요한 요청이면 `next-step/work/backlog.md`를 먼저 작성한다. 카드 목록과 순서는 대화 기억이 아니라 백로그에 둔다.
 6. 기능 개발이면 `next-step/work/<작업명>/00-task-card.md`를 작성한다. 카드는 백로그 순번대로 한 장씩 컴파일하고 미리 만들지 않는다.
-7. 카드 작성이 끝나면 멈추고 사용자에게 /test-agent 실행을 요청한다. Test 단계를 직접 시작하지 않는다.
-8. 단계 릴레이: Test → Feat → Refactor → Review. 각 단계는 사용자의 스킬 호출로만 시작하고, 단계가 끝나면 멈추고 다음 스킬 실행을 요청한다. 단계를 연속 실행하지 않는다.
-9. Review가 반려하면 사유에 따라 /feat-agent(구현), /refactor-agent(구조), /test-agent(행위 정의) 재실행을 안내한다.
-10. 승인 후 `04-summary.md`를 작성하고 백로그 상태를 갱신한다. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
-11. 카드 완료 후 `next-step/work/<작업명>`은 삭제한다. 백로그의 모든 카드가 끝나면 `backlog.md`도 삭제한다.
+7. 사용자 릴레이 모드에서는 카드 작성이 끝나면 멈추고 사용자에게 /test-agent 실행을 요청한다.
+8. 자동 로컬 에이전트 모드에서는 카드 작성 후 `scripts/local-agent/run-pipeline.sh`에 넘긴다.
+9. 단계 릴레이: Test → Feat → Refactor → Review. 사용자 릴레이 모드에서는 각 단계를 사용자의 스킬 호출로 시작한다. 자동 모드에서는 오케스트레이터가 역할별 로컬 에이전트를 직렬 호출하되 산출물 경계와 게이트를 동일하게 지킨다.
+10. Review가 반려하면 사유에 따라 Feat, Refactor, Test로 되돌린다. 자동 모드는 보고서의 `재실행 단계`를 읽어 제한 횟수 안에서 재실행하고, 한도를 넘으면 오케스트레이터에게 올린다.
+11. 승인 후 `04-summary.md`를 작성하고 백로그 상태를 갱신한다. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
+12. 카드 완료 후 `next-step/work/<작업명>`은 삭제한다. 백로그의 모든 카드가 끝나면 `backlog.md`도 삭제한다.
 
 ---
 
@@ -77,7 +78,7 @@
 - `00-task-card.md`: 오케스트레이터가 docs와 decisions를 현재 작업용 지침으로 컴파일한 작업 정의
 - `01-test-report.md`: Test Agent가 작성한 실패 테스트와 실패 확인 결과
 - `02-implementation-report.md`: Feat Agent가 실패 테스트를 통과시킨 구현 결과
-- `02-refactor-report.md`: Refactor Agent의 행위 보존 확인이 포함된 구조 개선 결과 (refactor 카드 전용)
+- `02-refactor-report.md`: Refactor Agent의 행위 보존 확인이 포함된 구조 개선 결과
 - `03-review-report.md`: Review Agent의 승인 / 반려 판정
 - `04-summary.md`: 오케스트레이터의 통합 보고와 영구화 여부 판단
 
@@ -104,7 +105,7 @@
   한 모델이 여러 역할을 수행할 수 있지만, 단계가 끝나면 반드시 멈추고 사용자에게 다음 스킬 실행을 요청한다.
   산출물 경계와 정지 규칙은 생략할 수 없다.
 - Refactor 전용 카드: 행위 변경 없는 구조 개선만 별도 카드로 다룬다. [agents/refactor](./agents/refactor)
-- 오케스트레이션 모드 (pending): 오케스트레이터가 단계 전환을 자동화한다. → [orchestration-architecture](./docs/decisions/pending/orchestration-architecture.md)
+- 자동 로컬 에이전트 모드: 오케스트레이터가 작업 카드까지 컴파일한 뒤 역할별 로컬 LLM을 직렬 호출한다. 역할 에이전트는 자기 하네스, 카드에 지정된 상위 문서, 이전 단계 산출물만 읽는다. → [local-llm-agent-orchestration](./docs/decisions/accepted/local-llm-agent-orchestration.md)
 
 스킬은 역할 실행을 시작하는 얇은 런처다.
 정본은 루트 문서, 역할별 AGENTS.md, 역할별 docs, decisions에 있다.
@@ -198,6 +199,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 ## 작업 방식
 
 - 기능 개발은 테스트 산출물 없이 구현하지 않는다. → [agent-handoff-by-artifact](./docs/decisions/accepted/agent-handoff-by-artifact.md)
+- 자동 로컬 에이전트는 작업 카드에 컴파일된 상위 문서만 읽고, provider와 모델 설정은 저장소 밖 Codex profile에서 받는다. → [local-llm-agent-orchestration](./docs/decisions/accepted/local-llm-agent-orchestration.md)
 - 커밋은 테스트 커밋 → 구현 커밋 순서로 분리하고, 메서드 단위로 commit한다. → [git-convention](./docs/workflow/git-convention.md)
 - 코드 리뷰 보강, 테스트 보강, 리팩터링도 public behavior 또는 책임 단위로 커밋한다. 리팩터링 커밋은 행위 변경 없이 하나의 구조 개선만 포함한다. → [git-convention](./docs/workflow/git-convention.md)
 - 커밋 메시지 type / scope는 영어, summary와 본문은 한국어로 작성한다. → [git-convention](./docs/workflow/git-convention.md)
@@ -211,6 +213,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 ## 기능 개발 / 오케스트레이션
 
 - [docs/workflow/how-to-add-new-feature.md](./docs/workflow/how-to-add-new-feature.md)
+- [docs/workflow/local-agent-orchestration.md](./docs/workflow/local-agent-orchestration.md) — 자동 로컬 에이전트 모드
 - [docs/decisions/accepted/agent-handoff-by-artifact.md](./docs/decisions/accepted/agent-handoff-by-artifact.md)
 - [agents/test/AGENTS.md](./agents/test/AGENTS.md)
 - [agents/feat/AGENTS.md](./agents/feat/AGENTS.md)

@@ -73,7 +73,8 @@ production code 구현은 담당하지 않는다.
 - 테스트가 production class의 public behavior를 직접 검증한다.
 - test 커밋이 메서드 단위로 분리됐고 보고서에 기록됐다.
 - `01-test-report.md`가 작성됐다.
-- 멈추고 사용자에게 /feat-agent 실행을 요청했다. Feat 단계를 직접 시작하지 않는다.
+- 사용자 릴레이 모드에서는 멈추고 /feat-agent 실행을 요청한다.
+- 자동 로컬 에이전트 모드에서는 결과를 반환하고 종료한다. Feat 단계를 직접 시작하지 않는다.
 
 ---
 

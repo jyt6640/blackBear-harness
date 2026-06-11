@@ -83,6 +83,7 @@ Git 기록은 작업 흐름과 변경 의도를 표현해야 한다.
 ## 추가 문서
 
 - [how-to-add-new-feature.md](./how-to-add-new-feature.md)
+- [local-agent-orchestration.md](./local-agent-orchestration.md)
 - [how-to-review-legacy-code.md](./how-to-review-legacy-code.md)
 - [how-to-create-project-harness.md](./how-to-create-project-harness.md) — 하네스 생성 시에만
 - [harness-interview.md](./harness-interview.md) — 하네스 생성 시에만

@@ -2,7 +2,11 @@
 
 ## 상태
 
-pending
+superseded
+
+대체 결정:
+
+- [local-llm-agent-orchestration](../accepted/local-llm-agent-orchestration.md)
 
 ---
 
@@ -22,11 +26,7 @@ pending
 
 ## 현재 방향
 
-도입 시점은 미정이다.
-
-서브에이전트 사용 여부는 사용자에게 질문해서 정한다.
-사용하지 않으면 이 구조는 필요 없고,
-사용하기로 할 때 아래 잠정 기준으로 시작한다.
+로컬 LLM 자동 오케스트레이션 도입이 확정되어 accepted decision으로 대체됐다.
 
 ---
 

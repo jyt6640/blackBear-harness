@@ -13,6 +13,7 @@
 - `00-task-card.md`:
 - `01-test-report.md`:
 - `02-implementation-report.md`:
+- `02-refactor-report.md`:
 - `03-review-report.md`:
 
 ## 검증
