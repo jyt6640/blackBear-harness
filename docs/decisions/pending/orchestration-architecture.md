@@ -34,23 +34,28 @@ pending
 
 ### 하네스 분리
 
-- `orchestrator/` 패키지에 오케스트레이션 하네스를 둔다. (backend-orchestrator 작성됨)
-- `sub-agent/` 패키지에 역할별 하네스를 둔다. (backend-test-agent, backend-feat-agent, backend-review-agent 작성됨)
+- 루트 `AGENTS.md`를 오케스트레이션 하네스로 둔다.
+- `agents/` 패키지에 역할별 하네스를 둔다.
+  - `agents/test/AGENTS.md`
+  - `agents/feat/AGENTS.md`
+  - `agents/refactor/AGENTS.md`
+  - `agents/review/AGENTS.md`
+- 각 역할 패키지는 실행 관점의 docs를 함께 가진다.
 - 오케스트레이터는 일을 내리는 팀장 역할만 한다. 내용 검토는 Review Agent에 위임한다.
-- 현재 base 하네스의 docs는 각 에이전트가 역할별 범위만 읽는 공유 정본이다.
+- 현재 base 하네스의 docs는 오케스트레이터가 작업 카드로 컴파일하는 공유 정본이다.
 - harness-interview와 how-to-create-project-harness는 오케스트레이터 책임으로 이동한다.
 
 ### 단계 간 핸드오프
 
 - 모든 단계는 md 산출물을 남기고, 산출물이 단계 간 인터페이스다.
   → [agent-handoff-by-artifact](../accepted/agent-handoff-by-artifact.md)
-- 이 원칙은 이미 단일 모드(스킬 /test-agent, /feat-agent, /review-agent)에서 적용 중이다.
-  이 pending은 그 순서 강제를 오케스트레이터가 자동화하는 시점의 결정이다.
+- 이 원칙은 단일 작업자 모드와 역할 분리 모드에 모두 적용된다.
+  이 pending은 그 순서 강제를 더 자동화하거나 외부 로컬 LLM에 위임하는 시점의 결정이다.
 
 ### 작업 위임 방식
 
 - 서브에이전트에게 판단 체계형 하네스를 읽혀 판단시키지 않는다.
-- 오케스트레이터가 하네스를 작업 카드(대상 파일, 시그니처, 제약, 통과시킬 테스트)로 컴파일해 전달한다.
+- 오케스트레이터가 하네스를 작업 카드(대상 행위, 대상 레이어, 적용 지침, 제약, 통과시킬 테스트)로 컴파일해 전달한다.
 - 작업 단위는 실패 테스트로 정의한다.
 - 검증은 LLM 재독이 아니라 테스트 실행으로 기계화한다.
 

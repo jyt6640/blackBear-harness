@@ -52,6 +52,10 @@ AGENTS.md만 읽는 다른 에이전트에서도 하네스가 동일하게 동�
 - harness-interview: 인터뷰 실행 → 프로젝트 하네스 생성
 - draft-decision: 논의 / 관찰을 draft decision으로 작성
 - harness-sync: base 갱신 시 프로젝트 하네스 재검토
+- test-agent: 작업 카드의 기대 행위를 실패 테스트로 표현
+- feat-agent: 실패 테스트를 통과시키는 최소 구현
+- refactor-agent: public behavior 변경 없는 구조 개선
+- review-agent: 작업 산출물과 diff를 승인 / 반려
 
 ---
 

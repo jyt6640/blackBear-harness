@@ -1,13 +1,15 @@
 # AGENTS.md
 
-이 하네스는 Spring 백엔드 작업자를 위한 base 하네스다.
+이 하네스는 Spring 백엔드 기능 개발을 Test -> Feat -> Refactor / Review 단계로
+오케스트레이션하기 위한 base 하네스다.
 
 - 특정 프로젝트의 구현 방식을 고정하지 않는다.
 - 변하지 않는 철학, 판단 우선순위, 질문 기준, 책임 경계를 담는다.
 - 프로젝트마다 달라질 수 있는 선택은 고정 규칙이 아니라 기본 입장(decision)으로 둔다.
 - 프로젝트 / 회사 하네스는 이 하네스를 기반으로 만들고, 자기 decision으로 기본 입장을 덮어쓴다.
+- AGENTS.md는 직접 구현자 지침이 아니라 오케스트레이터의 진입점이다.
 
-이 하네스의 AI 작업자는 아래 순서로 문서를 확인한다.
+오케스트레이터는 아래 순서로 문서를 확인한다.
 
 1. [AGENTS.md](./AGENTS.md)
 2. [ARCHITECTURE.md](./ARCHITECTURE.md)
@@ -17,6 +19,24 @@
 6. [docs/decisions/README.md](./docs/decisions/README.md)
 7. 작업 유형별 필수 문서
 8. 작업과 관련된 세부 문서
+9. 역할별 [agents](./agents) 하네스와 docs
+
+---
+
+# 오케스트레이터 책임
+
+오케스트레이터는 직접 구현하지 않고 작업을 분류, 컴파일, 배정, 검증 흐름으로 넘긴다.
+
+- 요청을 작업 유형으로 분류한다.
+- production code, 프로젝트 문서, accepted decision을 먼저 확인한다.
+- pending 영역이나 충돌을 발견하면 구현 전에 질문하거나 draft decision을 만든다.
+- 기능 개발 요청은 작업 카드로 쪼개고 단계 산출물 체인을 강제한다.
+- 역할 에이전트가 읽을 지침을 `next-step/work/<작업명>/00-task-card.md`에 컴파일한다.
+- 이전 단계 산출물이 없으면 다음 단계를 시작하지 않는다.
+- 승인된 결과만 통합하고 최종 보고한다.
+
+오케스트레이터가 작성하는 작업 카드는 역할 에이전트의 실행 입력이다.
+역할 에이전트는 전체 docs를 다시 해석하기보다 자기 AGENTS.md와 작업 카드를 따른다.
 
 ---
 
@@ -28,19 +48,71 @@
 2. 상위 전제(저장소 기술 고정 여부, Domain / Persistence Entity 분리 여부, 트랜잭션 성공 기준 등)를 프로젝트의 production code, 문서, accepted decision에서 확인한다.
 3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. 프로젝트 하네스가 이미 있으면 생성 문서를 읽지 않고 프로젝트 하네스를 따른다. → [harness-interview](./docs/workflow/harness-interview.md)
 4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
-5. 큰 요구사항은 기능 목록 / API 명세 / 에러 명세를 먼저 정리한다.
-6. Domain → Application Validator → Service → Repository → Controller → Acceptance 순서로 테스트 → 구현 → 리팩터링을 반복한다.
-7. 최종 점검을 통과한 뒤 응답한다.
+5. 기능 개발이면 `next-step/work/<작업명>/00-task-card.md`를 먼저 작성한다.
+6. Test -> Feat -> Review 순서로 산출물 체인을 진행한다.
+7. Refactor는 기능 구현과 섞지 않고 별도 단계 또는 별도 작업 카드로 다룬다.
+8. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
+9. 기능 완료 후 `next-step/work/<작업명>`은 삭제한다.
+
+---
+
+# 산출물 체인
+
+기능 개발은 아래 산출물 체인을 기본으로 한다.
+
+    next-step/work/<작업명>/
+    ├── 00-task-card.md
+    ├── 01-test-report.md
+    ├── 02-implementation-report.md
+    ├── 03-review-report.md
+    └── 04-summary.md
+
+각 산출물의 역할:
+
+- `00-task-card.md`: 오케스트레이터가 docs와 decisions를 현재 작업용 지침으로 컴파일한 작업 정의
+- `01-test-report.md`: Test Agent가 작성한 실패 테스트와 실패 확인 결과
+- `02-implementation-report.md`: Feat Agent가 실패 테스트를 통과시킨 구현 결과
+- `02-refactor-report.md`: Refactor Agent의 행위 보존 확인이 포함된 구조 개선 결과 (refactor 카드 전용)
+- `03-review-report.md`: Review Agent의 승인 / 반려 판정
+- `04-summary.md`: 오케스트레이터의 통합 보고와 영구화 여부 판단
+
+단계 게이트:
+
+- `00-task-card.md`가 없으면 Test를 시작하지 않는다.
+- `01-test-report.md`가 없으면 Feat를 시작하지 않는다.
+- `02-implementation-report.md`가 없으면 Review를 시작하지 않는다.
+- refactor 카드는 행위 변경이 없으므로 `01-test-report.md` 없이 진행할 수 있고, `02-refactor-report.md`를 `02-implementation-report.md`와 동등하게 인정한다.
+- Review가 반려하면 Feat 또는 Test로 되돌린다.
+- 승인 없이 기능 완료로 보고하지 않는다.
+
+`next-step/work/`는 모델 교체와 단계 분리를 위한 단기 작업 메모리다.
+기본적으로 커밋하지 않고, 완료 후 삭제한다.
+산출물 형식의 정본은 [next-step/templates](./next-step/templates/00-task-card.md)에 둔다.
 
 ---
 
 # 실행 모드
 
-- 단일 작업자 모드 (기본): 위 작업 시퀀스를 한 작업자가 수행한다.
-- 단계 분리 모드: Test → Feat → Review를 스킬(/test-agent, /feat-agent, /review-agent)로 분리 실행한다.
-  각 단계는 md 산출물을 남기고, 이전 산출물 없이 다음 단계를 시작하지 않는다.
-  각 역할의 하네스는 [sub-agent](./sub-agent), 산출물 규칙은 [agent-handoff-by-artifact](./docs/decisions/accepted/agent-handoff-by-artifact.md)를 따른다.
-- 오케스트레이션 모드 (pending): [orchestrator](./orchestrator)가 단계 분리 모드를 자동으로 강제한다. → [orchestration-architecture](./docs/decisions/pending/orchestration-architecture.md)
+- 단일 작업자 모드 (기본): 한 작업자가 오케스트레이터, Test, Feat, Review 역할을 순서대로 수행한다. 역할은 겸임할 수 있지만 산출물 경계는 생략하지 않는다.
+- 역할 분리 모드: Test -> Feat -> Review를 각각 [agents/test](./agents/test), [agents/feat](./agents/feat), [agents/review](./agents/review)로 분리 실행한다.
+- Refactor 모드: 행위 변경 없는 구조 개선만 [agents/refactor](./agents/refactor)로 분리 실행한다.
+
+스킬은 역할 실행을 시작하는 얇은 런처다.
+정본은 루트 문서, 역할별 AGENTS.md, 역할별 docs, decisions에 있다.
+
+---
+
+# 역할별 하네스
+
+역할별 AGENTS.md는 해당 역할의 책임, 입력, 출력, 금지, 완료 기준을 정의한다.
+
+- Test Agent: [agents/test/AGENTS.md](./agents/test/AGENTS.md)
+- Feat Agent: [agents/feat/AGENTS.md](./agents/feat/AGENTS.md)
+- Refactor Agent: [agents/refactor/AGENTS.md](./agents/refactor/AGENTS.md)
+- Review Agent: [agents/review/AGENTS.md](./agents/review/AGENTS.md)
+
+역할별 docs는 실행 관점의 철학과 기준을 담는다.
+공통 판단 정본은 여전히 `docs/architecture`, `docs/principles`, `docs/decisions`다.
 
 ---
 
@@ -54,11 +126,16 @@
 4. architecture 문서
 5. principles 문서
 6. workflow 문서
+7. 역할별 docs
+8. 작업 카드
 
 하네스의 기본 입장은 프로젝트에 결정이 없을 때의 출발점이다.
 원칙보다 현재 코드 의도가 더 중요할 수 있다.
 문서와 코드가 충돌하면 문서 최신성과 코드 의도를 함께 검토한다.
 decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.md)를 따른다.
+
+작업 카드는 정본을 대체하지 않는다.
+작업 카드는 오케스트레이터가 현재 작업에 필요한 지침을 실행 가능하게 묶은 단기 입력이다.
 
 ---
 
@@ -111,6 +188,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 
 ## 작업 방식
 
+- 기능 개발은 테스트 산출물 없이 구현하지 않는다. → [agent-handoff-by-artifact](./docs/decisions/accepted/agent-handoff-by-artifact.md)
 - 커밋은 테스트 커밋 → 구현 커밋 순서로 분리하고, 메서드 단위로 commit한다. → [git-convention](./docs/workflow/git-convention.md)
 - 코드 리뷰 보강, 테스트 보강, 리팩터링도 public behavior 또는 책임 단위로 커밋한다. 리팩터링 커밋은 행위 변경 없이 하나의 구조 개선만 포함한다. → [git-convention](./docs/workflow/git-convention.md)
 - 커밋 메시지 type / scope는 영어, summary와 본문은 한국어로 작성한다. → [git-convention](./docs/workflow/git-convention.md)
@@ -121,16 +199,27 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 
 # 작업 유형별 필수 문서
 
+## 기능 개발 / 오케스트레이션
+
+- [docs/workflow/how-to-add-new-feature.md](./docs/workflow/how-to-add-new-feature.md)
+- [docs/decisions/accepted/agent-handoff-by-artifact.md](./docs/decisions/accepted/agent-handoff-by-artifact.md)
+- [agents/test/AGENTS.md](./agents/test/AGENTS.md)
+- [agents/feat/AGENTS.md](./agents/feat/AGENTS.md)
+- [agents/review/AGENTS.md](./agents/review/AGENTS.md)
+
 ## 테스트 / TDD / 커밋
 
 - [docs/workflow/tdd.md](./docs/workflow/tdd.md)
 - [docs/principles/testing.md](./docs/principles/testing.md)
 - [docs/workflow/git-convention.md](./docs/workflow/git-convention.md)
+- [agents/test/docs/testing-philosophy.md](./agents/test/docs/testing-philosophy.md)
+- [agents/test/docs/tdd-workflow.md](./agents/test/docs/tdd-workflow.md)
 
 ## 레이어 / 패키지 / 의존성
 
 - [docs/architecture/layered-architecture.md](./docs/architecture/layered-architecture.md)
 - [docs/architecture/package-structure.md](./docs/architecture/package-structure.md)
+- [agents/feat/docs/layer-responsibility.md](./agents/feat/docs/layer-responsibility.md)
 
 ## DB / Repository / 트랜잭션
 
@@ -142,6 +231,18 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - [docs/architecture/domain-boundary.md](./docs/architecture/domain-boundary.md)
 - [docs/principles/oop.md](./docs/principles/oop.md)
 - [docs/principles/lombok.md](./docs/principles/lombok.md)
+
+## 리팩터링
+
+- [docs/workflow/refactoring.md](./docs/workflow/refactoring.md)
+- [agents/refactor/AGENTS.md](./agents/refactor/AGENTS.md)
+- [agents/refactor/docs/refactoring-philosophy.md](./agents/refactor/docs/refactoring-philosophy.md)
+
+## 리뷰
+
+- [docs/workflow/code-review.md](./docs/workflow/code-review.md)
+- [agents/review/AGENTS.md](./agents/review/AGENTS.md)
+- [agents/review/docs/review-philosophy.md](./agents/review/docs/review-philosophy.md)
 
 ## 예외 / 에러 응답
 
@@ -160,6 +261,9 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 
 최종 응답 전 아래 항목을 확인한다.
 
+- 작업 카드가 필요한 작업인데 `00-task-card.md` 없이 진행하지 않았는가
+- Feat 단계가 `01-test-report.md` 없이 시작되지 않았는가
+- Review 단계가 `02-implementation-report.md` 없이 시작되지 않았는가
 - TDD 순서를 지켰는가
 - 테스트 / 구현 / 리팩터링 커밋이 책임 단위로 분리되었는가
 - 모든 production class는 직접 테스트되었는가
@@ -168,5 +272,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - 테스트 패키지 구조와 Fake 위치가 기준에 맞는가
 - Domain 생성자와 Request DTO 검증 위치가 기준에 맞는가
 - 레이어 책임과 최소 변경 원칙을 지켰는가
+- Refactor가 public behavior 변경과 섞이지 않았는가
 - README 또는 docs 업데이트가 필요한가
 - 프로젝트와 하네스의 accepted decision과 충돌하지 않는가
+- 완료 후 `next-step/work/<작업명>`에서 영구화할 지식만 승격하고 임시 산출물을 삭제했는가

@@ -16,7 +16,7 @@ while IFS= read -r line; do
     target=$(python3 -c "import os; print(os.path.normpath(os.path.join('$dir','$link')))")
     [ -f "$target" ] || err "깨진 링크: $f → $link"
 done < <(
-    for f in AGENTS.md ARCHITECTURE.md $(find docs .claude/skills orchestrator sub-agent -name "*.md" 2>/dev/null); do
+    for f in AGENTS.md ARCHITECTURE.md $(find docs agents next-step .claude/skills -name "*.md" 2>/dev/null); do
         grep -oE '\]\(\.{1,2}/[^)]+\.md\)' "$f" 2>/dev/null | sed "s|](\(.*\))|\1|" | while IFS= read -r l; do
             echo "$f:$l"
         done
@@ -38,8 +38,8 @@ for dir in draft accepted rejected pending not-applicable superseded; do
 done
 
 # 3. 프로젝트 종속 누수 금지 패턴
-if grep -rqiE "roomescape" docs AGENTS.md ARCHITECTURE.md 2>/dev/null; then
-    err "프로젝트 종속 누수: $(grep -rliE 'roomescape' docs AGENTS.md ARCHITECTURE.md | tr '\n' ' ')"
+if grep -rqiE "roomescape" docs agents next-step AGENTS.md ARCHITECTURE.md 2>/dev/null; then
+    err "프로젝트 종속 누수: $(grep -rliE 'roomescape' docs agents next-step AGENTS.md ARCHITECTURE.md | tr '\n' ' ')"
 fi
 
 # 4. decisions의 프로젝트 기록 화법 재발 방지 (정본 화법: "이 하네스는")
@@ -53,8 +53,39 @@ if git ls-files --error-unmatch PHILOSOPHY_QNA_DRAFT.md >/dev/null 2>&1; then
 fi
 
 # 6. AGENTS.md 필수 섹션 존재
-for section in "# 작업 시퀀스" "# 판단 우선순위" "# 불변 철학" "# 기본 입장" "# 작업 유형별 필수 문서" "# 최종 점검"; do
+for section in "# 오케스트레이터 책임" "# 작업 시퀀스" "# 산출물 체인" "# 실행 모드" "# 판단 우선순위" "# 불변 철학" "# 기본 입장" "# 작업 유형별 필수 문서" "# 최종 점검"; do
     grep -q "^$section" AGENTS.md || err "AGENTS.md에 '$section' 섹션 없음"
+done
+
+# 7. 역할별 AGENTS.md 필수 섹션과 docs 존재
+for role in test feat refactor review; do
+    f="agents/$role/AGENTS.md"
+    [ -f "$f" ] || { err "역할 AGENTS.md 없음: $f"; continue; }
+    for section in "## 책임" "## 입력" "## 출력" "## 금지" "## 완료 기준"; do
+        grep -q "^$section" "$f" || err "$f에 '$section' 섹션 없음"
+    done
+    if ! find "agents/$role/docs" -maxdepth 1 -name "*.md" -type f 2>/dev/null | grep -q .; then
+        err "역할 docs 없음: agents/$role/docs"
+    fi
+    for d in agents/$role/docs/*.md; do
+        [ -e "$d" ] || continue
+        grep -q "정본이 우선" "$d" || err "$d에 정본 우선 선언 없음 (역할 docs는 공유 정본의 요약이다)"
+    done
+    [ -f "agents/$role/docs/workflow.md" ] || err "역할 workflow 문서 없음: agents/$role/docs/workflow.md"
+    script="agents/$role/scripts/enforce-workflow.sh"
+    [ -x "$script" ] || err "역할 workflow 강제 스크립트 없음 또는 실행 불가: $script"
+done
+
+# 8. 작업 메모리 추적 방지
+if git ls-files 'next-step/work/*' | grep -q .; then
+    err "next-step/work 아래 파일이 git에 추적되고 있다"
+fi
+
+grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없음"
+
+# 9. next-step 템플릿 존재
+for template in 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md; do
+    [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
 done
 
 if [ "$fail" -eq 0 ]; then
