@@ -48,12 +48,13 @@
 2. 상위 전제(저장소 기술 고정 여부, Domain / Persistence Entity 분리 여부, 트랜잭션 성공 기준 등)를 프로젝트의 production code, 문서, accepted decision에서 확인한다.
 3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. 프로젝트 하네스가 이미 있으면 생성 문서를 읽지 않고 프로젝트 하네스를 따른다. → [harness-interview](./docs/workflow/harness-interview.md)
 4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
-5. 기능 개발이면 `next-step/work/<작업명>/00-task-card.md`를 먼저 작성한다.
-6. 카드 작성이 끝나면 멈추고 사용자에게 /test-agent 실행을 요청한다. Test 단계를 직접 시작하지 않는다.
-7. 단계 릴레이: Test → Feat → Refactor → Review. 각 단계는 사용자의 스킬 호출로만 시작하고, 단계가 끝나면 멈추고 다음 스킬 실행을 요청한다. 단계를 연속 실행하지 않는다.
-8. Review가 반려하면 사유에 따라 /feat-agent(구현), /refactor-agent(구조), /test-agent(행위 정의) 재실행을 안내한다.
-9. 승인 후 `04-summary.md`를 작성하고, 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
-10. 기능 완료 후 `next-step/work/<작업명>`은 삭제한다.
+5. 카드가 2장 이상 필요한 요청이면 `next-step/work/backlog.md`를 먼저 작성한다. 카드 목록과 순서는 대화 기억이 아니라 백로그에 둔다.
+6. 기능 개발이면 `next-step/work/<작업명>/00-task-card.md`를 작성한다. 카드는 백로그 순번대로 한 장씩 컴파일하고 미리 만들지 않는다.
+7. 카드 작성이 끝나면 멈추고 사용자에게 /test-agent 실행을 요청한다. Test 단계를 직접 시작하지 않는다.
+8. 단계 릴레이: Test → Feat → Refactor → Review. 각 단계는 사용자의 스킬 호출로만 시작하고, 단계가 끝나면 멈추고 다음 스킬 실행을 요청한다. 단계를 연속 실행하지 않는다.
+9. Review가 반려하면 사유에 따라 /feat-agent(구현), /refactor-agent(구조), /test-agent(행위 정의) 재실행을 안내한다.
+10. 승인 후 `04-summary.md`를 작성하고 백로그 상태를 갱신한다. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
+11. 카드 완료 후 `next-step/work/<작업명>`은 삭제한다. 백로그의 모든 카드가 끝나면 `backlog.md`도 삭제한다.
 
 ---
 
@@ -61,7 +62,9 @@
 
 기능 개발은 아래 산출물 체인을 기본으로 한다.
 
-    next-step/work/<작업명>/
+    next-step/work/
+    ├── backlog.md                  (카드 2장 이상일 때: 카드 목록·순서·진행 상태)
+    └── <작업명>/
     ├── 00-task-card.md
     ├── 01-test-report.md
     ├── 02-implementation-report.md

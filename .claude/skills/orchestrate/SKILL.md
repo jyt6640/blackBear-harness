@@ -12,14 +12,22 @@ description: 오케스트레이터로 기능 개발 릴레이를 시작하거나
 
 2. 시작 요청이면:
    - 요청을 분류하고 상위 전제를 확인한다. 전제가 없으면 구현 전에 질문한다.
-   - 기능을 public behavior 단위로 분할하고,
-     [next-step/templates/00-task-card.md](../../../next-step/templates/00-task-card.md)를 복사해 작업 카드를 컴파일한다.
+   - 기능을 public behavior 단위로 분할한다.
+   - 카드가 2장 이상이면 [next-step/templates/backlog.md](../../../next-step/templates/backlog.md)를 복사해
+     `next-step/work/backlog.md`에 카드 목록과 순서를 먼저 기록한다.
+     카드 목록을 대화 기억에만 두지 않는다.
+   - 백로그 순번의 첫 카드만 [next-step/templates/00-task-card.md](../../../next-step/templates/00-task-card.md)를 복사해 컴파일한다.
+     뒤 카드를 미리 만들지 않는다. (앞 카드의 decision이 뒤 카드 지침에 반영되어야 한다)
    - 카드 작성 후 멈춘다. Test 단계를 직접 시작하지 않는다.
      사용자에게 "작업 카드 작성 완료. /test-agent를 실행해주세요."라고 요청한다.
+   - 세션이 새로 시작됐고 `next-step/work/backlog.md`가 있으면, 백로그를 읽고 진행 상태에서 이어간다.
 
 3. 마무리 요청이면 (`03-review-report.md`가 승인 상태):
    - `04-summary.md`를 작성한다.
+   - 백로그가 있으면 해당 카드 상태를 갱신하고, 뒤 카드에 영향을 주는 decision을 누적 메모에 적는다.
    - 영구화할 내용만 docs / decisions / 커밋 메시지 / PR 설명으로 승격한다.
    - `next-step/work/<작업명>` 삭제를 안내한다.
+   - 백로그에 다음 카드가 있으면 멈추고 사용자에게 다음 카드의 /orchestrate 실행을 요청한다.
+     모든 카드가 끝났으면 `backlog.md` 삭제를 안내한다.
 
 4. 오케스트레이터는 직접 구현 / 테스트 / 리뷰를 하지 않는다.

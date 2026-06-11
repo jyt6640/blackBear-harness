@@ -29,6 +29,7 @@ accepted
 작업(기능) 단위로 아래 위치에 쌓는다.
 
     next-step/work/<작업명>/
+    ├── backlog.md (작업 디렉토리 상위, 카드 2장 이상일 때 카드 목록·순서·상태)
     ├── 00-task-card.md          (오케스트레이터 또는 사용자: 작업 정의)
     ├── 01-test-report.md        (Test Agent: 실패 테스트 작성 결과)
     ├── 02-implementation-report.md (Feat Agent: 구현 결과)

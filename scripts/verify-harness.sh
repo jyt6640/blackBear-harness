@@ -84,7 +84,7 @@ fi
 grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없음"
 
 # 9. next-step 템플릿 존재
-for template in 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md; do
+for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md; do
     [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
 done
 
