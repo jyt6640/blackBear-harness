@@ -58,7 +58,7 @@
 
 ## Fake와 Mock
 
-## Fake 위치
+### Fake 위치
 
 Fake는 테스트 클래스 내부 class로 두지 않는다.
 

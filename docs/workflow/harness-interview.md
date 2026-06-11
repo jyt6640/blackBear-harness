@@ -161,7 +161,10 @@ base 하네스의 비워진 슬롯을 질문으로 채우고,
 |---|---|
 | PR은 어떤 단위로 나누는가? 리뷰어는 무엇을 우선 검토하는가? | [git-convention](./git-convention.md), [code-review](./code-review.md) override 여부 |
 | decision 변경이 필요한 PR은 어떻게 표시하는가? | decision-change-policy |
-| 코드 스타일 논쟁은 어디서 결정하는가? | decision 절차로 합의 → [decisions/README](../decisions/README.md) |
+
+코드 스타일 논쟁의 해소 위치는 질문하지 않는다.
+반복되는 논쟁은 decision으로 기록해 합의한다는 것이 하네스의 절차다.
+→ [decisions/README](../decisions/README.md)
 
 ### 영역 12: 사용자 규모 파생 결정 (1단계 답에 따라)
 

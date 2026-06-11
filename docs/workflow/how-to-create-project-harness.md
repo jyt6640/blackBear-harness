@@ -45,15 +45,10 @@ base의 [AGENTS.md](../../AGENTS.md) 작업 시퀀스가 확인을 요구하는 
 
 ### pending 결정
 
-base의 [docs/decisions/pending](../decisions/pending) 목록이 곧 인터뷰 체크리스트다.
+base의 [docs/decisions/pending](../decisions/pending) 디렉토리가 최소 체크리스트다.
+전체 질문 목록과 규모별 깊이는 [harness-interview.md](./harness-interview.md)의 결정 영역을 따른다.
 
-- Aggregate 경계 기준
-- Domain / Entity 분리 여부
-- 이벤트 기반 구조 도입 여부
-- Fake 패키지 세부 위치
-- 인증 / 권한 패턴
-- Validator 패키지 위치
-- Spring DAO 예외 전파와 Repository 예외 계약 수준
+여기에 목록을 복제하지 않는다. pending이 늘어나면 디렉토리와 인터뷰만 갱신한다.
 
 ### 프로젝트 사실
 
