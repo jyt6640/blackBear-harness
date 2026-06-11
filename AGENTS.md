@@ -105,6 +105,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - 코드 리뷰 보강, 테스트 보강, 리팩터링도 public behavior 또는 책임 단위로 커밋한다. 리팩터링 커밋은 행위 변경 없이 하나의 구조 개선만 포함한다. → [git-convention](./docs/workflow/git-convention.md)
 - 커밋 메시지 type / scope는 영어, summary와 본문은 한국어로 작성한다. → [git-convention](./docs/workflow/git-convention.md)
 - 기계적으로 판정 가능한 규칙은 지침이 아니라 스크립트로 강제한다. → [enforcement-by-script](./docs/decisions/accepted/enforcement-by-script.md)
+- 하네스 절차는 스킬(얇은 런처)로 호출하되 정본은 항상 문서다. → [skill-as-thin-launcher](./docs/decisions/accepted/skill-as-thin-launcher.md)
 
 ---
 
