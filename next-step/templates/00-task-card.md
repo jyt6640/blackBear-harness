@@ -8,6 +8,10 @@
 
 - feature | fix | refactor | docs | chore
 
+## 시작 기준 commit
+
+- (카드 생성 시점의 git rev-parse HEAD — 커밋 체인 검사의 시작점)
+
 ## 사용자 요청
 
 -

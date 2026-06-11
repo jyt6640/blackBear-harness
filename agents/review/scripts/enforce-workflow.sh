@@ -3,6 +3,7 @@ set -u
 
 ROOT="$(git rev-parse --show-toplevel)"
 TASK="${1:-}"
+BASE_REF="${2:-}"
 
 fail=0
 err() { echo "FAIL: $1"; fail=1; }
@@ -33,6 +34,12 @@ for f in \
 do
     [ -f "$f" ] || err "필수 하네스 파일 없음: $f"
 done
+
+if [ -n "$BASE_REF" ]; then
+    "$ROOT/scripts/check-commit-chain.sh" "$BASE_REF" || fail=1
+else
+    echo "INFO: 기준 ref가 없어 커밋 체인 검사를 건너뛴다. 00-task-card의 시작 기준 commit으로 실행한다: agents/review/scripts/enforce-workflow.sh <작업명> <시작ref>"
+fi
 
 if [ "$fail" -eq 0 ]; then
     echo "OK: Review workflow gate passed"

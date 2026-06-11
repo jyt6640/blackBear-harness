@@ -41,6 +41,12 @@ YES면 스크립트, NO면 지침이다.
 - PHILOSOPHY_QNA_DRAFT.md 커밋 방지
 - AGENTS.md 필수 섹션 존재
 
+커밋 컨벤션도 스크립트가 검사한다.
+
+- 커밋 메시지 형식: `scripts/check-commit-message.sh` (`.githooks/commit-msg`)
+- 카드 릴레이의 커밋 type 제한과 test → feat → refactor 순서: `scripts/check-commit-chain.sh`
+- 메서드 단위 여부는 기계 판정 불가 영역이므로 Review Agent 지침으로 남긴다.
+
 훅 활성화:
 
     git config core.hooksPath .githooks

@@ -12,6 +12,8 @@ description: Test → Feat → Refactor → Review 릴레이의 마지막 단계
    (base 저장소 밖이면 프로젝트 AGENTS.md의 base 선언 경로에서 찾는다)
 
 2. 입력을 확인한다.
+   - 00-task-card의 "시작 기준 commit"을 시작ref로 `agents/review/scripts/enforce-workflow.sh <작업명> <시작ref>`를 실행한다.
+     커밋 체인 위반(형식, type 제한, 순서)은 반려 사유다.
    - `agents/review/scripts/enforce-workflow.sh <작업명>`를 먼저 실행한다.
    - `next-step/work/<작업명>/02-implementation-report.md`가 없으면 진행을 거부한다.
      refactor 카드는 `02-refactor-report.md`로 대체된다.

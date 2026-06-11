@@ -88,6 +88,11 @@ for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-r
     [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
 done
 
+# 10. 강제 스크립트와 훅 존재 / 실행 권한
+for sc in scripts/check-commit-message.sh scripts/check-commit-chain.sh .githooks/pre-commit .githooks/commit-msg; do
+    [ -x "$sc" ] || err "강제 스크립트 없음 또는 실행 권한 없음: $sc"
+done
+
 if [ "$fail" -eq 0 ]; then
     echo "OK: 하네스 정합성 검증 통과"
 fi

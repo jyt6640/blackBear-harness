@@ -17,6 +17,7 @@ description: 오케스트레이터로 기능 개발 릴레이를 시작하거나
      `next-step/work/backlog.md`에 카드 목록과 순서를 먼저 기록한다.
      카드 목록을 대화 기억에만 두지 않는다.
    - 백로그 순번의 첫 카드만 [next-step/templates/00-task-card.md](../../../next-step/templates/00-task-card.md)를 복사해 컴파일한다.
+     카드의 "시작 기준 commit"에 `git rev-parse HEAD` 값을 기록한다.
      뒤 카드를 미리 만들지 않는다. (앞 카드의 decision이 뒤 카드 지침에 반영되어야 한다)
    - 카드 작성 후 멈춘다. Test 단계를 직접 시작하지 않는다.
      사용자에게 "작업 카드 작성 완료. /test-agent를 실행해주세요."라고 요청한다.

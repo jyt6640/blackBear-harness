@@ -31,9 +31,13 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 `02-implementation-report.md`(refactor 카드는 `02-refactor-report.md`)가 없으면
 시작하지 않고 이전 단계를 요구한다.
 
-시작 전 강제 명령:
+시작 전 강제 명령 (시작ref는 00-task-card의 "시작 기준 commit"):
 
-    agents/review/scripts/enforce-workflow.sh <작업명>
+    agents/review/scripts/enforce-workflow.sh <작업명> <시작ref>
+
+커밋 체인(형식 / type 제한 / test → feat → refactor 순서)은 스크립트가 검사한다.
+메서드 단위 여부는 스크립트로 판정할 수 없으므로 직접 검토한다.
+반려 후 재작업 검사는 반려 시점 커밋을 새 시작 ref로 잡는다.
 
 ---
 

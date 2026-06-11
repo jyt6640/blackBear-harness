@@ -58,6 +58,13 @@ Test → Feat → Refactor 단계는 각자 자기 type의 커밋만 만든다.
 카드가 행위 3개를 다루면 test 커밋 3개 → feat 커밋 3개가 기본이다.
 각 단계는 자기 커밋 목록을 단계 보고서에 기록한다.
 
+형식과 순서는 스크립트가 검사한다.
+
+- 커밋 메시지 형식: `scripts/check-commit-message.sh` (commit-msg 훅)
+- 카드 범위의 type 제한과 순서: `scripts/check-commit-chain.sh <시작ref>`
+
+메서드 단위 여부는 기계 판정이 불가능하므로 Review Agent가 직접 검토한다.
+
 ---
 
 ## Commit Message
