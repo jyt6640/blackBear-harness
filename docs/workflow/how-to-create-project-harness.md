@@ -20,9 +20,10 @@ base와 다른 결정만 기록하는 diff 문서다.
 
 1. base 선언 — 어떤 base 하네스의 어떤 버전을 기반으로 하는지 기록한다.
 2. 상위 전제의 답
-3. pending 영역에 대한 프로젝트 decision
+3. pending 영역에 대한 프로젝트 decision (해당 없으면 not-applicable로 기록)
 4. 기본 입장 override — base와 다르게 정한 경우에만 기록한다.
 5. 프로젝트 사실 — 기술 스택, 루트 패키지, 도메인 용어, 운영 인프라, 커밋/브랜치 규칙 차이
+6. development-guideline.md — 팀원이 바로 따를 개발 규칙. 각 규칙은 근거 decision을 링크한다.
 
 ## 들어가면 안 되는 것
 
@@ -38,7 +39,7 @@ base와 다른 결정만 기록하는 diff 문서다.
 
 base의 [AGENTS.md](../../AGENTS.md) 작업 시퀀스가 확인을 요구하는 항목이다.
 
-- 저장소 기술 고정 여부 — Spring DAO 예외 전파와 Repository 예외 계약 수준을 함께 정한다 → [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md)
+- 저장소 기술 고정 여부 — 기술 예외 전파와 Repository 예외 계약 수준을 함께 정한다 → [spring-dao-exception-propagation](../decisions/pending/spring-dao-exception-propagation.md), [repository-exception-contract](../decisions/pending/repository-exception-contract.md)
 - Domain / Persistence Entity 분리 여부 → [domain-entity-separation](../decisions/pending/domain-entity-separation.md)
 - 트랜잭션 성공 기준과 후속 작업 실패 경계 → [follow-up-failure-boundary](../decisions/accepted/follow-up-failure-boundary.md)
 

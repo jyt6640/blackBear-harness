@@ -26,6 +26,7 @@
     ├── accepted/
     ├── rejected/
     ├── pending/
+    ├── not-applicable/
     └── superseded/
 
 새 decision은 [TEMPLATE.md](./TEMPLATE.md) 형식을 따른다.
@@ -119,7 +120,16 @@
 
 AI 작업자가 인터뷰 답변이나 코드 관찰에서 자동 작성한 제안이다.
 사람이 확인하기 전까지 어떤 효력도 없다.
-확인되면 accepted / rejected / pending으로 이동하고, 기각되면 삭제한다.
+확인되면 accepted / rejected / pending / not-applicable로 이동하고, 기각되면 삭제한다.
+
+### not-applicable
+
+이 프로젝트에는 해당 없다고 확인된 영역이다.
+모르는 것(pending)과 필요 없는 것(not-applicable)은 다르다.
+
+예: 동시 쓰기 경쟁 유스케이스 없음, MSA 계획 없음.
+
+해당 없음의 이유와 다시 해당하게 되는 재검토 신호를 짧게 기록한다.
 
 ---
 
@@ -145,4 +155,5 @@ AI 작업자가 인터뷰 답변이나 코드 관찰에서 자동 작성한 제�
 - pending: 기본 입장 없음. 해당 영역의 결정이 필요하면 임의로 정하지 않고 질문한다.
 - superseded: 적용하지 않는다. 대체 결정을 따른다.
 - draft: 적용하지 않는다. 사람 확인을 기다리는 제안일 뿐이다.
+- not-applicable: 해당 영역의 질문을 반복하지 않는다. 재검토 신호가 나타나면 다시 묻는다.
 - pending 문서는 accepted decision과 충돌할 수 없으며, 충돌처럼 보이면 accepted를 우선한다.

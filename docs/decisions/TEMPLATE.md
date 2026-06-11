@@ -2,12 +2,14 @@
 
 ## 상태
 
-draft | accepted | rejected | pending | superseded
+draft | accepted | rejected | pending | not-applicable | superseded
 
 draft인 경우 아래를 함께 기록한다.
 
 - 작성 계기: (인터뷰 답변 | 코드 관찰 | 반복 질문 | 기본 입장 충돌)
 - 관찰 근거: (코드 관찰이라면 파일 경로와 위치)
+
+not-applicable인 경우 문제 상황, 해당 없음 이유, 재검토 신호만 짧게 기록한다.
 
 ---
 

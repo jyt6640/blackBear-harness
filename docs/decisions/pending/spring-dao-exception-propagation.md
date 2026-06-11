@@ -8,15 +8,17 @@ pending
 
 ## 문제 상황
 
-`DataAccessException`처럼 잘 추상화된 Spring 예외를
-Application까지 전파하도록 허용할지 결정이 필요하다.
+저장소 구현체의 기술 예외를 Application Layer까지
+전파하도록 허용할지 결정이 필요하다.
 
-함께 묶이는 질문으로,
-Repository 인터페이스 계약에 저장소 의미 예외를
-어느 수준으로 드러낼지도 결정이 필요하다.
+Spring 기반이라면 `DataAccessException`처럼
+잘 추상화된 예외의 전파 허용 여부를 함께 결정한다.
 
-두 질문 모두 프로젝트의 기술 고정성에 따라 답이 달라지므로
+프로젝트의 기술 고정성에 따라 답이 달라지므로
 하네스의 기본 입장으로 고정하지 않는다.
+
+인터페이스 계약에 예외를 드러내는 수준은
+[repository-exception-contract](./repository-exception-contract.md)에서 함께 결정한다.
 
 ---
 
@@ -34,13 +36,12 @@ Repository 인터페이스 계약에 저장소 의미 예외를
 [infrastructure-exception-translation](../accepted/infrastructure-exception-translation.md)의
 2단계 변환을 따른다.
 
-DB 종속이 확정된 프로젝트라면 아래를 허용할 수 있다.
-
-- 잘 추상화된 Spring 예외(`DataAccessException` 계열)의 Application 전파
-- Repository 인터페이스 계약에 저장소 의미 예외를 드러내는 것
+DB 종속이 확정된 프로젝트라면
+잘 추상화된 예외(Spring이라면 `DataAccessException` 계열)의
+Application 전파를 허용할 수 있다.
 
 DB 제약이 비즈니스 흐름의 일부가 되는 프로젝트에서는
-예외가 계약에 드러나는 것이 자연스럽기 때문이다.
+저장소 예외가 흐름에 드러나는 것이 자연스럽기 때문이다.
 
 허용하는 경우에도 구체 기술 예외(JDBC 드라이버, JPA 구현체 예외)를
 Application이 세부 해석하는 구조는 피한다.
