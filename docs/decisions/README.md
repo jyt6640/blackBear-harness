@@ -22,10 +22,13 @@
 ## 디렉토리 구조
 
     decisions/
+    ├── draft/
     ├── accepted/
     ├── rejected/
     ├── pending/
     └── superseded/
+
+새 decision은 [TEMPLATE.md](./TEMPLATE.md) 형식을 따른다.
 
 ---
 
@@ -112,6 +115,12 @@
 새 decision으로 대체된 과거 결정이다.
 왜 입장이 바뀌었는지 추적하기 위해 보존하며, 본문에 대체 결정 링크를 남긴다.
 
+### draft
+
+AI 작업자가 인터뷰 답변이나 코드 관찰에서 자동 작성한 제안이다.
+사람이 확인하기 전까지 어떤 효력도 없다.
+확인되면 accepted / rejected / pending으로 이동하고, 기각되면 삭제한다.
+
 ---
 
 ## 핵심 원칙
@@ -135,4 +144,5 @@
 - rejected: 프로젝트 decision이 따로 없으면 선택하지 않는 방향으로 본다.
 - pending: 기본 입장 없음. 해당 영역의 결정이 필요하면 임의로 정하지 않고 질문한다.
 - superseded: 적용하지 않는다. 대체 결정을 따른다.
+- draft: 적용하지 않는다. 사람 확인을 기다리는 제안일 뿐이다.
 - pending 문서는 accepted decision과 충돌할 수 없으며, 충돌처럼 보이면 accepted를 우선한다.

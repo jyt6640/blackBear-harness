@@ -67,6 +67,8 @@ base의 [docs/decisions/pending](../decisions/pending) 목록이 곧 인터뷰 �
 
 코드가 없으므로 답은 사람에게서 나온다.
 
+인터뷰 절차와 규모별 질문 세트는 [harness-interview.md](./harness-interview.md)를 따른다.
+
 1. 위 슬롯 목록으로 기획 / 설계 담당과 인터뷰한다.
 2. 답을 프로젝트 decisions/accepted로 기록한다. 이유와 트레이드오프를 함께 남긴다.
 3. 답이 나오지 않은 항목은 프로젝트 pending으로 두고, 해당 영역 작업 시 구현 전에 질문한다.
@@ -76,6 +78,8 @@ base의 [docs/decisions/pending](../decisions/pending) 목록이 곧 인터뷰 �
 ## 생성 경로 2: 기존 베이스 코드
 
 코드가 있으므로 먼저 관찰하고, 사람에게 확인받는다.
+
+확인 질문 방식은 [harness-interview.md](./harness-interview.md)의 3단계를 따른다.
 
 1. production code, 문서, git 기록을 관찰한다.
 2. 슬롯별로 관찰된 전제를 draft decision으로 작성한다. 관찰 근거(파일, 코드 위치)를 함께 남긴다.

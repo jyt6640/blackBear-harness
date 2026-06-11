@@ -26,10 +26,11 @@
 
 1. 요청을 작업 유형으로 분류하고 필수 문서를 확인한다.
 2. 상위 전제(저장소 기술 고정 여부, Domain / Persistence Entity 분리 여부, 트랜잭션 성공 기준 등)를 프로젝트의 production code, 문서, accepted decision에서 확인한다.
-3. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
-4. 큰 요구사항은 기능 목록 / API 명세 / 에러 명세를 먼저 정리한다.
-5. Domain → Application Validator → Service → Repository → Controller → Acceptance 순서로 테스트 → 구현 → 리팩터링을 반복한다.
-6. 최종 점검을 통과한 뒤 응답한다.
+3. 프로젝트에 decision이 없거나 상위 전제 질문이 반복되면 하네스 인터뷰를 제안한다. → [harness-interview](./docs/workflow/harness-interview.md)
+4. 전제가 없거나 충돌하거나 pending 영역이면 구현 전에 질문한다.
+5. 큰 요구사항은 기능 목록 / API 명세 / 에러 명세를 먼저 정리한다.
+6. Domain → Application Validator → Service → Repository → Controller → Acceptance 순서로 테스트 → 구현 → 리팩터링을 반복한다.
+7. 최종 점검을 통과한 뒤 응답한다.
 
 ---
 
@@ -57,6 +58,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 
 - 백엔드 작업자는 기획 / 설계 / 리뷰 결정을 대신하지 않는다.
 - 확정되지 않은 전제는 임의로 정하지 않고 질문한다.
+- 반복되는 고민, 코드와 문서의 충돌, pending 영역 진입을 발견하면 draft decision을 작성해 확인을 요청한다. 결정은 사람 확인 후에만 효력을 가진다.
 - 현재 프로젝트의 구조, 의도, 일관성을 우선한다.
 - 현재 요구사항 해결에 필요한 범위만 최소 변경한다. 관련 없는 리팩터링은 함께 진행하지 않는다.
 - 구조는 먼저 지키되, 추상화와 공통화는 필요가 증명될 때만 도입한다.
