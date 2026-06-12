@@ -84,6 +84,14 @@ fi
 grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없음"
 [ -f "next-step/history/README.md" ] || err "next-step/history/README.md 없음"
 
+# 완료 기록(history)의 카드는 Review 판정과 철학 점수표를 모두 포함해야 한다
+for h in next-step/history/*/; do
+    [ -d "$h" ] || continue
+    if [ -f "${h}03-review-report.md" ] && [ ! -f "${h}05-scorecard.md" ]; then
+        err "history 카드에 05-scorecard.md 없음 (채점 없이 완료 기록 금지): $h"
+    fi
+done
+
 # 9. next-step 템플릿 존재
 for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md 05-scorecard.md; do
     [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
@@ -115,6 +123,7 @@ for sc in \
     scripts/local-agent/run-pipeline.sh \
     scripts/local-agent/test-runner.sh \
     scripts/loop/aggregate-scores.sh \
+    scripts/check-artifact-chain.sh \
     .githooks/pre-commit \
     .githooks/commit-msg
 do

@@ -30,8 +30,11 @@ description: 오케스트레이터로 기능 개발 릴레이를 시작하거나
    - 영구화할 내용만 docs / decisions / 커밋 메시지 / PR 설명으로 승격한다.
    - `next-step/history/<작업명>`이 이미 있으면 덮어쓰지 않고 중단해 사용자에게 확인한다.
    - `next-step/work/<작업명>`을 `next-step/history/<작업명>/`으로 이동하고 완료 기록으로 커밋한다.
+   - 이동 전에 `scripts/check-artifact-chain.sh <작업명>`을 실행한다.
+     `05-scorecard.md`가 없으면 이동하지 않고 /review-agent 재실행을 요청한다.
    - 백로그에 다음 카드가 있으면 멈추고 사용자에게 다음 카드의 /orchestrate 실행을 요청한다.
      모든 카드가 끝났으면 `next-step/work/backlog.md`를
-     `next-step/history/<백로그명>-backlog.md`로 이동하고 함께 커밋한다.
+     `next-step/history/<백로그명>-backlog.md`로 이동하고 함께 커밋한 뒤,
+     멈추고 사용자에게 /loop-improve 실행(철학 점수 집계와 프롬프트 개선)을 요청한다.
 
 4. 오케스트레이터는 직접 구현 / 테스트 / 리뷰를 하지 않는다.
