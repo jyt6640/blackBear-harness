@@ -38,6 +38,9 @@
 - Repository 조회 기반 검증은 Application Validator에 둔다.
 - 테스트는 production class의 public behavior 기준으로 작성한다.
 - 커밋은 메서드 단위로 분리한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
+- 트랜잭션 경계는 Service에 두고, 후속 작업 분리는 사용자 성공 기준으로 판단한다.
+- 예외는 책임 위치에서 도메인 의미(ErrorCode)로 던지고, 기술 예외는 Infrastructure에서 변환한다.
+- 다른 도메인과의 협력은 Reference 포트로 캡슐화한다. 상대 도메인 Repository를 직접 조회하지 않는다.
 
 ## 필수 상위 문서
 

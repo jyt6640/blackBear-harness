@@ -27,6 +27,11 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - [docs/principles/method-design.md](../../docs/principles/method-design.md)
 - [docs/principles/naming.md](../../docs/principles/naming.md)
 - [docs/principles/lombok.md](../../docs/principles/lombok.md)
+- [docs/principles/exceptions.md](../../docs/principles/exceptions.md)
+- [docs/architecture/transactions.md](../../docs/architecture/transactions.md)
+- [docs/architecture/repository-pattern.md](../../docs/architecture/repository-pattern.md)
+- [docs/decisions/accepted/infrastructure-exception-translation.md](../../docs/decisions/accepted/infrastructure-exception-translation.md)
+- [docs/decisions/accepted/domain-reference-adapter.md](../../docs/decisions/accepted/domain-reference-adapter.md)
 - [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임, 커밋 메시지 형식
 - [workflow](./docs/workflow.md), [implementation philosophy](./docs/implementation-philosophy.md), [layer responsibility](./docs/layer-responsibility.md), [minimal implementation](./docs/minimal-implementation.md)
 

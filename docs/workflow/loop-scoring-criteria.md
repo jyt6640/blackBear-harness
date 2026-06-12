@@ -15,12 +15,14 @@
 
 ---
 
-## S1. 레이어 책임 분리
+## S1. 레이어 책임 분리와 구조 위치
 
-출처: [layered-architecture](../architecture/layered-architecture.md), [ARCHITECTURE.md](../../ARCHITECTURE.md)
+출처: [layered-architecture](../architecture/layered-architecture.md), [ARCHITECTURE.md](../../ARCHITECTURE.md), [domain-first-package-structure](../decisions/accepted/domain-first-package-structure.md), [repository-interface-in-domain](../decisions/accepted/repository-interface-in-domain.md)
 
 철학: Presentation은 HTTP 입출력, Application은 흐름 조율, Domain은 규칙,
 Infrastructure는 기술 구현만 담당한다. 의존은 안쪽으로만 흐른다.
+패키지는 도메인 우선으로 나누고, Repository 인터페이스는 Domain,
+구현은 Infrastructure에 둔다.
 
 - 2: 신규 / 변경 코드가 전부 자기 레이어 책임 안에 있고, 레이어를 건너뛰는 호출이 없다.
 - 1: 침범이 한 곳에 국한된다. 예: Controller가 Response 조립 중 도메인 상태를 직접 비교.
@@ -30,7 +32,7 @@ Infrastructure는 기술 구현만 담당한다. 의존은 안쪽으로만 흐�
 
 ## S2. Service는 흐름만 조율
 
-출처: [service-orchestration-only](../decisions/accepted/service-orchestration-only.md), [small-service-method](../decisions/accepted/small-service-method.md)
+출처: [service-orchestration-only](../decisions/accepted/service-orchestration-only.md), [small-service-method](../decisions/accepted/small-service-method.md), [domain-validation-over-getter](../decisions/accepted/domain-validation-over-getter.md), [policy-object-separation](../decisions/accepted/policy-object-separation.md)
 
 철학: Service는 Domain / Policy / Validator / Repository 호출 순서만 조율한다.
 판단(조건 분기로 표현되는 비즈니스 규칙)은 Service에 두지 않는다.
@@ -103,6 +105,39 @@ Service 입력은 Request DTO가 아니라 Command / Query다.
 - 1: 의미 변환은 있으나 위치가 어긋나거나, ErrorCode 없이 메시지 문자열로만 구분.
 - 0: `throw new RuntimeException("...")`, Application의 구체 기술 예외 세부 해석.
 
+## S8. 트랜잭션 경계 위치와 후속 작업 분리
+
+출처: [transaction-boundary-in-service](../decisions/accepted/transaction-boundary-in-service.md), [follow-up-failure-boundary](../decisions/accepted/follow-up-failure-boundary.md), [transactions](../architecture/transactions.md)
+
+철학: 트랜잭션 경계는 Application Service에 둔다. 후속 작업(알림, 적립 등)의
+실패가 원 작업을 실패시킬지는 코드 묶음이 아니라 사용자 성공 기준으로 판단하고,
+분리하더라도 조용히 무시하지 않고 로그와 복구 경로를 둔다.
+
+- 2: 경계가 Service에 있고, 후속 작업의 성공 관계가 요구사항 기준으로 판단되어 있다.
+  분리된 후속 작업에는 식별자가 포함된 로그 / 복구 경로가 있다.
+- 1: 경계는 맞으나 후속 작업 실패 처리가 로그 없이 삼켜지는 곳이 한 군데 있다.
+- 0: Controller / Repository에서 트랜잭션 시작, 또는 후속 작업 실패가 원 작업을
+  근거 없이 함께 실패시키거나 무단으로 무시된다.
+
+전형적 위반: catch 후 빈 블록, 알림 실패로 주문 취소 rollback, 요구사항 확인 없는 분리 판단.
+
+## S9. 도메인 간 협력
+
+출처: [domain-reference-adapter](../decisions/accepted/domain-reference-adapter.md), [domain-boundary](../architecture/domain-boundary.md)
+
+철학: 도메인은 협력하되 다른 도메인의 책임을 대신하지 않는다.
+다른 도메인과의 상호작용은 Reference 포트(인터페이스는 필요한 쪽 application,
+Adapter는 협력 수단을 가진 쪽)로 캡슐화하고, 상대 도메인 객체를 노출하기보다
+필요한 사실 / 행위만 제공한다.
+
+- 2: 도메인 간 협력이 Reference 포트로 캡슐화되어 있고, 상대 도메인의 상태를
+  직접 조작하는 곳이 없다.
+- 1: 포트 구조는 있으나 상대 도메인 객체가 그대로 노출되는 곳이 한 군데 있다.
+- 0: Service가 상대 도메인 Repository를 직접 조회해 내부 상태를 판단하거나,
+  한 도메인이 다른 도메인의 상태를 직접 변경한다.
+
+전형적 위반: OrderService가 MemberRepository 직접 주입, Product가 Order 상태 변경.
+
 ## T1. public behavior 단위 직접 테스트
 
 출처: [public-behavior-based-tdd](../decisions/accepted/public-behavior-based-tdd.md), [testing](../principles/testing.md)
@@ -137,6 +172,20 @@ Service(흐름·협력 호출)=Mock, Validator(상태 기반 검증)=Fake 우선
 - 1: 실패 확인은 있으나 원인 분류가 없거나 로그 근거가 약하다.
 - 0: 실패 확인 없이 구현이 시작됐다 (보고서에 근거 부재).
 
+## T4. 동시성 테스트 경계
+
+출처: [concurrency-test-boundary](../decisions/accepted/concurrency-test-boundary.md)
+
+철학: 동시 쓰기 경쟁(중복 생성, 재고 차감, 결제 승인 등)이 있는 유스케이스는
+Mock / Fake로 검증할 수 없다. 실제 Spring Context와 DB를 사용하는 통합 테스트로
+최종 상태를 검증한다. 이 원칙이 일반 Service 테스트를 @SpringBootTest로 만드는
+근거가 되어서는 안 된다.
+
+- 2: 동시성 위험 유스케이스에 실제 환경 기반 동시성 테스트가 있고, 최종 상태를 검증한다.
+- 1: 동시성 테스트는 있으나 호출 여부만 검증하거나 재현 안정성 장치가 없다.
+- 0: 동시성 위험이 카드에 명시됐는데 테스트가 없거나 Mock / Fake로 대체했다.
+- N/A: 카드에 동시 쓰기 경쟁 유스케이스가 없다.
+
 ## R1. 의도가 드러나는 네이밍
 
 출처: [naming](../principles/naming.md), [common-util-package](../decisions/rejected/common-util-package.md)
@@ -158,6 +207,21 @@ boolean 파라미터로 정책 차이를 숨기지 않는다.
 - 2: 메서드가 한 의도로 읽히고, 분기가 early return으로 정리되어 있다.
 - 1: 의도 혼합이 한 곳 있거나(이름에 and), 깊은 중첩이 남아 있다.
 - 0: 한 메서드가 검증 + 판단 + 저장을 모두 수행, boolean 플래그로 동작 분기.
+
+## R3. Lombok 사용 기준
+
+출처: [lombok-usage-guideline](../decisions/accepted/lombok-usage-guideline.md), [lombok](../principles/lombok.md)
+
+철학: Lombok은 보일러플레이트 절감 도구이지 객체 설계를 대체하지 않는다.
+객체의 생성 경로와 상태 변경 권한을 외부에 열면 안 되며,
+Domain / Persistence Entity / DTO의 역할에 따라 허용 범위가 다르다.
+
+- 2: Lombok 사용이 역할별 기준 안에 있고, Domain의 생성 / 변경 경로가 닫혀 있다.
+- 1: 허용 범위 밖 어노테이션이 한 곳 있으나 경로 통제는 유지된다 (예: DTO 외 @Builder).
+- 0: Domain에 @Setter / @AllArgsConstructor(public)로 생성·변경 경로가 열렸다.
+- N/A: 이 카드의 diff에 Lombok 사용이 없다.
+
+전형적 위반: Domain Entity의 @Data, @Setter, public @Builder로 검증 우회 생성.
 
 ## P1. 커밋 단위와 순서
 
