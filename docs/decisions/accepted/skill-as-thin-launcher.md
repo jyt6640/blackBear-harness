@@ -57,6 +57,7 @@ AGENTS.md만 읽는 다른 에이전트에서도 하네스가 동일하게 동�
 - feat-agent: 실패 테스트를 통과시키는 최소 구현
 - refactor-agent: public behavior 변경 없는 구조 개선
 - review-agent: 작업 산출물과 diff를 승인 / 반려
+- local-agent: 카드의 단계 릴레이를 로컬 LLM 역할 에이전트에 위임 (자동 모드)
 
 ---
 

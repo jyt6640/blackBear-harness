@@ -19,8 +19,9 @@ description: 오케스트레이터로 기능 개발 릴레이를 시작하거나
    - 백로그 순번의 첫 카드만 [next-step/templates/00-task-card.md](../../../next-step/templates/00-task-card.md)를 복사해 컴파일한다.
      카드의 "시작 기준 commit"에 `git rev-parse HEAD` 값을 기록한다.
      뒤 카드를 미리 만들지 않는다. (앞 카드의 decision이 뒤 카드 지침에 반영되어야 한다)
+   - 자동 로컬 에이전트 모드에는 카드에 `필수 상위 문서`와 `역할별 추가 문서` 목록을 반드시 채운다.
    - 카드 작성 후 멈춘다. Test 단계를 직접 시작하지 않는다.
-     사용자에게 "작업 카드 작성 완료. /test-agent를 실행해주세요."라고 요청한다.
+     사용자에게 "작업 카드 작성 완료. /test-agent(사용자 릴레이) 또는 /local-agent(자동 릴레이)를 실행해주세요."라고 요청한다.
    - 세션이 새로 시작됐고 `next-step/work/backlog.md`가 있으면, 백로그를 읽고 진행 상태에서 이어간다.
 
 3. 마무리 요청이면 (`03-review-report.md`가 승인 상태):

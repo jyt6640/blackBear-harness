@@ -95,7 +95,12 @@ for section in "## 필수 상위 문서" "## 역할별 추가 문서" "### Test"
 done
 grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
 
-# 11. 강제 스크립트와 훅 존재 / 실행 권한
+# 11. 필수 스킬 존재 (얇은 런처)
+for skill in orchestrate test-agent feat-agent refactor-agent review-agent local-agent draft-decision harness-interview harness-sync; do
+    [ -f ".claude/skills/$skill/SKILL.md" ] || err "필수 스킬 없음: .claude/skills/$skill/SKILL.md"
+done
+
+# 12. 강제 스크립트와 훅 존재 / 실행 권한
 for sc in \
     scripts/check-commit-message.sh \
     scripts/check-commit-chain.sh \
