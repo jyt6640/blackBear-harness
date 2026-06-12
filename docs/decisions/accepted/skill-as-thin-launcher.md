@@ -58,6 +58,7 @@ AGENTS.md만 읽는 다른 에이전트에서도 하네스가 동일하게 동�
 - refactor-agent: public behavior 변경 없는 구조 개선
 - review-agent: 작업 산출물과 diff를 승인 / 반려
 - local-agent: 카드의 단계 릴레이를 로컬 LLM 역할 에이전트에 위임 (자동 모드)
+- loop-improve: 철학 점수 집계 → 낮은 항목의 프롬프트 개선 제안
 
 ---
 

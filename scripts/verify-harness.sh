@@ -85,7 +85,7 @@ grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없
 [ -f "next-step/history/README.md" ] || err "next-step/history/README.md 없음"
 
 # 9. next-step 템플릿 존재
-for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md; do
+for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md 05-scorecard.md; do
     [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
 done
 
@@ -96,7 +96,7 @@ done
 grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
 
 # 11. 필수 스킬 존재 (얇은 런처)
-for skill in orchestrate test-agent feat-agent refactor-agent review-agent local-agent draft-decision harness-interview harness-sync; do
+for skill in orchestrate test-agent feat-agent refactor-agent review-agent local-agent loop-improve draft-decision harness-interview harness-sync; do
     [ -f ".claude/skills/$skill/SKILL.md" ] || err "필수 스킬 없음: .claude/skills/$skill/SKILL.md"
 done
 
@@ -109,6 +109,7 @@ for sc in \
     scripts/local-agent/run-stage.sh \
     scripts/local-agent/run-pipeline.sh \
     scripts/local-agent/test-runner.sh \
+    scripts/loop/aggregate-scores.sh \
     .githooks/pre-commit \
     .githooks/commit-msg
 do

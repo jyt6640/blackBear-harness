@@ -45,6 +45,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 ## 출력
 
 - `next-step/work/<작업명>/03-review-report.md`
+- `next-step/work/<작업명>/05-scorecard.md` — [templates/05-scorecard.md](../../next-step/templates/05-scorecard.md) 형식으로 전 항목 채점, 근거에 코드 위치 인용
 
 `03-review-report.md`에는 아래를 기록한다.
 
@@ -73,6 +74,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 최종 점검 항목을 판정했다.
 - 승인 또는 반려가 명확하다.
 - `03-review-report.md`가 작성됐다.
+- `05-scorecard.md`가 전 항목 채점됐다 (해당 없으면 N/A, 감점에는 근거 인용).
 - 사용자 릴레이 모드에서는 판정에 따라 다음 실행을 요청한다.
 - 자동 로컬 에이전트 모드에서는 판정과 재실행 단계를 기록하고 결과를 반환한 뒤 종료한다.
 

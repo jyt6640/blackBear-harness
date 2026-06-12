@@ -34,7 +34,7 @@
 3. Test Agent(/test-agent)는 `00-task-card.md`를 확인하고 `01-test-report.md`를 작성하고 멈춘다.
 4. Feat Agent(/feat-agent)는 `01-test-report.md`를 확인하고 `02-implementation-report.md`를 작성하고 멈춘다.
 5. Refactor Agent(/refactor-agent)는 구현을 정리하고 `02-refactor-report.md`를 작성하고 멈춘다. 개선할 것이 없어도 행위 보존 확인을 기록한다.
-6. Review Agent(/review-agent)는 산출물과 diff를 검증해 `03-review-report.md`를 작성하고 멈춘다. 반려면 사유에 따라 Feat / Refactor / Test로 되돌린다.
+6. Review Agent(/review-agent)는 산출물과 diff를 검증해 `03-review-report.md`와 `05-scorecard.md`(철학 점수표)를 작성하고 멈춘다. 반려면 사유에 따라 Feat / Refactor / Test로 되돌린다.
 7. 오케스트레이터는 `04-summary.md`를 작성하고 백로그 상태를 갱신한 뒤 영구화할 지식만 docs / decisions / 커밋 메시지 / PR 설명으로 승격한다.
 8. 카드 완료 후 `work/<작업명>`을 `history/<작업명>/`으로 이동하고 완료 기록으로 커밋한다.
 9. 모든 카드가 끝나면 `work/backlog.md`를 `history/<백로그명>-backlog.md`로 이동하고 함께 커밋한다.

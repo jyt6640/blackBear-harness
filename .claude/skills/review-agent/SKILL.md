@@ -22,7 +22,7 @@ description: Test → Feat → Refactor → Review 릴레이의 마지막 단계
 3. 하네스의 책임 / 금지 / 완료 기준대로 실행한다.
    코드를 직접 수정하지 않는다. 판정과 수정 요구까지만이다.
 
-4. 03-review-report.md를 작성하고 멈춘다. 직접 수정하거나 다음 단계를 실행하지 않는다.
+4. 03-review-report.md와 05-scorecard.md(철학 점수표, 템플릿 형식 전 항목 채점)를 작성하고 멈춘다. 직접 수정하거나 다음 단계를 실행하지 않는다.
    - 승인이면 사용자에게 "/orchestrate로 마무리(04-summary 작성과 정리)를 진행해주세요."라고 요청한다.
    - 반려면 수정 요구 목록과 함께 사유에 따라 재실행을 요청한다.
      구현 문제 → /feat-agent, 구조 문제 → /refactor-agent, 행위 정의 문제 → /test-agent.

@@ -35,6 +35,7 @@ accepted
     ├── 02-implementation-report.md (Feat Agent: 구현 결과)
     ├── 02-refactor-report.md    (Refactor Agent: 행위 보존 결과)
     ├── 03-review-report.md      (Review Agent: 승인 / 반려)
+    ├── 05-scorecard.md          (Review Agent: 철학 점수표)
     └── 04-summary.md            (오케스트레이터: 통합 보고)
 
 refactor 전용 카드는 `01-test-report.md`와 `02-implementation-report.md` 없이

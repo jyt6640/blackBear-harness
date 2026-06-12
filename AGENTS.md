@@ -57,6 +57,7 @@
 11. 승인 후 `04-summary.md`를 작성하고 백로그 상태를 갱신한다. 최종 점검을 통과한 뒤 영구화할 내용만 docs / decision / 커밋 메시지 / PR 설명으로 승격한다.
 12. 카드 완료 후 `next-step/work/<작업명>`을 삭제하지 않고 `next-step/history/<작업명>/`으로 이동해 보존한다.
 13. 백로그의 모든 카드가 끝나면 `next-step/work/backlog.md`를 `next-step/history/<백로그명>-backlog.md`로 이동해 보존한다.
+14. 백로그 완료 시 또는 카드 5장마다 `scripts/loop/aggregate-scores.sh`로 철학 점수를 집계하고, 낮은 항목은 /loop-improve로 프롬프트 개선을 제안한다. → [loop-engineering](./docs/workflow/loop-engineering.md)
 
 ---
 
@@ -72,7 +73,8 @@
     ├── 02-implementation-report.md
     ├── 02-refactor-report.md
     ├── 03-review-report.md
-    └── 04-summary.md
+    ├── 04-summary.md
+    └── 05-scorecard.md
 
 각 산출물의 역할:
 
@@ -81,6 +83,7 @@
 - `02-implementation-report.md`: Feat Agent가 실패 테스트를 통과시킨 구현 결과
 - `02-refactor-report.md`: Refactor Agent의 행위 보존 확인이 포함된 구조 개선 결과
 - `03-review-report.md`: Review Agent의 승인 / 반려 판정
+- `05-scorecard.md`: Review Agent의 철학 점수표 (항목 정본은 next-step/templates/05-scorecard.md)
 - `04-summary.md`: 오케스트레이터의 통합 보고와 영구화 여부 판단
 
 단계 게이트:

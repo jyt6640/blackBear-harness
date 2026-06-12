@@ -123,6 +123,7 @@ case "$ROLE" in
         for artifact in 01-test-report.md 02-implementation-report.md 02-refactor-report.md; do
             [ ! -f "$WORK/$artifact" ] || printf '%s\n' "next-step/work/$TASK/$artifact" >> "$INPUTS"
         done
+        printf '%s\n' "next-step/templates/05-scorecard.md" >> "$INPUTS"
         ;;
 esac
 
@@ -159,6 +160,7 @@ fi
 local_agent_assert_clean_tracked_tree "$ROOT"
 INPUT_HEAD="$(git -C "$ROOT" rev-parse HEAD)"
 rm -f "$WORK/$REPORT"
+[ "$ROLE" != "review" ] || rm -f "$WORK/05-scorecard.md"
 
 TMP_ROOT="$(mktemp -d)"
 mkdir -p "$TMP_ROOT/codex-home" "$TMP_ROOT/workspace"
@@ -182,6 +184,10 @@ PROMPT="$TMP_ROOT/prompt.md"
         printf -- '- `%s/%s`\n' "$ROOT" "$path"
     done < "$INPUTS"
     echo
+    if [ "$ROLE" = "review" ]; then
+        echo '판정과 함께 `next-step/work/'"$TASK"'/05-scorecard.md`를 next-step/templates/05-scorecard.md 형식으로 작성해 전 항목을 채점한다. 감점에는 코드 위치 근거를 인용한다.'
+        echo
+    fi
     cat <<EOF
 모든 shell 명령은 먼저 \`cd "$ROOT"\`한 뒤 실행한다.
 저장소 루트에서 작업하고 역할 AGENTS.md의 책임, 금지, 완료 기준을 따른다.
@@ -215,6 +221,10 @@ CODEX_HOME="$TMP_ROOT/codex-home" codex -a never exec \
     echo "FAIL: $ROLE 단계 보고서가 생성되지 않았다: $WORK/$REPORT" >&2
     exit 1
 }
+if [ "$ROLE" = "review" ] && [ ! -f "$WORK/05-scorecard.md" ]; then
+    echo "FAIL: Review 단계가 05-scorecard.md(철학 점수표)를 생성하지 않았다" >&2
+    exit 1
+fi
 
 case "$ROLE" in
     test)
