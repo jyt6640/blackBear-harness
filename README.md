@@ -53,7 +53,7 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 - 카드가 2장 이상이면 `next-step/work/backlog.md`에 카드 목록과 순서를 먼저 기록한다.
 - 첫 카드만 `next-step/work/<작업명>/00-task-card.md`로 컴파일한다.
   (대상 행위, 적용 지침, 금지, 완료 기준, 시작 기준 commit)
-- 정지: "작업 카드 작성 완료. /test-agent를 실행해주세요."
+- 정지: "작업 카드 작성 완료. /test-agent(사용자 릴레이) 또는 /local-agent(자동 릴레이)를 실행해주세요."
 
 ### /test-agent — 실패 테스트
 
@@ -110,6 +110,7 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 | 최소 구현 | `/feat-agent` |
 | 구조 개선 | `/refactor-agent` |
 | 검증과 승인 / 반려 | `/review-agent` |
+| 카드 전체를 로컬 LLM 자동 릴레이로 실행 | `/local-agent` |
 | 결정 기록 | `/draft-decision` |
 | base 갱신 반영 | `/harness-sync` |
 
@@ -118,27 +119,46 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 
 ---
 
-## 4. 자동 로컬 에이전트 모드
+## 4. 자동 로컬 에이전트 모드 (/local-agent)
 
-상위 오케스트레이터가 작업 카드를 작성한 뒤 Test → Feat → Refactor → Review를
-Codex profile에 연결된 로컬 LLM에 맡길 수 있다.
+카드 작성 후 Test → Feat → Refactor → Review를 사용자가 단계마다 호출하는 대신,
+로컬 LLM 역할 에이전트에 맡겨 한 번에 직렬 실행할 수 있다.
 
-머신별 provider 주소, 모델, token은 저장소에 넣지 않고 Codex profile로 관리한다.
+### 준비 (최초 1회)
+
+머신별 provider 주소, 모델, token은 저장소에 넣지 않고
+Codex profile(`~/.codex/<profile>.config.toml`)로 관리한다.
+형식은 [docs/workflow/local-agent-orchestration.md](./docs/workflow/local-agent-orchestration.md)의 예시를 따른다.
+
+### 사용
+
+    /orchestrate 주문 취소 만들어줘
+    → 카드 컴파일 (자동 모드용 필수 상위 문서 / 역할별 추가 문서 포함) → 정지
+
+    /local-agent
+    → provider 검증(check-provider) → dry-run 점검 → run-pipeline 실행
+
+파이프라인이 단계마다 자동으로 검사한다.
+
+- 역할 게이트(enforce-workflow)와 산출물 체인
+- 단계별 커밋 type (test / feat / refactor, Review는 커밋 금지)
+- clean worktree
+
+역할 에이전트가 읽는 입력은 카드가 지정한 것뿐이다:
+자기 역할 AGENTS.md + 역할 docs + 카드의 `필수 상위 문서` / `역할별 추가 문서` + 이전 산출물.
+전체 docs를 읽지 않는다.
+
+### 반려와 중단
+
+- Review 반려 → `03-review-report.md`의 `재실행 단계`부터 제한 횟수 안에서 자동 재실행
+- 한도 초과 또는 BLOCKED → 멈추고 사용자에게 보고.
+  막힌 단계부터 사용자 릴레이(/test-agent 등)로 이어받을 수 있다.
+- 승인 → /orchestrate로 마무리 (04-summary, history 이동)는 동일하다.
+
+스크립트를 직접 쓸 수도 있다.
 
 ```bash
 scripts/local-agent/check-provider.sh --profile <profile>
 scripts/local-agent/run-stage.sh test <작업명> --profile <profile> --dry-run
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
 ```
-
-역할 에이전트가 읽는 입력:
-
-- `agents/<role>/AGENTS.md`
-- `agents/<role>/docs/*.md`
-- 작업 카드의 `필수 상위 문서`
-- 작업 카드의 해당 `역할별 추가 문서`
-- 작업 카드와 이전 단계 산출물
-
-한 카드 안의 단계는 직렬 실행한다. Review 반려 시 `03-review-report.md`의
-`재실행 단계`부터 제한 횟수만 다시 실행하고, 한도를 넘으면 상위 오케스트레이터가
-판단한다. 사용자 릴레이 모드는 fallback으로 계속 사용할 수 있다.
