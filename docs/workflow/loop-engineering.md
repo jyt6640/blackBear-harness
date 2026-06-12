@@ -17,6 +17,8 @@
 - Review Agent가 판정과 함께 `next-step/work/<작업명>/05-scorecard.md`를 작성한다.
 - 점수표 항목의 정본은 [next-step/templates/05-scorecard.md](../../next-step/templates/05-scorecard.md)다.
   항목은 docs의 철학·decision에서 도출되었고, 각 행이 출처를 가리킨다.
+- 항목별 2 / 1 / 0의 경계와 전형적 위반은 [loop-scoring-criteria.md](./loop-scoring-criteria.md)가 정의한다.
+  기준이 모호해서 채점이 흔들리면 점수가 아니라 기준 문서를 고친다.
 - 점수는 diff와 단계 보고서를 근거로 매기고, 근거에 코드 위치를 인용한다.
 - 완료된 점수표는 산출물 체인과 함께 `next-step/history/`로 이동해 누적된다.
 

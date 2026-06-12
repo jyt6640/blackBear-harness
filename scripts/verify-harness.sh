@@ -95,6 +95,11 @@ for section in "## 필수 상위 문서" "## 역할별 추가 문서" "### Test"
 done
 grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
 
+# 점수표 항목과 채점 기준의 ID 일치
+for iid in $(grep -oE '^\| [A-Z][0-9]+' next-step/templates/05-scorecard.md | tr -d '| '); do
+    grep -q "^## $iid\." docs/workflow/loop-scoring-criteria.md || err "채점 기준 없음: $iid (loop-scoring-criteria.md)"
+done
+
 # 11. 필수 스킬 존재 (얇은 런처)
 for skill in orchestrate test-agent feat-agent refactor-agent review-agent local-agent loop-improve draft-decision harness-interview harness-sync; do
     [ -f ".claude/skills/$skill/SKILL.md" ] || err "필수 스킬 없음: .claude/skills/$skill/SKILL.md"

@@ -124,6 +124,7 @@ case "$ROLE" in
             [ ! -f "$WORK/$artifact" ] || printf '%s\n' "next-step/work/$TASK/$artifact" >> "$INPUTS"
         done
         printf '%s\n' "next-step/templates/05-scorecard.md" >> "$INPUTS"
+        printf '%s\n' "docs/workflow/loop-scoring-criteria.md" >> "$INPUTS"
         ;;
 esac
 

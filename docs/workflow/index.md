@@ -88,6 +88,7 @@ Git 기록은 작업 흐름과 변경 의도를 표현해야 한다.
 - [how-to-create-project-harness.md](./how-to-create-project-harness.md) — 하네스 생성 시에만
 - [harness-interview.md](./harness-interview.md) — 하네스 생성 시에만
 - [loop-engineering.md](./loop-engineering.md) — 철학 점수화와 프롬프트 개선 루프
+- [loop-scoring-criteria.md](./loop-scoring-criteria.md) — 점수표 항목별 채점 기준 상세
 
 ---
 

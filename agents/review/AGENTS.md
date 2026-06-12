@@ -25,6 +25,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 해당 작업의 diff
 - [docs/workflow/code-review.md](../../docs/workflow/code-review.md)
 - [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임
+- [docs/workflow/loop-scoring-criteria.md](../../docs/workflow/loop-scoring-criteria.md) — 점수표 항목별 채점 기준
 - [docs/principles/testing.md](../../docs/principles/testing.md)
 - [AGENTS.md](../../AGENTS.md)의 최종 점검, 불변 철학, 기본 입장
 - [workflow](./docs/workflow.md), [review philosophy](./docs/review-philosophy.md), [rejection criteria](./docs/rejection-criteria.md), [final checklist](./docs/final-checklist.md)
