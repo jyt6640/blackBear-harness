@@ -161,4 +161,5 @@ Codex profile(`~/.codex/<profile>.config.toml`)로 관리한다.
 scripts/local-agent/check-provider.sh --profile <profile>
 scripts/local-agent/run-stage.sh test <작업명> --profile <profile> --dry-run
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
+scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid  # 구현=로컬, Review=강모델
 ```

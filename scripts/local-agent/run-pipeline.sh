@@ -8,7 +8,10 @@ source "$SCRIPT_DIR/lib.sh"
 usage() {
     cat <<'EOF'
 사용법:
-  scripts/local-agent/run-pipeline.sh <작업명> --profile <Codex profile> [--max-retries 2]
+  scripts/local-agent/run-pipeline.sh <작업명> --profile <Codex profile> [--max-retries 2] [--hybrid]
+
+  --hybrid: Test/Feat/Refactor만 로컬 LLM으로 실행하고 Review는 강모델(Claude /review-agent)에 넘긴다.
+            독립 리뷰로 자기 채점 편향을 제거한다.
 EOF
 }
 
@@ -18,6 +21,7 @@ TASK="$1"
 shift
 PROFILE="${LOCAL_AGENT_PROFILE:-}"
 MAX_RETRIES=2
+HYBRID=false
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -28,6 +32,10 @@ while [ "$#" -gt 0 ]; do
         --max-retries)
             MAX_RETRIES="$2"
             shift 2
+            ;;
+        --hybrid)
+            HYBRID=true
+            shift
             ;;
         *)
             echo "FAIL: 알 수 없는 인자: $1" >&2
@@ -96,7 +104,7 @@ run_from() {
             exit 1
             ;;
     esac
-    run_stage review
+    [ "$HYBRID" = true ] || run_stage review
 }
 
 INITIAL_BASE="$(local_agent_extract_first_value "$CARD" "## 시작 기준 commit")"
@@ -107,6 +115,16 @@ INITIAL_BASE="$(local_agent_extract_first_value "$CARD" "## 시작 기준 commit
 printf 'review_base_ref=%s\nattempt=0\n' "$INITIAL_BASE" > "$STATE"
 
 run_from test
+
+if [ "$HYBRID" = true ]; then
+    cat <<EOF
+OK: 하이브리드 모드 — Test/Feat/Refactor 로컬 실행 완료.
+독립 리뷰를 위해 강모델에서 /review-agent를 실행하세요.
+오케스트레이터(Claude)가 03-review-report.md와 05-scorecard.md를 작성합니다.
+자기 채점 편향을 피하려고 Review는 구현 모델과 분리합니다.
+EOF
+    exit 0
+fi
 
 ATTEMPT=0
 while :; do

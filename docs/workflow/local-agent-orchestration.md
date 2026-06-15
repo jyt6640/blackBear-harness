@@ -59,6 +59,15 @@ scripts/local-agent/run-stage.sh test <작업명> --profile <profile> --dry-run
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
 ```
 
+하이브리드 (구현은 로컬, Review는 강모델):
+
+```bash
+scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid
+# 구현 3단계 후 멈춤 → 강모델에서 /review-agent로 독립 리뷰
+```
+
+→ [hybrid-execution-mode](../decisions/accepted/hybrid-execution-mode.md)
+
 실행기는 단계마다 다음을 수행한다.
 
 1. 역할 `enforce-workflow.sh`를 실행한다.
