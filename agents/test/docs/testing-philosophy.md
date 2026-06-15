@@ -8,6 +8,10 @@ Test Agent의 테스트는 구현을 확인하는 문서가 아니라 기대 행
 
 ---
 
+## 출처 정본
+
+[testing](../../../docs/principles/testing.md), [public-behavior-based-tdd](../../../docs/decisions/accepted/public-behavior-based-tdd.md)
+
 ## 핵심 방향
 
 - 기능명보다 production class의 public behavior를 기준으로 테스트한다.

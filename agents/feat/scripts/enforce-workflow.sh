@@ -26,6 +26,11 @@ do
     [ -f "$f" ] || err "필수 하네스 파일 없음: $f"
 done
 
+# 작업 카드 컴파일 규칙 검증 (상위 docs 규칙이 카드에 컴파일됐는지)
+if [ -n "$TASK" ] && [ -f "$ROOT/next-step/work/$TASK/00-task-card.md" ]; then
+    "$ROOT/scripts/check-task-card.sh" "$TASK" || fail=1
+fi
+
 if [ "$fail" -eq 0 ]; then
     echo "OK: Feat workflow gate passed"
 fi

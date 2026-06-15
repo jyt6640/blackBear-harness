@@ -8,6 +8,10 @@ Feat Agent는 책임 위치를 먼저 정하고 코드를 작성한다.
 
 ---
 
+## 출처 정본
+
+[layered-architecture](../../../docs/architecture/layered-architecture.md), [domain-boundary](../../../docs/architecture/domain-boundary.md)
+
 ## Presentation
 
 - HTTP 요청/응답을 처리한다.

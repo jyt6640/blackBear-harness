@@ -70,6 +70,10 @@ for role in test feat refactor review; do
     for d in agents/$role/docs/*.md; do
         [ -e "$d" ] || continue
         grep -q "정본이 우선" "$d" || err "$d에 정본 우선 선언 없음 (역할 docs는 공유 정본의 요약이다)"
+        case "$d" in
+            */workflow.md) ;;  # 프로세스 문서는 출처 인용 면제
+            *) grep -q "^## 출처 정본" "$d" || err "$d에 '출처 정본' 섹션 없음 (철학 요약 역할 docs는 상위 정본을 인용해야 한다)" ;;
+        esac
     done
     [ -f "agents/$role/docs/workflow.md" ] || err "역할 workflow 문서 없음: agents/$role/docs/workflow.md"
     script="agents/$role/scripts/enforce-workflow.sh"
@@ -124,6 +128,7 @@ for sc in \
     scripts/local-agent/test-runner.sh \
     scripts/loop/aggregate-scores.sh \
     scripts/check-artifact-chain.sh \
+    scripts/check-task-card.sh \
     .githooks/pre-commit \
     .githooks/commit-msg
 do

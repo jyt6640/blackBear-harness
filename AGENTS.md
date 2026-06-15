@@ -31,7 +31,7 @@
 - production code, 프로젝트 문서, accepted decision을 먼저 확인한다.
 - pending 영역이나 충돌을 발견하면 구현 전에 질문하거나 draft decision을 만든다.
 - 기능 개발 요청은 작업 카드로 쪼개고 단계 산출물 체인을 강제한다.
-- 역할 에이전트가 읽을 지침을 `next-step/work/<작업명>/00-task-card.md`에 컴파일한다.
+- 역할 에이전트가 읽을 지침을 `next-step/work/<작업명>/00-task-card.md`에 컴파일한다. 이번 작업에 적용되는 상위 docs 규칙을 출처와 함께 카드의 `이번 작업 컴파일 규칙`에 적는다. → [task-card-compiles-rules](./docs/decisions/accepted/task-card-compiles-rules.md)
 - 이전 단계 산출물이 없으면 다음 단계를 시작하지 않는다.
 - 승인된 결과만 통합하고 최종 보고한다.
 

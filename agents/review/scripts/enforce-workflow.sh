@@ -41,6 +41,11 @@ else
     echo "INFO: 기준 ref가 없어 커밋 체인 검사를 건너뛴다. 00-task-card의 시작 기준 commit으로 실행한다: agents/review/scripts/enforce-workflow.sh <작업명> <시작ref>"
 fi
 
+# 작업 카드 컴파일 규칙 검증 (상위 docs 규칙이 카드에 컴파일됐는지)
+if [ -n "$TASK" ] && [ -f "$ROOT/next-step/work/$TASK/00-task-card.md" ]; then
+    "$ROOT/scripts/check-task-card.sh" "$TASK" || fail=1
+fi
+
 if [ "$fail" -eq 0 ]; then
     echo "OK: Review workflow gate passed"
 fi

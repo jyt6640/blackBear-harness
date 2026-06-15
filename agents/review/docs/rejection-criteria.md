@@ -8,6 +8,10 @@
 
 ---
 
+## 출처 정본
+
+[code-review](../../../docs/workflow/code-review.md)
+
 ## 산출물 위반
 
 - `00-task-card.md` 없이 진행했다.

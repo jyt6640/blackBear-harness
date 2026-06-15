@@ -8,6 +8,10 @@
 
 ---
 
+## 출처 정본
+
+[public-behavior-based-tdd](../../../docs/decisions/accepted/public-behavior-based-tdd.md), [refactoring](../../../docs/workflow/refactoring.md)
+
 ## 확인 방법
 
 - 리팩터링 전 통과하던 테스트 범위를 확인한다.

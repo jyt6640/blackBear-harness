@@ -9,6 +9,10 @@ Green은 Feat Agent의 책임이다.
 
 ---
 
+## 출처 정본
+
+[tdd](../../../docs/workflow/tdd.md), [public-behavior-based-tdd](../../../docs/decisions/accepted/public-behavior-based-tdd.md)
+
 ## 흐름
 
 1. `00-task-card.md`에서 대상 행위와 완료 기준을 확인한다.

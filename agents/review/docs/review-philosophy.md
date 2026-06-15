@@ -8,6 +8,10 @@ Review Agent는 취향이 아니라 작업 카드와 하네스 기준으로 판�
 
 ---
 
+## 출처 정본
+
+[code-review](../../../docs/workflow/code-review.md)
+
 ## 핵심 방향
 
 - 코드보다 의도를 먼저 이해한다.

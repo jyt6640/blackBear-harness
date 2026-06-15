@@ -18,6 +18,10 @@ Refactor Agent는 public behavior 변경 없이 구조를 개선하는 역할이
 
 ## 입력
 
+작업 카드의 `이번 작업 컴파일 규칙`이 이번 작업의 1차 구속 계약이다.
+먼저 읽고 따르며, 모호하면 아래 출처 정본을 확인한다.
+상위 docs 전부를 정독하지 않고, 카드 규칙 + 자기 역할 docs를 기준으로 실행한다.
+
 - 리팩터링 작업 카드 또는 Review 반려 항목
 - 현재 통과 중인 테스트 목록
 - [docs/workflow/refactoring.md](../../docs/workflow/refactoring.md)

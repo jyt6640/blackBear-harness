@@ -18,6 +18,10 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 
 ## 입력
 
+작업 카드의 `이번 작업 컴파일 규칙`이 이번 작업의 1차 구속 계약이다.
+먼저 읽고 따르며, 모호하면 아래 출처 정본을 확인한다.
+상위 docs 전부를 정독하지 않고, 카드 규칙 + 자기 역할 docs를 기준으로 실행한다.
+
 - `next-step/work/<작업명>/00-task-card.md`
 - `next-step/work/<작업명>/01-test-report.md` (refactor 카드는 생략될 수 있다)
 - `next-step/work/<작업명>/02-implementation-report.md` (feature 카드)

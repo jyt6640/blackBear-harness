@@ -180,7 +180,16 @@ PROMPT="$TMP_ROOT/prompt.md"
     echo "입력 HEAD: \`$INPUT_HEAD\`"
     [ -z "$BASE_REF" ] || echo "Review 기준 commit: \`$BASE_REF\`"
     echo
-    echo "아래 파일만 작업 판단의 문서 입력으로 읽어라."
+    echo "## 이번 작업 카드 (1차 구속 계약)"
+    echo
+    echo "아래 작업 카드의 '이번 작업 컴파일 규칙'을 1차 구속 계약으로 따른다."
+    echo "오케스트레이터가 상위 docs에서 이번 작업 규칙을 이미 컴파일했다. 이 규칙을 우선 적용하고, 모호할 때만 아래 참고 문서의 출처를 확인한다."
+    echo
+    echo '```markdown'
+    cat "$ROOT/next-step/work/$TASK/00-task-card.md"
+    echo '```'
+    echo
+    echo "참고 문서 (카드가 모호할 때 출처 확인용):"
     while IFS= read -r path; do
         printf -- '- `%s/%s`\n' "$ROOT" "$path"
     done < "$INPUTS"

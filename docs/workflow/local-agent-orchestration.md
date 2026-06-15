@@ -39,6 +39,10 @@ wire_api = "responses"
 전체 `docs/`를 목록에 넣지 않는다.
 production code와 프로젝트 accepted decision에서 작업에 직접 필요한 문서만 고른다.
 
+카드의 `이번 작업 컴파일 규칙`에 이번 작업 규칙을 출처와 함께 컴파일한다.
+실행기는 카드 본문을 프롬프트에 직접 주입하고, 위 문서는 모호할 때 출처 확인용으로 남긴다.
+→ [task-card-compiles-rules](../decisions/accepted/task-card-compiles-rules.md)
+
 ---
 
 ## 단계 실행

@@ -8,6 +8,10 @@
 
 ---
 
+## 출처 정본
+
+[test-double-by-responsibility](../../../docs/decisions/accepted/test-double-by-responsibility.md)
+
 ## 선택 기준
 
 - Service: 흐름과 협력 호출을 검증하므로 Mock이 자연스럽다.

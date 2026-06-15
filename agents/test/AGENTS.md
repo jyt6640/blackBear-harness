@@ -18,6 +18,10 @@ production code 구현은 담당하지 않는다.
 
 ## 입력
 
+작업 카드의 `이번 작업 컴파일 규칙`이 이번 작업의 1차 구속 계약이다.
+먼저 읽고 따르며, 모호하면 아래 출처 정본을 확인한다.
+상위 docs 전부를 정독하지 않고, 카드 규칙 + 자기 역할 docs를 기준으로 실행한다.
+
 - `next-step/work/<작업명>/00-task-card.md`
 - [docs/workflow/tdd.md](../../docs/workflow/tdd.md)
 - [docs/principles/testing.md](../../docs/principles/testing.md)

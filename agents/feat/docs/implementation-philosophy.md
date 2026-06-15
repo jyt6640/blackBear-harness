@@ -9,6 +9,10 @@ Feat Agent의 구현은 실패 테스트를 통과시키는 최소 변경이다.
 
 ---
 
+## 출처 정본
+
+[oop](../../../docs/principles/oop.md), [method-design](../../../docs/principles/method-design.md)
+
 ## 핵심 방향
 
 - 현재 프로젝트의 production code와 accepted decision을 우선한다.

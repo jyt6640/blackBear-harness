@@ -9,6 +9,10 @@
 
 ---
 
+## 출처 정본
+
+[explicit-over-reuse](../../../docs/decisions/accepted/explicit-over-reuse.md)
+
 ## 허용
 
 - 실패 테스트를 통과시키는 production code 추가

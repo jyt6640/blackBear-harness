@@ -8,6 +8,10 @@ Review Agent는 승인 전에 아래를 확인한다.
 
 ---
 
+## 출처 정본
+
+[loop-scoring-criteria](../../../docs/workflow/loop-scoring-criteria.md)
+
 ## 산출물
 
 - 작업 카드가 존재한다.

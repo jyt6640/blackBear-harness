@@ -8,6 +8,10 @@ Refactor Agent는 행위를 바꾸지 않고 의도와 구조를 더 선명하�
 
 ---
 
+## 출처 정본
+
+[refactoring](../../../docs/workflow/refactoring.md), [method-design](../../../docs/principles/method-design.md), [naming](../../../docs/principles/naming.md)
+
 ## 핵심 방향
 
 - 이름을 먼저 본다.

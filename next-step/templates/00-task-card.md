@@ -29,18 +29,25 @@
 - Controller:
 - Acceptance:
 
-## 적용 지침
+## 적용 지침 (공통 기준)
+
+모든 카드에 항상 적용되는 기준이다.
 
 - production code와 프로젝트 accepted decision을 우선한다.
 - Feat 단계는 `01-test-report.md` 없이 시작하지 않는다.
-- Service는 흐름만 조율하고 판단은 Domain / Policy / Validator에 둔다.
-- Request DTO는 Command / Query로 변환해 Service에 전달한다.
-- Repository 조회 기반 검증은 Application Validator에 둔다.
 - 테스트는 production class의 public behavior 기준으로 작성한다.
 - 커밋은 메서드 단위로 분리한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
-- 트랜잭션 경계는 Service에 두고, 후속 작업 분리는 사용자 성공 기준으로 판단한다.
-- 예외는 책임 위치에서 도메인 의미(ErrorCode)로 던지고, 기술 예외는 Infrastructure에서 변환한다.
-- 다른 도메인과의 협력은 Reference 포트로 캡슐화한다. 상대 도메인 Repository를 직접 조회하지 않는다.
+
+## 이번 작업 컴파일 규칙
+
+오케스트레이터가 이번 작업에 적용되는 상위 docs 규칙을 카드별로 컴파일한다.
+역할 에이전트는 이 규칙을 1차 구속 계약으로 따르고, 모호하면 출처 정본을 확인한다.
+각 줄은 한 규칙 + 출처(decision / 문서 이름)를 괄호로 인용한다.
+이 섹션을 템플릿 placeholder 그대로 두지 않는다.
+
+- (컴파일 필요: 이번 작업에 적용되는 규칙을 출처와 함께 적는다)
+- (컴파일 필요: 예 — Service는 흐름만 조율하고 판단은 Domain / Policy / Validator에 둔다 (service-orchestration-only))
+- (컴파일 필요: 예 — 트랜잭션 경계는 Service에 둔다 (transaction-boundary-in-service))
 
 ## 필수 상위 문서
 
