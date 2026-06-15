@@ -32,6 +32,9 @@ if [ -n "$TASK" ] && [ -f "$ROOT/next-step/work/$TASK/00-task-card.md" ]; then
     "$ROOT/scripts/check-task-card.sh" "$TASK" || fail=1
 fi
 
+# 기계 판정 철학 위반 사전 차단 (약한 모델 위반을 리뷰 전에 막는다)
+"$ROOT/scripts/check-philosophy.sh" || fail=1
+
 if [ "$fail" -eq 0 ]; then
     echo "OK: Refactor workflow gate passed"
 fi
