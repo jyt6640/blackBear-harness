@@ -66,6 +66,15 @@ scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid
 # 구현 3단계 후 멈춤 → 강모델에서 /review-agent로 독립 리뷰
 ```
 
+백로그 무인 순회 + worktree 병렬 (느린 로컬을 던져놓고 떠나기):
+
+```bash
+scripts/local-agent/run-backlog.sh --profile <profile> --parallel 2 --dry-run  # 계획 확인
+scripts/local-agent/run-backlog.sh --profile <profile> --parallel 2            # 실행
+```
+
+→ [backlog-loop-worktree](../decisions/accepted/backlog-loop-worktree.md)
+
 → [hybrid-execution-mode](../decisions/accepted/hybrid-execution-mode.md)
 
 실행기는 단계마다 다음을 수행한다.

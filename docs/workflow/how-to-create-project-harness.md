@@ -40,6 +40,7 @@ base와 다른 결정만 기록하는 diff 문서다.
 4. 기본 입장 override — base와 다르게 정한 경우에만 기록한다.
 5. 프로젝트 사실 — 기술 스택, 루트 패키지, 도메인 용어, 운영 인프라, 커밋/브랜치 규칙 차이
 6. development-guideline.md — 팀원이 바로 따를 개발 규칙. 각 규칙은 근거 decision을 링크한다.
+7. verify.sh — 프로젝트 green-bar(build + test). `scripts/project-templates/verify.sh`를 복사해 채운다. → [project-verify-green-bar](../decisions/accepted/project-verify-green-bar.md)
 
 ## 들어가면 안 되는 것
 

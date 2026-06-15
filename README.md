@@ -162,4 +162,5 @@ scripts/local-agent/check-provider.sh --profile <profile>
 scripts/local-agent/run-stage.sh test <작업명> --profile <profile> --dry-run
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid  # 구현=로컬, Review=강모델
+scripts/local-agent/run-backlog.sh --profile <profile> --parallel 2        # 백로그 무인 순회 + worktree 병렬
 ```

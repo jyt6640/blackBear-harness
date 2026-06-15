@@ -129,6 +129,8 @@ for sc in \
     scripts/loop/aggregate-scores.sh \
     scripts/check-artifact-chain.sh \
     scripts/check-task-card.sh \
+    scripts/local-agent/run-backlog.sh \
+    scripts/project-templates/verify.sh \
     .githooks/pre-commit \
     .githooks/commit-msg
 do
