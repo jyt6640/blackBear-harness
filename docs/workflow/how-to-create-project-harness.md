@@ -41,6 +41,7 @@ base와 다른 결정만 기록하는 diff 문서다.
 5. 프로젝트 사실 — 기술 스택, 루트 패키지, 도메인 용어, 운영 인프라, 커밋/브랜치 규칙 차이
 6. development-guideline.md — 팀원이 바로 따를 개발 규칙. 각 규칙은 근거 decision을 링크한다.
 7. verify.sh — 프로젝트 green-bar(build + test). `scripts/project-templates/verify.sh`를 복사해 채운다. → [project-verify-green-bar](../decisions/accepted/project-verify-green-bar.md)
+8. (선택) scripts/check-philosophy.project.sh — 프로젝트 decision으로 정한 기계 검사(예: 응답 봉투 타입 강제). base check-philosophy.sh가 source한다. → [mechanical-philosophy-block](../decisions/accepted/mechanical-philosophy-block.md)
 
 ## 들어가면 안 되는 것
 

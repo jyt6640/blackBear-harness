@@ -79,10 +79,24 @@ while IFS=: read -r f n line; do
     violate "삼항 연산자 ($f:$n): $(echo "$line"|sed 's/^[[:space:]]*//' | cut -c1-60)"
 done < <(grep -rnE '(return|=)[^;]*\?[^;:?]+:[^;]+;' "$SRC" 2>/dev/null)
 
+# Soft. Controller의 ResponseEntity<?> 와일드카드 (약타입 — 응답 타입 명시 권장) — 검토 신호
+for f in $(files -name '*Controller.java'); do
+    while IFS=: read -r n line; do
+        [ -n "$n" ] && caution "Controller 와일드카드 응답 ($f:$n) — 응답 타입을 명시하라 (프로젝트가 봉투 타입을 쓰면 그 타입으로)"
+    done < <(grep -nE 'ResponseEntity<\?>' "$f" 2>/dev/null)
+done
+
 # Soft. else 블록 (early return 선호) — R2, 차단하지 않고 검토 신호
 while IFS=: read -r f n line; do
     caution "else 블록 ($f:$n) — early return/throw로 풀 수 있는지 검토"
 done < <(grep -rnE '\}[[:space:]]*else[[:space:]]*\{|^[[:space:]]*else[[:space:]]*\{' "$SRC" 2>/dev/null)
+
+# 프로젝트 전용 검사 훅 (있으면 실행). violate/caution 함수와 SRC를 그대로 쓴다.
+# 예: 응답 봉투 타입 강제 같은 프로젝트 규칙. base에는 프로젝트 패턴을 박지 않는다.
+if [ -f "$ROOT/scripts/check-philosophy.project.sh" ]; then
+    # shellcheck source=/dev/null
+    . "$ROOT/scripts/check-philosophy.project.sh"
+fi
 
 echo "---"
 [ "$warn" -eq 0 ] || echo "WARN $warn건 (차단 안 함, 검토 권장)"

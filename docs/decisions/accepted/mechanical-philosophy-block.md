@@ -40,6 +40,15 @@ Feat / Refactor 단계 게이트(enforce-workflow)가 이 검사를 실행하고
 검토 신호(WARN, 차단 안 함):
 
 - else 블록 (early return / throw로 풀 수 있는지)
+- Controller의 `ResponseEntity<?>` 와일드카드 (응답 타입 명시 권장)
+
+프로젝트 전용 검사 훅:
+
+- 프로젝트가 `scripts/check-philosophy.project.sh`를 두면 base 검사가 source한다.
+- `violate` / `caution` 함수와 `$SRC`를 그대로 쓴다.
+- 봉투 타입 강제처럼 프로젝트 decision으로 정한 규칙은 여기에 둔다.
+  base는 프로젝트 관례(예: ApiResponse)를 박지 않는다.
+  base는 generic-response-wrapper를 기본 rejected로 두므로, 봉투 강제는 프로젝트 override다.
 
 ---
 
