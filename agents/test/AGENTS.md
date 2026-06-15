@@ -13,6 +13,7 @@ production code 구현은 담당하지 않는다.
 - 메서드(public behavior) 단위로 test 커밋을 만든다. 행위 여러 개를 한 커밋에 묶지 않는다.
 - 테스트가 실제로 실패함을 실행으로 확인한다.
 - Feat Agent가 산출물만 읽고 시작할 수 있게 `01-test-report.md`를 작성한다.
+- 프로젝트에 ArchUnit 테스트(ArchitectureTest / ProductionClassTestCoverageTest)가 있으면 그대로 둔다. 이들은 근간 구조(Tier 1)를 verify.sh green-bar에서 강제하므로, 작업 카드 행위 테스트와 함께 통과해야 한다. → [architecture-rules-as-archunit](../../docs/decisions/accepted/architecture-rules-as-archunit.md)
 
 ---
 

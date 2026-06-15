@@ -4,6 +4,11 @@
 
 accepted
 
+> 구조 검사(책임불명 클래스명, Domain setter, global 밖 핸들러, DTO 위치,
+> RuntimeException 등)는 [architecture-rules-as-archunit](./architecture-rules-as-archunit.md)의
+> ArchUnit으로 더 정확히 강제된다. grep `check-philosophy.sh`는 Java 빌드 전 빠른
+> 1차 차단으로 남길 수 있으나, 구조 위반의 정본 판정은 ArchUnit green-bar다.
+
 ---
 
 ## 문제 상황
