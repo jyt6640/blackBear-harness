@@ -31,6 +31,19 @@ for f in $(files -name '*Controller.java'); do
     [ -n "$n" ] && violate "Controller에서 try-catch ($f:$n) — 예외는 global 핸들러로"
 done
 
+# H2b. Controller에서 형식 검증 (regex/Pattern) — 형식 검증은 DTO로 — S1/S3
+for f in $(files -name '*Controller.java'); do
+    n=$(grep -nE '\.matches\(|Pattern\.|isValidEmail|\.isBlank\(\)' "$f" | head -1 | cut -d: -f1)
+    [ -n "$n" ] && violate "Controller에서 형식 검증 ($f:$n) — 형식 검증은 Request DTO(@NotNull/@NotBlank/@Pattern) 또는 값 객체로"
+done
+
+# H2c. Controller에서 에러 응답 조립 — 에러 변환은 global 핸들러로 — S1/S7
+# 에러 봉투 키("code"/"errors")는 global 핸들러 전용. 성공 응답은 "data"를 쓴다.
+for f in $(files -name '*Controller.java'); do
+    n=$(grep -nE '"(code|errors)"' "$f" | head -1 | cut -d: -f1)
+    [ -n "$n" ] && violate "Controller에서 에러 응답 조립 ($f:$n) — 에러 봉투(code/errors)는 예외를 던져 global 핸들러가 만든다"
+done
+
 # H3. Domain 패키지에 setter — S5
 while IFS=: read -r f n line; do
     case "$f" in */domain/*) violate "Domain에 setter ($f:$n): $(echo "$line"|sed 's/^[[:space:]]*//')" ;; esac

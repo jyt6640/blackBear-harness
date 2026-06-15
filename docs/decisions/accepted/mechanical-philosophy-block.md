@@ -34,6 +34,8 @@ Feat / Refactor 단계 게이트(enforce-workflow)가 이 검사를 실행하고
 - dto 패키지 밖의 DTO (Request / Response / Command / Query)
 - throw new RuntimeException
 - 삼항 연산자 (return / 대입의 ?:)
+- Controller의 형식 검증 (regex / Pattern / isBlank — 형식은 DTO·값 객체로)
+- Controller의 에러 응답 조립 (code/errors 봉투 — 예외 던져 global 핸들러로)
 
 검토 신호(WARN, 차단 안 함):
 

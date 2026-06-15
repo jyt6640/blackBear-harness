@@ -14,9 +14,15 @@ Feat Agent는 책임 위치를 먼저 정하고 코드를 작성한다.
 
 ## Presentation
 
-- HTTP 요청/응답을 처리한다.
+- HTTP 요청/응답을 받고 / 위임 / 돌려주기만 한다.
 - Request DTO를 Command / Query로 변환한다.
 - 비즈니스 로직과 Repository 접근을 하지 않는다.
+- 형식 검증(null / blank / 형식 / 길이)을 Controller에 두지 않는다.
+  body는 Request DTO의 Bean Validation(@NotNull/@NotBlank/@Pattern)으로,
+  헤더 값은 값 객체 생성 검증이나 ArgumentResolver로 검증한다.
+- 인증 / 헤더 검증 실패는 Controller에서 ResponseEntity를 만들지 않고 예외를 던진다.
+  에러 봉투(code/errors)는 global 핸들러 한 곳에서만 조립한다.
+- nullable 반환값을 신호로 쓰는 제어흐름(`if (x != null) return x`)을 만들지 않는다.
 
 ---
 
