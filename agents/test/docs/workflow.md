@@ -88,7 +88,7 @@ void create_success() {
 
 ## 보고서 작성
 
-`next-step/work/<작업명>/01-test-report.md`에 아래를 기록한다.
+`next-step/work/<작업명>/01-red-test-report.md`에 아래를 기록한다.
 
 - 커버한 public behavior
 - 작성한 테스트 파일과 테스트 메서드

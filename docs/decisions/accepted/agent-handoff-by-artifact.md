@@ -31,15 +31,15 @@ accepted
     next-step/work/<작업명>/
     ├── backlog.md (작업 디렉토리 상위, 카드 2장 이상일 때 카드 목록·순서·상태)
     ├── 00-task-card.md          (오케스트레이터 또는 사용자: 작업 정의)
-    ├── 01-test-report.md        (Test Agent: 실패 테스트 작성 결과)
-    ├── 02-implementation-report.md (Feat Agent: 구현 결과)
-    ├── 02-refactor-report.md    (Refactor Agent: 행위 보존 결과)
-    ├── 03-review-report.md      (Review Agent: 승인 / 반려)
-    ├── 05-scorecard.md          (Review Agent: 철학 점수표)
-    └── 04-summary.md            (오케스트레이터: 통합 보고)
+    ├── 01-red-test-report.md        (Test Agent: 실패 테스트 작성 결과)
+    ├── 02-green-implementation-report.md (Feat Agent: 구현 결과)
+    ├── 03-refactor-report.md    (Refactor Agent: 행위 보존 결과)
+    ├── 04-review-report.md      (Review Agent: 승인 / 반려)
+    ├── 06-scorecard.md          (Review Agent: 철학 점수표)
+    └── 05-summary.md            (오케스트레이터: 통합 보고)
 
-refactor 전용 카드는 `01-test-report.md`와 `02-implementation-report.md` 없이
-`02-refactor-report.md`를 구현 결과로 사용한다.
+refactor 전용 카드는 `01-red-test-report.md`와 `02-green-implementation-report.md` 없이
+`03-refactor-report.md`를 구현 결과로 사용한다.
 
 ### 순서 강제
 
@@ -50,7 +50,7 @@ refactor 전용 카드는 `01-test-report.md`와 `02-implementation-report.md` �
 - 자동 로컬 에이전트 모드에서는 역할 에이전트가 결과를 반환하고 종료한다.
   오케스트레이터 실행기가 산출물과 게이트를 확인한 뒤 다음 역할을 호출한다.
 - 각 역할 스킬과 enforce-workflow.sh가 이전 산출물 존재를 확인하고, 없으면 진행을 거부한다.
-- 표준 릴레이는 /orchestrate → /test-agent → /feat-agent → /refactor-agent → /review-agent 순서다.
+- 표준 릴레이는 /orchestrate → /test → /feat → /refactor → /review 순서다.
   feature 카드도 Refactor 단계를 건너뛰지 않는다. 개선할 것이 없으면 보고서에 "개선 사항 없음"과 행위 보존 확인을 기록한다.
 - 자동 로컬 에이전트 모드에서는 오케스트레이터가 이 전환을 자동화한다.
   → [local-llm-agent-orchestration](./local-llm-agent-orchestration.md)
@@ -80,7 +80,7 @@ refactor 전용 카드는 `01-test-report.md`와 `02-implementation-report.md` �
 
 ### 완료 기록 보존
 
-Review 승인과 `04-summary.md` 작성이 끝난 산출물은
+Review 승인과 `05-summary.md` 작성이 끝난 산출물은
 `next-step/work/<작업명>`에서 `next-step/history/<작업명>`으로 이동해 커밋한다.
 작업 중 산출물은 커밋하지 않지만, 완료된 산출물 체인은 모델 교체 이후의 회고와
 판단 근거 추적을 위해 보존한다.

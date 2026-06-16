@@ -78,7 +78,7 @@ baseline 테스트가 깨져 있으면 리팩터링을 시작하지 않는다.
 
 ## 보고서 작성
 
-`next-step/work/<작업명>/02-refactor-report.md` 또는 별도 리팩터링 작업의 `02-implementation-report.md`에 아래를 기록한다.
+`next-step/work/<작업명>/03-refactor-report.md` 또는 별도 리팩터링 작업의 `02-green-implementation-report.md`에 아래를 기록한다.
 
 - 리팩터링 목표
 - 변경한 이름, 책임, 패키지

@@ -4,7 +4,7 @@
 > [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
 
 
-Feat Agent의 workflow는 `01-test-report.md`의 실패 테스트를 작업 카드 범위 안에서 통과시키는 절차다.
+Feat Agent의 workflow는 `01-red-test-report.md`의 실패 테스트를 작업 카드 범위 안에서 통과시키는 절차다.
 새 요구사항을 해석해 넓히는 단계가 아니라, 이미 고정된 행위 계약을 최소 production code로 만족시키는 단계다.
 
 ---
@@ -12,12 +12,12 @@ Feat Agent의 workflow는 `01-test-report.md`의 실패 테스트를 작업 카�
 ## 시작 순서
 
 1. `agents/feat/scripts/enforce-workflow.sh <작업명>`을 실행한다.
-2. `next-step/work/<작업명>/00-task-card.md`와 `01-test-report.md`를 읽는다.
+2. `next-step/work/<작업명>/00-task-card.md`와 `01-red-test-report.md`를 읽는다.
 3. 실패 테스트를 실행해 현재 Red 상태를 재확인한다.
 4. 변경할 production class와 책임 위치를 정한다.
 5. 하나의 실패 행위씩 최소 구현으로 Green을 만든다.
 
-`01-test-report.md`가 없거나 실패 테스트가 재현되지 않으면 구현을 시작하지 않는다.
+`01-red-test-report.md`가 없거나 실패 테스트가 재현되지 않으면 구현을 시작하지 않는다.
 
 ---
 
@@ -83,7 +83,7 @@ Service에 정책 판단을 몰아넣지 않는다.
 - 한 번에 여러 실패를 크게 처리하지 않고 public behavior 단위로 진행한다.
 
 테스트가 잘못됐다고 판단되면 직접 수정하지 않는다.
-`02-implementation-report.md`에 모순을 기록하고 오케스트레이터에게 되돌린다.
+`02-green-implementation-report.md`에 모순을 기록하고 오케스트레이터에게 되돌린다.
 
 ---
 
@@ -101,7 +101,7 @@ Feat 단계에서 즉시 리팩터링하지 않는다.
 
 ## 보고서 작성
 
-`next-step/work/<작업명>/02-implementation-report.md`에 아래를 기록한다.
+`next-step/work/<작업명>/02-green-implementation-report.md`에 아래를 기록한다.
 
 - 통과시킨 실패 테스트
 - 실행한 검증 명령

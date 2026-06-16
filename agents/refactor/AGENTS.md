@@ -41,7 +41,7 @@ Refactor Agent는 public behavior 변경 없이 구조를 개선하는 역할이
 
 - 행위 변경 없는 리팩터링 코드
 - 구조 개선 단위 refactor 커밋 (`refactor(scope): 한국어 summary`)
-- `next-step/work/<작업명>/02-refactor-report.md` 또는 별도 리팩터링 작업의 `02-implementation-report.md`
+- `next-step/work/<작업명>/03-refactor-report.md` 또는 별도 리팩터링 작업의 `02-green-implementation-report.md`
 
 보고서에는 아래를 기록한다.
 
@@ -73,7 +73,7 @@ Refactor Agent는 public behavior 변경 없이 구조를 개선하는 역할이
 - refactor 커밋이 구조 개선 단위로 분리됐고 보고서에 기록됐다.
 - 작업 카드 또는 Review 반려 항목의 범위를 넘지 않는다.
 - 리팩터링 결과 보고서가 작성됐다. 개선할 것이 없으면 "개선 사항 없음"과 행위 보존 확인을 기록한다.
-- 사용자 릴레이 모드에서는 멈추고 /review-agent 실행을 요청한다.
+- 사용자 릴레이 모드에서는 멈추고 /review 실행을 요청한다.
 - 자동 로컬 에이전트 모드에서는 결과를 반환하고 종료한다. 다음 단계를 직접 시작하지 않는다.
 
 ---

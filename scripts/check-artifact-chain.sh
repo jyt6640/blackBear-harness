@@ -23,17 +23,17 @@ err() { echo "FAIL: $1"; fail=1; }
 
 [ -f "$work/00-task-card.md" ] || err "00-task-card.md 없음 - 작업 정의가 먼저다"
 
-if [ -f "$work/02-implementation-report.md" ] && [ ! -f "$work/01-test-report.md" ]; then
-    err "01-test-report.md 없이 02-implementation-report.md 존재 (Test 단계 생략 금지)"
+if [ -f "$work/02-green-implementation-report.md" ] && [ ! -f "$work/01-red-test-report.md" ]; then
+    err "01-red-test-report.md 없이 02-green-implementation-report.md 존재 (Test 단계 생략 금지)"
 fi
-if [ -f "$work/03-review-report.md" ] && [ ! -f "$work/02-implementation-report.md" ] && [ ! -f "$work/02-refactor-report.md" ]; then
-    err "02 보고서 없이 03-review-report.md 존재 (Feat / Refactor 단계 생략 금지)"
+if [ -f "$work/04-review-report.md" ] && [ ! -f "$work/02-green-implementation-report.md" ] && [ ! -f "$work/03-refactor-report.md" ]; then
+    err "02 보고서 없이 04-review-report.md 존재 (Feat / Refactor 단계 생략 금지)"
 fi
-if [ -f "$work/03-review-report.md" ] && [ ! -f "$work/05-scorecard.md" ]; then
-    err "05-scorecard.md 없이 03-review-report.md 존재 (Review는 판정과 함께 철학 점수표를 작성한다)"
+if [ -f "$work/04-review-report.md" ] && [ ! -f "$work/06-scorecard.md" ]; then
+    err "06-scorecard.md 없이 04-review-report.md 존재 (Review는 판정과 함께 철학 점수표를 작성한다)"
 fi
-if [ -f "$work/04-summary.md" ] && [ ! -f "$work/03-review-report.md" ]; then
-    err "03-review-report.md 없이 04-summary.md 존재 (승인 없이 마무리 금지)"
+if [ -f "$work/05-summary.md" ] && [ ! -f "$work/04-review-report.md" ]; then
+    err "04-review-report.md 없이 05-summary.md 존재 (승인 없이 마무리 금지)"
 fi
 
 if [ "$fail" -eq 0 ]; then

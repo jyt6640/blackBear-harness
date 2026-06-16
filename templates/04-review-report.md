@@ -1,7 +1,8 @@
 # 04 · Review Report — <작업명>
 
 > Review Agent 산출물. 작업 diff를 카드와 하네스 기준으로 검증한 판정.
-> schema: review-report/v1
+
+schema: review-report/v1
 
 ## 판정
 

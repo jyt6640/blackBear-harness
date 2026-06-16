@@ -22,7 +22,7 @@
 기능은 아래 순서로 구현한다.
 
 1. 오케스트레이터가 작업 카드를 작성한다.
-2. Test Agent가 실패 테스트와 01-test-report를 작성한다.
+2. Test Agent가 실패 테스트와 01-red-test-report를 작성한다.
 3. Feat Agent가 실패 테스트를 통과시키는 최소 구현을 작성한다.
 4. Review Agent가 산출물과 diff를 검증한다.
 5. 필요한 리팩터링은 별도 Refactor 단계 또는 별도 작업 카드로 분리한다.

@@ -20,7 +20,7 @@ for f in \
     "$ROOT/agents/test/docs/testing-philosophy.md" \
     "$ROOT/agents/test/docs/tdd-workflow.md" \
     "$ROOT/agents/test/docs/test-double-policy.md" \
-    "$ROOT/next-step/templates/01-test-report.md"
+    "$ROOT/templates/01-red-test-report.md"
 do
     [ -f "$f" ] || err "필수 하네스 파일 없음: $f"
 done

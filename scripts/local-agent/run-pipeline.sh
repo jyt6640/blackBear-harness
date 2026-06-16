@@ -10,7 +10,7 @@ usage() {
 사용법:
   scripts/local-agent/run-pipeline.sh <작업명> --profile <Codex profile> [--max-retries 2] [--hybrid]
 
-  --hybrid: Test/Feat/Refactor만 로컬 LLM으로 실행하고 Review는 강모델(Claude /review-agent)에 넘긴다.
+  --hybrid: Test/Feat/Refactor만 로컬 LLM으로 실행하고 Review는 강모델(Claude /review)에 넘긴다.
             독립 리뷰로 자기 채점 편향을 제거한다.
 EOF
 }
@@ -63,7 +63,7 @@ WORK="$(local_agent_work_dir "$ROOT" "$TASK")"
 CARD="$WORK/00-task-card.md"
 STATE_DIR="$WORK/.local-agent"
 STATE="$STATE_DIR/state"
-REVIEW_REPORT="$WORK/03-review-report.md"
+REVIEW_REPORT="$WORK/04-review-report.md"
 
 [ -f "$CARD" ] || {
     echo "FAIL: 작업 카드가 없다: $CARD" >&2
@@ -119,8 +119,8 @@ run_from test
 if [ "$HYBRID" = true ]; then
     cat <<EOF
 OK: 하이브리드 모드 — Test/Feat/Refactor 로컬 실행 완료.
-독립 리뷰를 위해 강모델에서 /review-agent를 실행하세요.
-오케스트레이터(Claude)가 03-review-report.md와 05-scorecard.md를 작성합니다.
+독립 리뷰를 위해 강모델에서 /review를 실행하세요.
+오케스트레이터(Claude)가 04-review-report.md와 06-scorecard.md를 작성합니다.
 자기 채점 편향을 피하려고 Review는 구현 모델과 분리합니다.
 EOF
     exit 0

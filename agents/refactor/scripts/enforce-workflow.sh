@@ -12,8 +12,8 @@ if [ -z "$TASK" ]; then
 else
     WORK="$ROOT/next-step/work/$TASK"
     [ -f "$WORK/00-task-card.md" ] || err "Refactor 시작 전 00-task-card.md 또는 리팩터링 작업 카드가 필요하다: $WORK/00-task-card.md"
-    if [ -f "$WORK/01-test-report.md" ] && [ ! -f "$WORK/02-implementation-report.md" ]; then
-        err "feature 카드에서는 Feat 단계(02-implementation-report.md) 이후에 Refactor를 시작한다"
+    if [ -f "$WORK/01-red-test-report.md" ] && [ ! -f "$WORK/02-green-implementation-report.md" ]; then
+        err "feature 카드에서는 Feat 단계(02-green-implementation-report.md) 이후에 Refactor를 시작한다"
     fi
 fi
 
@@ -22,7 +22,7 @@ for f in \
     "$ROOT/agents/refactor/docs/workflow.md" \
     "$ROOT/agents/refactor/docs/refactoring-philosophy.md" \
     "$ROOT/agents/refactor/docs/behavior-preservation.md" \
-    "$ROOT/next-step/templates/02-refactor-report.md"
+    "$ROOT/templates/03-refactor-report.md"
 do
     [ -f "$f" ] || err "필수 하네스 파일 없음: $f"
 done

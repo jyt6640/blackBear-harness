@@ -32,7 +32,7 @@ accepted
   → [task-card-compiles-rules](./task-card-compiles-rules.md)
 
 실행: `scripts/local-agent/run-pipeline.sh <작업명> --profile <p> --hybrid`
-구현 3단계 후 멈추고, 강모델에서 `/review-agent`로 독립 리뷰를 받는다.
+구현 3단계 후 멈추고, 강모델에서 `/review`로 독립 리뷰를 받는다.
 
 ---
 

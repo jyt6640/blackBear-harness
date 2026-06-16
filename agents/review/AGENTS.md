@@ -13,7 +13,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - 산출물 체인이 지켜졌는지 확인한다.
 - verify.sh green-bar 통과를 산출물에서 확인한다. ArchUnit(Tier 1 구조 규칙)이 green-bar에 포함되므로, 근간 구조 위반은 빌드 실패로 이미 걸러진다. Review는 ArchUnit이 잡지 못하는 의미 위반(Service에 비즈니스 판단, Tell-Don't-Ask, 최소 변경 등 Tier 3)에 집중한다. → [architecture-rules-as-archunit](../../docs/decisions/accepted/architecture-rules-as-archunit.md)
 - 책임 경계, 금지 사항, 최종 점검 위반을 찾는다.
-- 승인 또는 반려를 `03-review-report.md`로 기록한다.
+- 승인 또는 반려를 `04-review-report.md`로 기록한다.
 
 ---
 
@@ -24,9 +24,9 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 상위 docs 전부를 정독하지 않고, 카드 규칙 + 자기 역할 docs를 기준으로 실행한다.
 
 - `next-step/work/<작업명>/00-task-card.md`
-- `next-step/work/<작업명>/01-test-report.md` (refactor 카드는 생략될 수 있다)
-- `next-step/work/<작업명>/02-implementation-report.md` (feature 카드)
-- `next-step/work/<작업명>/02-refactor-report.md` (feature와 refactor 카드)
+- `next-step/work/<작업명>/01-red-test-report.md` (refactor 카드는 생략될 수 있다)
+- `next-step/work/<작업명>/02-green-implementation-report.md` (feature 카드)
+- `next-step/work/<작업명>/03-refactor-report.md` (feature와 refactor 카드)
 - 해당 작업의 diff
 - [docs/workflow/code-review.md](../../docs/workflow/code-review.md)
 - [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임
@@ -35,7 +35,7 @@ Review Agent는 작업 단위 결과를 작업 카드와 하네스 기준으로 
 - [AGENTS.md](../../AGENTS.md)의 최종 점검, 불변 철학, 기본 입장
 - [workflow](./docs/workflow.md), [review philosophy](./docs/review-philosophy.md), [rejection criteria](./docs/rejection-criteria.md), [final checklist](./docs/final-checklist.md)
 
-`02-implementation-report.md`(refactor 카드는 `02-refactor-report.md`)가 없으면
+`02-green-implementation-report.md`(refactor 카드는 `03-refactor-report.md`)가 없으면
 시작하지 않고 이전 단계를 요구한다.
 
 시작 전 강제 명령 (시작ref는 00-task-card의 "시작 기준 commit"):
@@ -50,10 +50,10 @@ public behavior/책임 단위 여부는 스크립트로 판정할 수 없으므�
 
 ## 출력
 
-- `next-step/work/<작업명>/03-review-report.md`
-- `next-step/work/<작업명>/05-scorecard.md` — [templates/05-scorecard.md](../../next-step/templates/05-scorecard.md) 형식으로 전 항목 채점, 근거에 코드 위치 인용
+- `next-step/work/<작업명>/04-review-report.md`
+- `next-step/work/<작업명>/06-scorecard.md` — [templates/06-scorecard.md](../../templates/06-scorecard.md) 형식으로 전 항목 채점, 근거에 코드 위치 인용
 
-`03-review-report.md`에는 아래를 기록한다.
+`04-review-report.md`에는 아래를 기록한다.
 
 - frontmatter 판정: approved / rejected / blocked
 - 위반 항목과 근거 문서 링크
@@ -79,8 +79,8 @@ public behavior/책임 단위 여부는 스크립트로 판정할 수 없으므�
 - 산출물 체인 존재 여부를 확인했다.
 - 최종 점검 항목을 판정했다.
 - 승인 또는 반려가 명확하다.
-- `03-review-report.md`가 작성됐다.
-- `05-scorecard.md`가 전 항목 채점됐다 (해당 없으면 N/A, 감점에는 근거 인용).
+- `04-review-report.md`가 작성됐다.
+- `06-scorecard.md`가 전 항목 채점됐다 (해당 없으면 N/A, 감점에는 근거 인용).
 - 사용자 릴레이 모드에서는 판정에 따라 다음 실행을 요청한다.
 - 자동 로컬 에이전트 모드에서는 판정과 재실행 단계를 기록하고 결과를 반환한 뒤 종료한다.
 

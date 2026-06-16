@@ -14,8 +14,8 @@
 
 ### ① 채점 (카드마다, Review 단계)
 
-- Review Agent가 판정과 함께 `next-step/work/<작업명>/05-scorecard.md`를 작성한다.
-- 점수표 항목의 정본은 [next-step/templates/05-scorecard.md](../../next-step/templates/05-scorecard.md)다.
+- Review Agent가 판정과 함께 `next-step/work/<작업명>/06-scorecard.md`를 작성한다.
+- 점수표 항목의 정본은 [templates/06-scorecard.md](../../templates/06-scorecard.md)다.
   항목은 docs의 철학·decision에서 도출되었고, 각 행이 출처를 가리킨다.
 - 항목별 2 / 1 / 0의 경계와 전형적 위반은 [loop-scoring-criteria.md](./loop-scoring-criteria.md)가 정의한다.
   기준이 모호해서 채점이 흔들리면 점수가 아니라 기준 문서를 고친다.
@@ -57,7 +57,7 @@
 ## 강제 수준
 
 - 채점 생성은 게이트로 강제된다.
-  - 자동 모드: run-stage가 Review 후 `05-scorecard.md` 미생성 시 FAIL.
+  - 자동 모드: run-stage가 Review 후 `06-scorecard.md` 미생성 시 FAIL.
   - 사용자 릴레이: 마무리 단계가 `check-artifact-chain.sh`를 실행해
     점수표 없는 카드를 history로 이동시키지 않고,
     verify(pre-commit)가 점수표 없는 history 카드의 커밋을 차단한다.

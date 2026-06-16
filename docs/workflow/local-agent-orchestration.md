@@ -64,7 +64,7 @@ scripts/local-agent/run-pipeline.sh <작업명> --profile <profile>
 
 ```bash
 scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid
-# 구현 3단계 후 멈춤 → 강모델에서 /review-agent로 독립 리뷰
+# 구현 3단계 후 멈춤 → 강모델에서 /review로 독립 리뷰
 ```
 
 백로그 무인 순회 + worktree 병렬 (느린 로컬을 던져놓고 떠나기):
@@ -93,7 +93,7 @@ scripts/local-agent/run-backlog.sh --profile <profile> --parallel 2            #
 
 ## Review 반려
 
-Review Agent는 `03-review-report.md` frontmatter에 판정과 재실행 단계를 기록한다.
+Review Agent는 `04-review-report.md` frontmatter에 판정과 재실행 단계를 기록한다.
 
 - 승인: `approved / none`
 - 반려: `rejected / test|feat|refactor`
@@ -107,10 +107,10 @@ Review Agent는 `03-review-report.md` frontmatter에 판정과 재실행 단계�
 
 ## 권한 경계
 
-- Test: 테스트와 `01-test-report.md`, test 커밋
-- Feat: production code와 `02-implementation-report.md`, feat 커밋
-- Refactor: 행위 변경 없는 코드와 `02-refactor-report.md`, refactor 커밋
-- Review: `03-review-report.md`만 작성, 코드와 커밋 변경 금지
+- Test: 테스트와 `01-red-test-report.md`, test 커밋
+- Feat: production code와 `02-green-implementation-report.md`, feat 커밋
+- Refactor: 행위 변경 없는 코드와 `03-refactor-report.md`, refactor 커밋
+- Review: `04-review-report.md`만 작성, 코드와 커밋 변경 금지
 
 역할 에이전트는 decision을 만들거나 승격하지 않는다.
 입력 충돌, pending 영역, 요구 모순은 보고서에 기록하고 종료한다.

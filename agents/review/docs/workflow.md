@@ -12,8 +12,8 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 ## 시작 순서
 
 1. `agents/review/scripts/enforce-workflow.sh <작업명>`을 실행한다.
-2. `00-task-card.md`, `01-test-report.md`, `02-implementation-report.md`,
-   `02-refactor-report.md`를 읽는다.
+2. `00-task-card.md`, `01-red-test-report.md`, `02-green-implementation-report.md`,
+   `03-refactor-report.md`를 읽는다.
 3. 해당 작업의 diff를 확인한다.
 4. 산출물 체인이 실제 변경과 일치하는지 확인한다.
 5. 최종 점검 기준으로 승인 / 반려를 판정한다.
@@ -43,9 +43,9 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 
 아래 항목은 반려 사유다.
 
-- `01-test-report.md` 없이 구현이 진행됐다.
-- `02-implementation-report.md` 없이 Review가 요청됐다.
-- feature 카드에 `02-refactor-report.md` 없이 Review가 요청됐다.
+- `01-red-test-report.md` 없이 구현이 진행됐다.
+- `02-green-implementation-report.md` 없이 Review가 요청됐다.
+- feature 카드에 `03-refactor-report.md` 없이 Review가 요청됐다.
 - 테스트가 실패 상태인지 확인하지 않았다.
 - Feat 단계에서 테스트를 수정했다.
 - Service가 Domain / Policy / Validator 판단을 대신한다.
@@ -84,13 +84,13 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 - 레이어 책임과 accepted decision을 위반하지 않는다.
 - 남은 위험 또는 테스트 공백이 명확히 기록됐다.
 
-승인 이후 오케스트레이터가 `04-summary.md`를 작성하고 `next-step/work/<작업명>` 삭제 여부를 판단한다.
+승인 이후 오케스트레이터가 `05-summary.md`를 작성하고 `next-step/work/<작업명>` 삭제 여부를 판단한다.
 
 ---
 
 ## 보고서 작성
 
-`next-step/work/<작업명>/03-review-report.md`에 아래를 기록한다.
+`next-step/work/<작업명>/04-review-report.md`에 아래를 기록한다.
 
 - frontmatter 판정: approved / rejected / blocked
 - 확인한 산출물

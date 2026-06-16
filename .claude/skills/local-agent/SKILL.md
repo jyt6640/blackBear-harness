@@ -30,14 +30,14 @@ description: 작업 카드의 Test → Feat → Refactor → Review를 로컬 LL
 
        scripts/local-agent/run-pipeline.sh <작업명> --profile <profile> --hybrid
 
-   하이브리드는 Test/Feat/Refactor 후 멈춘다. 이어서 /review-agent를 실행해
-   강모델이 03-review-report.md와 05-scorecard.md를 작성한다 (자기 채점 편향 제거).
+   하이브리드는 Test/Feat/Refactor 후 멈춘다. 이어서 /review를 실행해
+   강모델이 04-review-report.md와 06-scorecard.md를 작성한다 (자기 채점 편향 제거).
    → docs/decisions/accepted/hybrid-execution-mode.md
 
    실행기가 단계마다 게이트, 커밋 type, clean worktree를 검사한다.
    실행 중 단계를 직접 대행하지 않는다. 실패하면 실행기의 FAIL 메시지를 그대로 보고한다.
 
 4. 결과를 보고하고 멈춘다.
-   - Review 승인 → 사용자에게 /orchestrate 마무리(04-summary, history 이동)를 요청한다.
+   - Review 승인 → 사용자에게 /orchestrate 마무리(05-summary, history 이동)를 요청한다.
    - 재시도 한도 초과 또는 BLOCKED → 보고서 내용과 함께 사용자에게 판단을 요청한다.
-     로컬 에이전트가 막힌 단계를 사용자 릴레이(/test-agent 등)로 이어받을 수 있다.
+     로컬 에이전트가 막힌 단계를 사용자 릴레이(/test 등)로 이어받을 수 있다.

@@ -53,37 +53,37 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 - 카드가 2장 이상이면 `next-step/work/backlog.md`에 카드 목록과 순서를 먼저 기록한다.
 - 첫 카드만 `next-step/work/<작업명>/00-task-card.md`로 컴파일한다.
   (대상 행위, 적용 지침, 금지, 완료 기준, 시작 기준 commit)
-- 정지: "작업 카드 작성 완료. /test-agent(사용자 릴레이) 또는 /local-agent(자동 릴레이)를 실행해주세요."
+- 정지: "작업 카드 작성 완료. /test(사용자 릴레이) 또는 /local-agent(자동 릴레이)를 실행해주세요."
 
-### /test-agent — 실패 테스트
+### /test — 실패 테스트
 
 - 카드의 행위를 public behavior 단위 실패 테스트로 작성하고 실패를 실행으로 확인한다.
 - public behavior 단위로 `test(scope):` 커밋을 만든다.
-- `01-test-report.md` 작성 후 정지: "/feat-agent를 실행해주세요."
+- `01-red-test-report.md` 작성 후 정지: "/feat를 실행해주세요."
 
-### /feat-agent — 최소 구현
+### /feat — 최소 구현
 
 - 실패 테스트를 통과시키는 최소 구현. 테스트는 절대 수정하지 않는다.
 - 행위 하나당 `feat(scope):` 커밋 하나.
-- `02-implementation-report.md` 작성 후 정지: "/refactor-agent를 실행해주세요."
+- `02-green-implementation-report.md` 작성 후 정지: "/refactor를 실행해주세요."
 
-### /refactor-agent — 구조 개선
+### /refactor — 구조 개선
 
 - 행위 변경 없는 구조 개선만. 구조 개선 하나당 `refactor(scope):` 커밋 하나.
 - 개선할 것이 없으면 "개선 사항 없음"과 행위 보존 확인을 기록한다.
-- `02-refactor-report.md` 작성 후 정지: "/review-agent를 실행해주세요."
+- `03-refactor-report.md` 작성 후 정지: "/review를 실행해주세요."
 
-### /review-agent — 검증
+### /review — 검증
 
 - 게이트가 산출물 체인과 커밋 체인(형식 / type 제한 / test → feat → refactor 순서)을 검사한다.
 - 하네스 기준(책임 경계, 테스트, 커밋 단위)으로 승인 / 반려를 판정한다.
-- `03-review-report.md` 작성 후 정지.
+- `04-review-report.md` 작성 후 정지.
   - 승인 → "/orchestrate로 마무리를 진행해주세요."
-  - 반려 → 구현 문제는 /feat-agent, 구조 문제는 /refactor-agent, 행위 정의 문제는 /test-agent.
+  - 반려 → 구현 문제는 /feat, 구조 문제는 /refactor, 행위 정의 문제는 /test.
 
 ### /orchestrate — 마무리
 
-- `04-summary.md` 작성, 백로그 상태 갱신.
+- `05-summary.md` 작성, 백로그 상태 갱신.
 - 영구화할 결정만 decisions / docs / 커밋 메시지로 승격한다.
 - `work/<작업명>`은 삭제하지 않고 `history/<작업명>/`으로 이동해 완료 기록으로 보존한다.
 - 백로그에 다음 카드가 있으면 정지: "다음 카드입니다. /orchestrate를 실행해주세요."
@@ -106,10 +106,10 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 |---|---|
 | 프로젝트 처음 시작 (하네스 없음) | `/harness-interview` |
 | 기능 개발 시작 / 다음 카드 / 마무리 | `/orchestrate` |
-| 실패 테스트 작성 | `/test-agent` |
-| 최소 구현 | `/feat-agent` |
-| 구조 개선 | `/refactor-agent` |
-| 검증과 승인 / 반려 | `/review-agent` |
+| 실패 테스트 작성 | `/test` |
+| 최소 구현 | `/feat` |
+| 구조 개선 | `/refactor` |
+| 검증과 승인 / 반려 | `/review` |
 | 카드 전체를 로컬 LLM 자동 릴레이로 실행 | `/local-agent` |
 | 결정 기록 | `/draft-decision` |
 | base 갱신 반영 | `/harness-sync` |
@@ -152,10 +152,10 @@ Codex profile(`~/.codex/<profile>.config.toml`)로 관리한다.
 
 ### 반려와 중단
 
-- Review 반려 → `03-review-report.md` frontmatter의 `restart_stage`부터 제한 횟수 안에서 자동 재실행
+- Review 반려 → `04-review-report.md` frontmatter의 `restart_stage`부터 제한 횟수 안에서 자동 재실행
 - 한도 초과 또는 BLOCKED → 멈추고 사용자에게 보고.
-  막힌 단계부터 사용자 릴레이(/test-agent 등)로 이어받을 수 있다.
-- 승인 → /orchestrate로 마무리 (04-summary, history 이동)는 동일하다.
+  막힌 단계부터 사용자 릴레이(/test 등)로 이어받을 수 있다.
+- 승인 → /orchestrate로 마무리 (05-summary, history 이동)는 동일하다.
 
 스크립트를 직접 쓸 수도 있다.
 

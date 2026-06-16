@@ -1,18 +1,18 @@
 # Feat Agent AGENTS.md
 
-Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 구현을 담당한다.
+Feat Agent는 `01-red-test-report.md`의 실패 테스트를 통과시키는 최소 구현을 담당한다.
 새 기능 전체 설계자가 아니라 Red를 Green으로 바꾸는 구현 역할이다.
 
 ---
 
 ## 책임
 
-- `next-step/work/<작업명>/01-test-report.md`의 실패 테스트를 읽는다.
-- 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 `00-task-card.md`와 `01-test-report.md` 존재를 확인한다.
+- `next-step/work/<작업명>/01-red-test-report.md`의 실패 테스트를 읽는다.
+- 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 `00-task-card.md`와 `01-red-test-report.md` 존재를 확인한다.
 - 작업 카드의 범위 안에서 최소 production code를 작성한다.
 - public behavior 단위로 feat 커밋을 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
 - 기존 테스트가 통과하는 상태를 유지한다.
-- Review Agent가 산출물만 읽고 검토할 수 있게 `02-implementation-report.md`를 작성한다.
+- Review Agent가 산출물만 읽고 검토할 수 있게 `02-green-implementation-report.md`를 작성한다.
 
 ---
 
@@ -23,7 +23,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 상위 docs 전부를 정독하지 않고, 카드 규칙 + 자기 역할 docs를 기준으로 실행한다.
 
 - `next-step/work/<작업명>/00-task-card.md`
-- `next-step/work/<작업명>/01-test-report.md`
+- `next-step/work/<작업명>/01-red-test-report.md`
 - 실패하는 테스트 코드
 - [docs/architecture/layered-architecture.md](../../docs/architecture/layered-architecture.md)
 - [docs/architecture/domain-boundary.md](../../docs/architecture/domain-boundary.md)
@@ -39,7 +39,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - [docs/workflow/git-convention.md](../../docs/workflow/git-convention.md) — 단계별 커밋 책임, 커밋 메시지 형식
 - [workflow](./docs/workflow.md), [implementation philosophy](./docs/implementation-philosophy.md), [layer responsibility](./docs/layer-responsibility.md), [minimal implementation](./docs/minimal-implementation.md)
 
-`01-test-report.md`가 없으면 시작하지 않고 Test 단계를 요구한다.
+`01-red-test-report.md`가 없으면 시작하지 않고 Test 단계를 요구한다.
 
 시작 전 강제 명령:
 
@@ -51,9 +51,9 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 
 - 실패 테스트를 통과시키는 구현 코드
 - public behavior 단위 feat 커밋 (`feat(scope): 한국어 summary`)
-- `next-step/work/<작업명>/02-implementation-report.md`
+- `next-step/work/<작업명>/02-green-implementation-report.md`
 
-`02-implementation-report.md`에는 아래를 기록한다.
+`02-green-implementation-report.md`에는 아래를 기록한다.
 
 - 통과시킨 테스트
 - 만든 feat 커밋 목록
@@ -85,8 +85,8 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - 기존 테스트도 통과한다.
 - 구현이 작업 카드 범위를 넘지 않는다.
 - feat 커밋이 public behavior 단위로 분리됐고 보고서에 기록됐다.
-- `02-implementation-report.md`가 작성됐다.
-- 사용자 릴레이 모드에서는 멈추고 /refactor-agent 실행을 요청한다.
+- `02-green-implementation-report.md`가 작성됐다.
+- 사용자 릴레이 모드에서는 멈추고 /refactor 실행을 요청한다.
 - 자동 로컬 에이전트 모드에서는 결과를 반환하고 종료한다. 다음 단계를 직접 시작하지 않는다.
 
 ---

@@ -100,34 +100,34 @@ grep -q '^next-step/work/$' .gitignore || err ".gitignore에 next-step/work/ 없
 # 완료 기록(history)의 카드는 Review 판정과 철학 점수표를 모두 포함해야 한다
 for h in next-step/history/*/; do
     [ -d "$h" ] || continue
-    if [ -f "${h}03-review-report.md" ] && [ ! -f "${h}05-scorecard.md" ]; then
-        err "history 카드에 05-scorecard.md 없음 (채점 없이 완료 기록 금지): $h"
+    if [ -f "${h}04-review-report.md" ] && [ ! -f "${h}06-scorecard.md" ]; then
+        err "history 카드에 06-scorecard.md 없음 (채점 없이 완료 기록 금지): $h"
     fi
 done
 
 # 9. next-step 템플릿 존재
-for template in backlog.md 00-task-card.md 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md 04-summary.md 05-scorecard.md; do
-    [ -f "next-step/templates/$template" ] || err "next-step 템플릿 없음: next-step/templates/$template"
+for template in backlog.md 00-task-card.md 01-red-test-report.md 02-green-implementation-report.md 03-refactor-report.md 04-review-report.md 05-summary.md 06-scorecard.md; do
+    [ -f "templates/$template" ] || err "next-step 템플릿 없음: templates/$template"
 done
 
 # 10. 자동 로컬 에이전트 입력 계약
 for section in "## 필수 상위 문서" "## 역할별 추가 문서" "### Test" "### Feat" "### Refactor" "### Review"; do
-    grep -q "^$section" next-step/templates/00-task-card.md || err "00-task-card.md에 '$section' 섹션 없음"
+    grep -q "^$section" templates/00-task-card.md || err "00-task-card.md에 '$section' 섹션 없음"
 done
-grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
-grep -q '^schema: review-report/v1$' next-step/templates/03-review-report.md || err "03-review-report.md에 review-report/v1 schema 없음"
-for template in 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md; do
-    grep -q '^## 실제 참조 문서' "next-step/templates/$template" \
+grep -q '^## 재실행 단계' templates/04-review-report.md || err "04-review-report.md에 재실행 단계 섹션 없음"
+grep -q '^schema: review-report/v1$' templates/04-review-report.md || err "04-review-report.md에 review-report/v1 schema 없음"
+for template in 01-red-test-report.md 02-green-implementation-report.md 03-refactor-report.md 04-review-report.md; do
+    grep -q '^## 실제 참조 문서' "templates/$template" \
         || err "$template에 '실제 참조 문서' 섹션 없음"
 done
 
 # 점수표 항목과 채점 기준의 ID 일치
-for iid in $(grep -oE '^\| [A-Z][0-9]+' next-step/templates/05-scorecard.md | tr -d '| '); do
+for iid in $(grep -oE '^\| [A-Z][0-9]+' templates/06-scorecard.md | tr -d '| '); do
     grep -q "^## $iid\." docs/workflow/loop-scoring-criteria.md || err "채점 기준 없음: $iid (loop-scoring-criteria.md)"
 done
 
 # 11. 필수 스킬 존재 (얇은 런처)
-for skill in orchestrate test-agent feat-agent refactor-agent review-agent local-agent loop-improve draft-decision harness-interview harness-sync; do
+for skill in orchestrate test feat refactor review local-agent loop-improve draft-decision harness-interview harness-sync; do
     [ -f ".claude/skills/$skill/SKILL.md" ] || err "필수 스킬 없음: .claude/skills/$skill/SKILL.md"
 done
 

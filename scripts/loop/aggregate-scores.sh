@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 철학 점수표 집계: history의 05-scorecard.md를 항목별로 통계 낸다.
+# 철학 점수표 집계: history의 06-scorecard.md를 항목별로 통계 낸다.
 # 낮은 항목 = 프롬프트(카드 지침 / 역할 docs / 정본) 개선 후보.
 # 사용: scripts/loop/aggregate-scores.sh [--dir <history 경로>] [--bottom N]
 # → docs/workflow/loop-engineering.md
@@ -26,9 +26,9 @@ from collections import defaultdict
 base = pathlib.Path(sys.argv[1])
 bottom_n = int(sys.argv[2])
 
-cards = sorted(base.glob("*/05-scorecard.md"))
+cards = sorted(base.glob("*/06-scorecard.md"))
 if not cards:
-    print(f"집계할 점수표가 없다: {base}/*/05-scorecard.md")
+    print(f"집계할 점수표가 없다: {base}/*/06-scorecard.md")
     sys.exit(0)
 
 # ID -> (항목, 출처, [점수...], NA수, [0/1점 근거(카드명)])

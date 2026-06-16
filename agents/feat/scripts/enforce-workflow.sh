@@ -12,7 +12,7 @@ if [ -z "$TASK" ]; then
 else
     WORK="$ROOT/next-step/work/$TASK"
     [ -f "$WORK/00-task-card.md" ] || err "Feat 시작 전 00-task-card.md가 필요하다: $WORK/00-task-card.md"
-    [ -f "$WORK/01-test-report.md" ] || err "Feat 시작 전 01-test-report.md가 필요하다: $WORK/01-test-report.md"
+    [ -f "$WORK/01-red-test-report.md" ] || err "Feat 시작 전 01-red-test-report.md가 필요하다: $WORK/01-red-test-report.md"
 fi
 
 for f in \
@@ -21,7 +21,7 @@ for f in \
     "$ROOT/agents/feat/docs/implementation-philosophy.md" \
     "$ROOT/agents/feat/docs/layer-responsibility.md" \
     "$ROOT/agents/feat/docs/minimal-implementation.md" \
-    "$ROOT/next-step/templates/02-implementation-report.md"
+    "$ROOT/templates/02-green-implementation-report.md"
 do
     [ -f "$f" ] || err "필수 하네스 파일 없음: $f"
 done

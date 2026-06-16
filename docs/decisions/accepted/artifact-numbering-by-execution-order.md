@@ -10,7 +10,7 @@ accepted
 
 산출물 체인의 파일 번호가 실행 순서와 어긋나면 게이트 판정이 깨진다.
 
-예를 들어 `04-test-report`가 `03-review-report`보다 뒤 번호이면,
+예를 들어 `04-test-report`가 `04-review-report`보다 뒤 번호이면,
 "테스트 보고서가 없으면 구현을 시작하지 않는다"는 게이트가
 번호 순서와 모순되어 사람과 스크립트 모두 혼란한다.
 
@@ -59,8 +59,8 @@ TDD 흐름(Red → Green → Refactor → Review)이 번호만 봐서는 드러�
 
 ### 기존 번호 체계 마이그레이션
 
-구 체계(`01-test-report`, `02-implementation-report`, `02-refactor-report`,
-`03-review-report`, `04-summary`, `05-scorecard`)를 쓰는 스크립트·문서·history를
+구 체계(`01-red-test-report`, `02-green-implementation-report`, `03-refactor-report`,
+`04-review-report`, `05-summary`, `06-scorecard`)를 쓰는 스크립트·문서·history를
 함께 갱신해야 한다. 한 번의 일괄 교체 비용이 있다.
 
 ---

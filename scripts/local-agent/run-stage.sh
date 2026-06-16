@@ -41,10 +41,10 @@ while [ "$#" -gt 0 ]; do
 done
 
 case "$ROLE" in
-    test) ROLE_HEADING="Test"; REPORT="01-test-report.md"; SANDBOX="workspace-write" ;;
-    feat) ROLE_HEADING="Feat"; REPORT="02-implementation-report.md"; SANDBOX="workspace-write" ;;
-    refactor) ROLE_HEADING="Refactor"; REPORT="02-refactor-report.md"; SANDBOX="workspace-write" ;;
-    review) ROLE_HEADING="Review"; REPORT="03-review-report.md"; SANDBOX="workspace-write" ;;
+    test) ROLE_HEADING="Test"; REPORT="01-red-test-report.md"; SANDBOX="workspace-write" ;;
+    feat) ROLE_HEADING="Feat"; REPORT="02-green-implementation-report.md"; SANDBOX="workspace-write" ;;
+    refactor) ROLE_HEADING="Refactor"; REPORT="03-refactor-report.md"; SANDBOX="workspace-write" ;;
+    review) ROLE_HEADING="Review"; REPORT="04-review-report.md"; SANDBOX="workspace-write" ;;
     *)
         echo "FAIL: 지원하지 않는 역할: $ROLE" >&2
         usage >&2
@@ -113,17 +113,17 @@ cat "$COMMON_INPUTS" "$ROLE_INPUTS" >> "$INPUTS"
 
 case "$ROLE" in
     feat)
-        printf '%s\n' "next-step/work/$TASK/01-test-report.md" >> "$INPUTS"
+        printf '%s\n' "next-step/work/$TASK/01-red-test-report.md" >> "$INPUTS"
         ;;
     refactor)
-        [ ! -f "$WORK/01-test-report.md" ] || printf '%s\n' "next-step/work/$TASK/01-test-report.md" >> "$INPUTS"
-        [ ! -f "$WORK/02-implementation-report.md" ] || printf '%s\n' "next-step/work/$TASK/02-implementation-report.md" >> "$INPUTS"
+        [ ! -f "$WORK/01-red-test-report.md" ] || printf '%s\n' "next-step/work/$TASK/01-red-test-report.md" >> "$INPUTS"
+        [ ! -f "$WORK/02-green-implementation-report.md" ] || printf '%s\n' "next-step/work/$TASK/02-green-implementation-report.md" >> "$INPUTS"
         ;;
     review)
-        for artifact in 01-test-report.md 02-implementation-report.md 02-refactor-report.md; do
+        for artifact in 01-red-test-report.md 02-green-implementation-report.md 03-refactor-report.md; do
             [ ! -f "$WORK/$artifact" ] || printf '%s\n' "next-step/work/$TASK/$artifact" >> "$INPUTS"
         done
-        printf '%s\n' "next-step/templates/05-scorecard.md" >> "$INPUTS"
+        printf '%s\n' "templates/06-scorecard.md" >> "$INPUTS"
         printf '%s\n' "docs/workflow/loop-scoring-criteria.md" >> "$INPUTS"
         ;;
 esac
@@ -161,7 +161,7 @@ fi
 local_agent_assert_clean_worktree "$ROOT"
 INPUT_HEAD="$(git -C "$ROOT" rev-parse HEAD)"
 rm -f "$WORK/$REPORT"
-[ "$ROLE" != "review" ] || rm -f "$WORK/05-scorecard.md"
+[ "$ROLE" != "review" ] || rm -f "$WORK/06-scorecard.md"
 
 TMP_ROOT="$(mktemp -d)"
 mkdir -p "$TMP_ROOT/codex-home" "$TMP_ROOT/workspace"
@@ -195,7 +195,7 @@ PROMPT="$TMP_ROOT/prompt.md"
     done < "$INPUTS"
     echo
     if [ "$ROLE" = "review" ]; then
-        echo '판정과 함께 `next-step/work/'"$TASK"'/05-scorecard.md`를 next-step/templates/05-scorecard.md 형식으로 작성해 전 항목을 채점한다. 감점에는 코드 위치 근거를 인용한다.'
+        echo '판정과 함께 `next-step/work/'"$TASK"'/06-scorecard.md`를 templates/06-scorecard.md 형식으로 작성해 전 항목을 채점한다. 감점에는 코드 위치 근거를 인용한다.'
         echo
     fi
     cat <<EOF
@@ -232,8 +232,8 @@ CODEX_HOME="$TMP_ROOT/codex-home" codex -a never exec \
     echo "FAIL: $ROLE 단계 보고서가 생성되지 않았다: $WORK/$REPORT" >&2
     exit 1
 }
-if [ "$ROLE" = "review" ] && [ ! -f "$WORK/05-scorecard.md" ]; then
-    echo "FAIL: Review 단계가 05-scorecard.md(철학 점수표)를 생성하지 않았다" >&2
+if [ "$ROLE" = "review" ] && [ ! -f "$WORK/06-scorecard.md" ]; then
+    echo "FAIL: Review 단계가 06-scorecard.md(철학 점수표)를 생성하지 않았다" >&2
     exit 1
 fi
 

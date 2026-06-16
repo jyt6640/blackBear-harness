@@ -1,6 +1,6 @@
 # Next Step History
 
-Review 승인과 `04-summary.md` 작성까지 끝난 작업의 산출물 체인을 보존한다.
+Review 승인과 `05-summary.md` 작성까지 끝난 작업의 산출물 체인을 보존한다.
 
 ## 보존 단위
 
@@ -8,11 +8,11 @@ Review 승인과 `04-summary.md` 작성까지 끝난 작업의 산출물 체인�
 next-step/history/
 ├── <작업명>/
 │   ├── 00-task-card.md
-│   ├── 01-test-report.md
-│   ├── 02-implementation-report.md
-│   ├── 02-refactor-report.md
-│   ├── 03-review-report.md
-│   └── 04-summary.md
+│   ├── 01-red-test-report.md
+│   ├── 02-green-implementation-report.md
+│   ├── 03-refactor-report.md
+│   ├── 04-review-report.md
+│   └── 05-summary.md
 └── <백로그명>-backlog.md
 ```
 

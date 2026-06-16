@@ -23,7 +23,7 @@ docs의 철학이 코드에서 실제로 지켜지는지 측정 수단이 없었
 
 철학을 점수표로 변환하고, 채점 → 집계 → 개선의 루프를 돈다.
 
-- 점수표 항목의 정본은 `next-step/templates/05-scorecard.md`다.
+- 점수표 항목의 정본은 `templates/06-scorecard.md`다.
   각 항목은 docs의 철학 / decision에서 도출되고 출처를 가리킨다.
 - Review Agent가 카드마다 채점한다. 점수는 0 / 1 / 2 / N/A이고
   근거에 코드 위치를 인용한다.

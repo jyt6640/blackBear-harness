@@ -34,5 +34,5 @@
 
 ## 구현 보고
 
-`02-implementation-report.md`에는 무엇을 바꿨는지만 쓰지 않는다.
+`02-green-implementation-report.md`에는 무엇을 바꿨는지만 쓰지 않는다.
 왜 그 책임 위치가 자연스러운지, 어떤 판단을 보류했는지, Review가 봐야 할 위험이 무엇인지 기록한다.
