@@ -1,7 +1,7 @@
 # Test Agent Workflow
 
-> 이 문서는 공유 정본의 실행 관점 요약이다.
-> [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
+> 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
+> 관련 철학·판단 기준은 docs/principles/, docs/workflow/를 참조한다.
 
 
 Test Agent의 workflow는 작업 카드의 기대 행위를 production class의 public behavior 테스트로 고정하는 절차다.

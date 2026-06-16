@@ -29,6 +29,11 @@ fi
 if [ -f "$work/04-review-report.md" ] && [ ! -f "$work/02-green-implementation-report.md" ] && [ ! -f "$work/03-refactor-report.md" ]; then
     err "02 보고서 없이 04-review-report.md 존재 (Feat / Refactor 단계 생략 금지)"
 fi
+# Review must not skip the refactor checkpoint after green implementation.
+# feature 카드(02 존재)는 03 없이 04로 갈 수 없다. refactor 전용 카드는 02가 없으므로 걸리지 않는다.
+if [ -f "$work/04-review-report.md" ] && [ -f "$work/02-green-implementation-report.md" ] && [ ! -f "$work/03-refactor-report.md" ]; then
+    err "03-refactor-report.md 없이 04-review-report.md 존재 (feature 카드는 Refactor 체크포인트를 건너뛸 수 없다)"
+fi
 if [ -f "$work/04-review-report.md" ] && [ ! -f "$work/06-scorecard.md" ]; then
     err "06-scorecard.md 없이 04-review-report.md 존재 (Review는 판정과 함께 철학 점수표를 작성한다)"
 fi

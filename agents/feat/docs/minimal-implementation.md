@@ -1,7 +1,7 @@
 # Minimal Implementation
 
-> 이 문서는 공유 정본의 실행 관점 요약이다.
-> [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
+> 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
+> 관련 철학·판단 기준은 docs/principles/, docs/workflow/를 참조한다.
 
 
 최소 구현은 대충 구현한다는 뜻이 아니다.
@@ -9,7 +9,7 @@
 
 ---
 
-## 출처 정본
+## 참조
 
 [explicit-over-reuse](../../../docs/decisions/accepted/explicit-over-reuse.md)
 

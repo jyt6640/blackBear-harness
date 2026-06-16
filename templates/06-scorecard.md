@@ -1,7 +1,7 @@
 # 06 · Scorecard — <작업명>
 
 > Review Agent 산출물. 철학 점수표.
-> 채점 기준 정본: [loop-scoring-criteria](../docs/workflow/loop.md) 및 각 항목 출처.
+> 채점 기준 정본: [loop-scoring-criteria](../docs/workflow/loop-scoring-criteria.md) 및 각 항목 출처.
 > 2=의도대로 / 1=국소 위반(위치 명시) / 0=의도 무시 / N/A=diff에 근거 없음.
 > 기계가 강제하는 부분(ArchUnit/Tier1)은 green-bar로 보장되므로 의미 잔여만 채점한다.
 

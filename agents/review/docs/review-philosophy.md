@@ -1,9 +1,9 @@
 # Review — 실행 체크리스트
 
 > 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
-> [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
+> 관련 철학·판단 기준은 docs/principles/, docs/workflow/를 참조한다.
 
-## 출처 정본
+## 참조
 
 철학은 정본에서 읽는다(여기 재서술하지 않는다):
 [code-review](../../../docs/workflow/code-review.md), 점수 기준은 [loop-scoring-criteria](../../../docs/workflow/loop-scoring-criteria.md)

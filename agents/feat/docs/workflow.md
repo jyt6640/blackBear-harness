@@ -1,7 +1,7 @@
 # Feat Agent Workflow
 
-> 이 문서는 공유 정본의 실행 관점 요약이다.
-> [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
+> 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
+> 관련 철학·판단 기준은 docs/principles/, docs/workflow/를 참조한다.
 
 
 Feat Agent의 workflow는 `01-red-test-report.md`의 실패 테스트를 작업 카드 범위 안에서 통과시키는 절차다.

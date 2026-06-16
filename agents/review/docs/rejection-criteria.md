@@ -1,14 +1,14 @@
 # Rejection Criteria
 
-> 이 문서는 공유 정본의 실행 관점 요약이다.
-> [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
+> 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
+> 관련 철학·판단 기준은 docs/principles/, docs/workflow/를 참조한다.
 
 
 아래 항목은 Review Agent의 반려 기준이다.
 
 ---
 
-## 출처 정본
+## 참조
 
 [code-review](../../../docs/workflow/code-review.md)
 
