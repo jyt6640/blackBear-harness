@@ -39,3 +39,8 @@
 ## Review 요청 포인트
 
 -
+
+## 실제 참조 문서
+
+- `next-step/work/<작업명>/00-task-card.md`
+- `next-step/work/<작업명>/01-test-report.md`

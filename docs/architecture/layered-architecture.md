@@ -51,7 +51,26 @@ Application Layer는 유스케이스 흐름을 조율한다.
 
 - 비즈니스 판단을 직접 수행하지 않는다.
 - 복잡한 조건문으로 정책을 숨기지 않는다.
+- 접근 권한 분기(소유권·가시성·관계)를 직접 갖지 않는다. Policy에 위임한다. → [authorization-policy-placement](../decisions/accepted/authorization-policy-placement.md)
 - HTTP Request/Response DTO에 의존하지 않는다.
+
+### 읽힘성 계약
+
+Service 메서드 본문은 도메인 언어의 문장으로 읽혀야 한다.
+
+조회 → 위임 → 처리의 흐름이 자연스럽게 읽히는 것이 정상이다.
+본문에서 비즈니스 의미의 `if` / getter 비교 / 계산이 보이면 판단이 새어든 신호다.
+해당 판단을 Domain 행위·Policy·Validator로 옮긴다.
+
+좋은 예시:
+
+    schedule.validateViewableBy(viewerId, isFriend);
+    return ScheduleResponse.from(schedule);
+
+지양하는 예시:
+
+    if (schedule.getVisibility() == Visibility.PUBLIC) { ... }
+    else if (schedule.getParticipantIds().contains(viewerId)) { ... }
 
 ---
 

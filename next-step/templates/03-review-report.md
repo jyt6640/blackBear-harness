@@ -1,4 +1,16 @@
+---
+schema: review-report/v1
+verdict: pending
+restart_stage: pending
+---
+
 # 03 Review Report
+
+frontmatter 허용 조합:
+
+- 승인: `verdict: approved`, `restart_stage: none`
+- 반려: `verdict: rejected`, `restart_stage: test | feat | refactor`
+- 상위 판단 필요: `verdict: blocked`, `restart_stage: none`
 
 ## 작업명
 
@@ -6,7 +18,7 @@
 
 ## 판정
 
-- 승인 | 반려
+- 승인 | 반려 | 보류
 
 ## 산출물 체인 확인
 
@@ -42,3 +54,7 @@
 ## 남은 위험
 
 -
+
+## 실제 참조 문서
+
+- `next-step/work/<작업명>/00-task-card.md`

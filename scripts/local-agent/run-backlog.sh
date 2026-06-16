@@ -35,9 +35,11 @@ while [ "$#" -gt 0 ]; do
 done
 
 [ -n "$PROFILE" ] || { echo "FAIL: --profile이 필요하다" >&2; exit 1; }
+local_agent_validate_name "profile" "$PROFILE" || exit 1
 [ -f "$BACKLOG" ] || { echo "FAIL: 백로그가 없다: $BACKLOG (카드 2장 이상이면 /orchestrate가 만든다)" >&2; exit 1; }
 case "$PARALLEL" in ''|*[!0-9]*) echo "FAIL: --parallel은 양의 정수" >&2; exit 1 ;; esac
 [ "$PARALLEL" -ge 1 ] || { echo "FAIL: --parallel은 1 이상" >&2; exit 1; }
+case "$MAX_RETRIES" in ''|*[!0-9]*) echo "FAIL: --max-retries는 0 이상의 정수" >&2; exit 1 ;; esac
 
 # 백로그 카드 목록에서 '대기' 상태 작업명 추출 (| 순번 | 작업명 | 행위 | 상태 | 비고 |)
 PENDING=()
@@ -77,28 +79,78 @@ run_one() {
     local task="$1"
     local wt="$ROOT/../blackBear-wt-$task"
     local log="$ROOT/next-step/work/$task/.local-agent/backlog-run.log"
+    local source_work="$ROOT/next-step/work/$task"
+    local target_work="$wt/next-step/work/$task"
+    local result="$RESULT_DIR/$task"
+    local input_archive="$RESULT_DIR/$task-input.tar"
+    local output_archive="$RESULT_DIR/$task-output.tar"
+    local rc=0
+
+    local_agent_validate_task_name "$ROOT" "$task" || {
+        printf 'FAIL\n' > "$result"
+        return 0
+    }
+    [ -d "$source_work" ] || {
+        echo "FAIL[$task]: 작업 카드 디렉터리가 없다: $source_work"
+        printf 'FAIL\n' > "$result"
+        return 0
+    }
     mkdir -p "$(dirname "$log")"
 
     git -C "$ROOT" worktree add --quiet "$wt" -b "loop/$task" 2>>"$log" || {
-        echo "FAIL[$task]: worktree 생성 실패 (loop/$task 이미 존재?)"; return 1
+        echo "FAIL[$task]: worktree 생성 실패 (loop/$task 이미 존재?)"
+        printf 'FAIL\n' > "$result"
+        return 0
+    }
+
+    mkdir -p "$target_work"
+    tar -C "$source_work" --exclude='./.local-agent' -cf "$input_archive" . || {
+        echo "FAIL[$task]: 작업 메모리 묶기 실패 (worktree 보존: $wt)"
+        printf 'FAIL\n' > "$result"
+        return 0
+    }
+    tar -C "$target_work" -xf "$input_archive" || {
+        echo "FAIL[$task]: 작업 메모리 전달 실패 (worktree 보존: $wt)"
+        printf 'FAIL\n' > "$result"
+        return 0
     }
 
     local args=(--profile "$PROFILE" --max-retries "$MAX_RETRIES")
     [ "$HYBRID" = true ] && args+=(--hybrid)
 
-    local rc=0
     ( cd "$wt" && scripts/local-agent/run-pipeline.sh "$task" "${args[@]}" ) >>"$log" 2>&1 || rc=$?
 
-    git -C "$ROOT" worktree remove --force "$wt" 2>>"$log" || true
+    if [ -d "$target_work" ]; then
+        tar -C "$target_work" --exclude='./.local-agent/card.lock' -cf "$output_archive" . \
+            && tar -C "$source_work" -xf "$output_archive" \
+            || rc=1
+    fi
 
     case "$rc" in
-        0) echo "OK[$task]: 완료 (로그: $log)" ;;
-        2) echo "BLOCKED[$task]: 재시도 한도 초과 또는 BLOCKED — 사람 확인 필요 (로그: $log)" ;;
-        *) echo "FAIL[$task]: rc=$rc (로그: $log)" ;;
+        0)
+            git -C "$ROOT" worktree remove --force "$wt" 2>>"$log" || rc=1
+            if [ "$rc" -eq 0 ]; then
+                echo "OK[$task]: 완료 (로그: $log)"
+                printf 'OK\n' > "$result"
+            else
+                echo "FAIL[$task]: worktree 정리 실패 (로그: $log)"
+                printf 'FAIL\n' > "$result"
+            fi
+            ;;
+        2)
+            echo "BLOCKED[$task]: 사람 확인 필요 (worktree 보존: $wt, 로그: $log)"
+            printf 'BLOCKED\n' > "$result"
+            ;;
+        *)
+            echo "FAIL[$task]: rc=$rc (worktree 보존: $wt, 로그: $log)"
+            printf 'FAIL\n' > "$result"
+            ;;
     esac
     return 0
 }
 
+RESULT_DIR="$(mktemp -d)"
+trap 'rm -rf "$RESULT_DIR"' EXIT
 active=0
 for task in "${PENDING[@]}"; do
     run_one "$task" &
@@ -110,4 +162,9 @@ for task in "${PENDING[@]}"; do
 done
 wait
 
-echo "백로그 루프 종료. BLOCKED/FAIL 카드는 사람이 검토하고, 완료 카드는 /orchestrate 마무리로 history 이동한다."
+fail_count=$(grep -l '^FAIL$' "$RESULT_DIR"/* 2>/dev/null | wc -l | tr -d ' ')
+blocked_count=$(grep -l '^BLOCKED$' "$RESULT_DIR"/* 2>/dev/null | wc -l | tr -d ' ')
+echo "백로그 루프 종료: FAIL=$fail_count BLOCKED=$blocked_count"
+[ "$fail_count" -eq 0 ] || exit 1
+[ "$blocked_count" -eq 0 ] || exit 2
+exit 0

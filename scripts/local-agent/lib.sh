@@ -19,11 +19,22 @@ local_agent_validate_name() {
     local value="$2"
 
     case "$value" in
-        ""|.|..|*/*|*\\*)
-            echo "FAIL: $label 값에 디렉터리 구분자를 사용할 수 없다: $value" >&2
+        ""|[!A-Za-z0-9]*|*[!A-Za-z0-9._-]*|*..*|*.)
+            echo "FAIL: $label은 영문/숫자로 시작하고 영문/숫자/._-만 사용할 수 있다: $value" >&2
             return 1
             ;;
     esac
+}
+
+local_agent_validate_task_name() {
+    local root="$1"
+    local task="$2"
+
+    local_agent_validate_name "작업명" "$task" || return 1
+    git -C "$root" check-ref-format --branch "loop/$task" >/dev/null 2>&1 || {
+        echo "FAIL: 작업명을 안전한 branch 이름으로 사용할 수 없다: $task" >&2
+        return 1
+    }
 }
 
 local_agent_extract_section_paths() {
@@ -64,6 +75,21 @@ local_agent_extract_first_value() {
     ' "$file"
 }
 
+local_agent_extract_frontmatter_value() {
+    local file="$1"
+    local key="$2"
+
+    awk -v key="$key" '
+        NR == 1 && $0 == "---" { frontmatter=1; next }
+        frontmatter && $0 == "---" { exit }
+        frontmatter && index($0, key ":") == 1 {
+            sub("^[^:]+:[[:space:]]*", "")
+            print
+            exit
+        }
+    ' "$file"
+}
+
 local_agent_validate_relative_file() {
     local root="$1"
     local path="$2"
@@ -96,15 +122,96 @@ local_agent_review_base_ref() {
     printf '%s\n' "$base"
 }
 
-local_agent_assert_clean_tracked_tree() {
+local_agent_assert_clean_worktree() {
     local root="$1"
     local dirty
-    dirty=$(git -C "$root" status --porcelain --untracked-files=no)
+    dirty=$(git -C "$root" status --porcelain=v1 --untracked-files=all)
     [ -z "$dirty" ] || {
-        echo "FAIL: 로컬 에이전트 실행 전 tracked worktree가 깨끗해야 한다" >&2
+        echo "FAIL: 로컬 에이전트 worktree에 커밋되지 않은 변경이 있다" >&2
         printf '%s\n' "$dirty" >&2
         return 1
     }
+}
+
+local_agent_assert_stage_paths() {
+    local root="$1"
+    local base="$2"
+    local role="$3"
+    local path
+    local fail=0
+
+    while IFS= read -r path; do
+        [ -n "$path" ] || continue
+        case "$role:$path" in
+            test:src/main/*|test:*/src/main/*)
+                echo "FAIL: Test 단계에서 production source 수정 금지: $path" >&2
+                fail=1
+                ;;
+            feat:src/test/*|feat:*/src/test/*)
+                echo "FAIL: Feat 단계에서 test source 수정 금지: $path" >&2
+                fail=1
+                ;;
+            review:src/*|review:*/src/*)
+                echo "FAIL: Review 단계에서 source 수정 금지: $path" >&2
+                fail=1
+                ;;
+        esac
+    done < <(git -C "$root" log --format= --name-only "$base..HEAD" | sort -u)
+
+    [ "$fail" -eq 0 ]
+}
+
+local_agent_assert_review_report_schema() {
+    local report="$1"
+    local schema verdict restart
+
+    schema=$(local_agent_extract_frontmatter_value "$report" schema)
+    verdict=$(local_agent_extract_frontmatter_value "$report" verdict)
+    restart=$(local_agent_extract_frontmatter_value "$report" restart_stage)
+
+    [ "$schema" = "review-report/v1" ] || {
+        echo "FAIL: Review frontmatter schema가 유효하지 않다: $schema" >&2
+        return 1
+    }
+    case "$verdict:$restart" in
+        approved:none|blocked:none|rejected:test|rejected:feat|rejected:refactor)
+            ;;
+        *)
+            echo "FAIL: Review frontmatter 조합이 유효하지 않다: verdict=$verdict restart_stage=$restart" >&2
+            return 1
+            ;;
+    esac
+}
+
+local_agent_assert_referenced_docs() {
+    local report="$1"
+    local allowed="$2"
+    local path
+    local count=0
+
+    while IFS= read -r path; do
+        [ -n "$path" ] || continue
+        count=$((count + 1))
+        grep -Fxq "$path" "$allowed" || {
+            echo "FAIL: 보고서가 허용 목록 밖 문서를 참조했다: $path" >&2
+            return 1
+        }
+    done < <(local_agent_extract_section_paths "$report" "## 실제 참조 문서")
+
+    [ "$count" -gt 0 ] || {
+        echo "FAIL: 보고서의 '실제 참조 문서' 목록이 비어 있다" >&2
+        return 1
+    }
+}
+
+local_agent_verify_project() {
+    local root="$1"
+
+    [ -x "$root/verify.sh" ] || {
+        echo "BLOCKED: 프로젝트 green-bar 명령이 없다 또는 실행할 수 없다: $root/verify.sh" >&2
+        return 2
+    }
+    "$root/verify.sh"
 }
 
 local_agent_assert_commit_type() {

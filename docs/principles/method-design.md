@@ -103,12 +103,39 @@ else보다 early return / throw를 우선한다.
         ...
     }
 
+### early return의 그늘
+
+early return은 흐름을 펴는 수단이지, 정책을 흩는 핑계가 아니다.
+
+여러 개의 guard `if (...) return;` 이 모여 **하나의 규칙**(예: 접근 권한)을 이루면
+early return을 지켰더라도 정책이 메서드에 숨은 것이다. 이때는 분기를 도메인 행위나
+Policy로 **응집**한다.
+
+신호:
+
+- guard들이 같은 주제(권한·상태 전이·할인 등)를 분기한다.
+- 마지막에 공통 `throw`가 있고 그 앞이 전부 "통과 조건"이다.
+- getter를 꺼내 비교하는 guard가 둘 이상이다.
+
+→ [authorization-policy-placement](../decisions/accepted/authorization-policy-placement.md)
+
 ---
 
 ## 조건문 정책
 
 - 조건문은 가능한 의미 있는 메서드로 추출한다.
 - 복잡한 분기는 Policy 또는 객체 책임을 검토한다.
+- enum 값으로 분기하면 enum에 행위를 주거나 다형성으로 푸는 것을 먼저 검토한다.
+
+좋은 예시:
+
+    visibility.validateViewableBy(viewer, owner, isFriend)
+
+지양하는 예시:
+
+    if (visibility == PUBLIC) { ... }
+    else if (visibility == FRIENDS_ONLY) { ... }
+
 - switch보다 다형성을 우선 고려한다.
 
 ---

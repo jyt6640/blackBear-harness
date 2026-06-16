@@ -4,3 +4,5 @@ build
 /.idea/
 .DS_Store
 next-step/work/
+recovered-session-*.md
+PHILOSOPHY_QNA_DRAFT.md

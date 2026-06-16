@@ -15,8 +15,17 @@ cd "$ROOT"
 
 fail=0
 warn=0
-violate() { echo "BLOCK: $1"; fail=1; }
 caution() { echo "WARN:  $1"; warn=$((warn+1)); }
+hard_violate() { echo "BLOCK: $1"; fail=1; }  # 모드 무관 강제 차단 (예: FQN)
+base_violate() {
+    if [ "${CHECK_PHILOSOPHY_BASE_STRICT:-0}" = "1" ]; then
+        echo "BLOCK: $1"
+        fail=1
+    else
+        caution "$1"
+    fi
+}
+violate() { base_violate "$1"; }
 
 files() { find "$SRC" -name '*.java' "$@" 2>/dev/null; }
 
@@ -91,15 +100,25 @@ while IFS=: read -r f n line; do
     caution "else 블록 ($f:$n) — early return/throw로 풀 수 있는지 검토"
 done < <(grep -rnE '\}[[:space:]]*else[[:space:]]*\{|^[[:space:]]*else[[:space:]]*\{' "$SRC" 2>/dev/null)
 
-# 프로젝트 전용 검사 훅 (있으면 실행). violate/caution 함수와 SRC를 그대로 쓴다.
-# 예: 응답 봉투 타입 강제 같은 프로젝트 규칙. base에는 프로젝트 패턴을 박지 않는다.
+# Hard. 인라인 FQN (import 안 하고 본문에 완전수식명) — 강제 차단(BLOCK). import해 simple name 사용.
+# import/package 선언 줄은 제외하고, 본문에서 a.b.c.Type 형태(소문자 세그먼트 2+ 뒤 대문자 타입)를 찾는다.
+while IFS=: read -r f n line; do
+    case "$line" in *import\ *|*package\ *) continue ;; esac
+    printf '%s' "$line" | grep -qE '^[[:space:]]*(\*|//|/\*)' && continue
+    printf '%s' "$line" | grep -q '{@link' && continue
+    hard_violate "인라인 FQN ($f:$n) — 타입을 import해 simple name으로 쓴다: $(echo "$line"|sed 's/^[[:space:]]*//' | cut -c1-70)"
+done < <(grep -rnE '([a-z][a-z0-9_]*\.){2,}[A-Z][A-Za-z0-9_]*' "$SRC" 2>/dev/null)
+
+# 프로젝트 전용 검사 훅은 hard block이다. base 검사는 기본 WARN이고 프로젝트가
+# CHECK_PHILOSOPHY_BASE_STRICT=1을 설정한 경우에만 hard block으로 승격한다.
 if [ -f "$ROOT/scripts/check-philosophy.project.sh" ]; then
+    violate() { echo "BLOCK: $1"; fail=1; }
     # shellcheck source=/dev/null
     . "$ROOT/scripts/check-philosophy.project.sh"
 fi
 
 echo "---"
-[ "$warn" -eq 0 ] || echo "WARN $warn건 (차단 안 함, 검토 권장)"
+[ "$warn" -eq 0 ] || echo "WARN ${warn}건 (차단 안 함, 검토 권장)"
 if [ "$fail" -eq 0 ]; then
     echo "OK: 기계 판정 철학 위반 없음 ($SRC)"
 fi

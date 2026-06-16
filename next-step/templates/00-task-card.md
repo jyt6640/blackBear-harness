@@ -36,7 +36,7 @@
 - production code와 프로젝트 accepted decision을 우선한다.
 - Feat 단계는 `01-test-report.md` 없이 시작하지 않는다.
 - 테스트는 production class의 public behavior 기준으로 작성한다.
-- 커밋은 메서드 단위로 분리한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
+- 한 커밋은 하나의 public behavior 또는 하나의 책임 변경만 포함한다. Test는 test 커밋만, Feat는 feat 커밋만, Refactor는 refactor 커밋만 만든다.
 - Controller는 받고 / 위임 / 응답만 한다. 형식 검증(null/blank/형식)은 Request DTO(@NotNull/@NotBlank/@Pattern)나 값 객체에 둔다.
 - 헤더 / 인증 검증 실패는 Controller에서 응답을 만들지 않고 예외를 던져 global 핸들러가 변환한다. 에러 봉투(code/errors)를 Controller에서 조립하지 않는다.
 

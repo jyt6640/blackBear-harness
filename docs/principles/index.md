@@ -91,6 +91,18 @@ Lombok 사용 기준을 정의한다.
 
 ---
 
+## Code Style
+
+가독성 코드 스타일 기준을 정의한다.
+
+- 타입은 import해 simple name으로 쓴다 (인라인 FQN 금지).
+- enum 분기 반복은 행위/다형성을 검토한다.
+- 스타일 위반은 빌드 강제가 아니라 린터 WARN / 리뷰 신호다.
+
+→ [code-style.md](./code-style.md)
+
+---
+
 ## 추가 문서
 
 - [architecture-evolution.md](./architecture-evolution.md)

@@ -32,7 +32,10 @@ YES면 스크립트, NO면 지침이다.
 
 ## 현재 강제 항목
 
-`scripts/verify-harness.sh`가 검사하고, `.githooks/pre-commit`이 실행한다.
+검사를 빠른 커밋 전 검사와 전체 하네스 검사로 나눈다.
+
+- `.githooks/pre-commit` → `scripts/verify-fast.sh`
+- CI 또는 수동 전체 검사 → `scripts/verify-harness.sh`
 
 - 상대 링크 무결성
 - decision 상태와 디렉토리 일치, 상태 섹션 존재
@@ -41,11 +44,15 @@ YES면 스크립트, NO면 지침이다.
 - PHILOSOPHY_QNA_DRAFT.md 커밋 방지
 - AGENTS.md 필수 섹션 존재
 
+빠른 검사는 staged whitespace, 작업 메모리 추적, 미확정 QnA 추적과 필수 스크립트
+실행 권한만 확인한다. 링크, decision, 역할 docs, history와 scorecard 정합성은 전체
+검사에서 확인한다.
+
 커밋 컨벤션도 스크립트가 검사한다.
 
 - 커밋 메시지 형식: `scripts/check-commit-message.sh` (`.githooks/commit-msg`)
 - 카드 릴레이의 커밋 type 제한과 test → feat → refactor 순서: `scripts/check-commit-chain.sh`
-- 메서드 단위 여부는 기계 판정 불가 영역이므로 Review Agent 지침으로 남긴다.
+- public behavior/책임 단위 여부는 기계 판정 불가 영역이므로 Review Agent 지침으로 남긴다.
 
 훅 활성화:
 

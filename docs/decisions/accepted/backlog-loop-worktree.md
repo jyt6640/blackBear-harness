@@ -24,11 +24,16 @@ accepted
 백로그 무인 순회 루프를 둔다: `scripts/local-agent/run-backlog.sh`.
 
 - 백로그의 `대기` 카드를 읽어 카드마다 git worktree로 격리한다.
+- Git ignored인 `next-step/work/<작업명>`을 worktree에 복제하고, 실행 후 보고서와
+  실행 상태를 원본 작업 메모리로 회수한다.
 - `--parallel N`으로 동시에 N개 worktree를 돌린다 (기본 1=직렬).
 - 각 티켓은 `run-pipeline.sh`로 돌고, 기본은 `--hybrid`(구현=로컬, Review=강모델).
   `--full-local`로 Review까지 로컬로 돌릴 수 있다.
 - 게이트, 재시도 한도, 산출물 체인을 그대로 따른다.
 - 결과: OK / BLOCKED / FAIL을 카드별 로그와 함께 보고한다.
+- 전체 종료 코드는 모두 OK면 0, FAIL이 하나라도 있으면 1, FAIL 없이 BLOCKED만
+  있으면 2다.
+- OK worktree만 제거한다. BLOCKED / FAIL worktree는 원인 조사와 복구를 위해 남긴다.
 
 worktree 격리의 효과:
 
@@ -91,4 +96,5 @@ worktree 격리의 효과:
 - 병렬 카드의 충돌이 잦아 직렬로만 돌리게 된다.
 - 반려 루프가 길어 무인 throughput 이득이 사라진다.
 - worktree 정리(remove)가 실패해 디스크에 잔재가 쌓인다.
+- BLOCKED / FAIL worktree가 조사 후 정리되지 않아 디스크에 잔재가 쌓인다.
 - BLOCKED 카드가 누적되어 사람 검토 큐가 밀린다.

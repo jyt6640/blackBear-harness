@@ -24,7 +24,9 @@ accepted
 
 ## 선택한 방향
 
-기계 판정 가능한 철학 위반은 `scripts/check-philosophy.sh`로 사전 차단한다.
+`scripts/check-philosophy.sh`는 Java 빌드 전 빠른 신호를 제공한다. base 패턴은
+프로젝트 production code보다 우선하지 않도록 기본 WARN이며,
+`CHECK_PHILOSOPHY_BASE_STRICT=1`일 때만 hard block이다.
 
 Feat / Refactor 단계 게이트(enforce-workflow)가 이 검사를 실행하고,
 위반이 있으면 단계가 실패한다. 약한 모델은 리뷰 전에 스스로 고치게 된다.
@@ -51,6 +53,7 @@ Feat / Refactor 단계 게이트(enforce-workflow)가 이 검사를 실행하고
 
 - 프로젝트가 `scripts/check-philosophy.project.sh`를 두면 base 검사가 source한다.
 - `violate` / `caution` 함수와 `$SRC`를 그대로 쓴다.
+- 프로젝트 훅의 `violate`는 항상 hard block이다.
 - 봉투 타입 강제처럼 프로젝트 decision으로 정한 규칙은 여기에 둔다.
   base는 프로젝트 관례(예: ApiResponse)를 박지 않는다.
   base는 generic-response-wrapper를 기본 rejected로 두므로, 봉투 강제는 프로젝트 override다.

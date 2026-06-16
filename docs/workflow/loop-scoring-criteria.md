@@ -12,6 +12,7 @@
 - 1은 위반이 국소적이고 카드 범위 안에서 수정 가능한 경우다. 근거에 위치를 적는다.
 - 0은 철학의 의도 자체가 무시된 경우다.
 - 판단 근거가 diff에 없으면 추측하지 말고 N/A로 두고 사유를 적는다.
+- 기계가 이미 강제하는 부분(Tier 1, ArchUnit)은 green-bar 통과로 보장되므로 다시 채점하지 않는다. 각 항목 채점은 ArchUnit이 못 잡는 의미 잔여(예: S1은 레이어 위치가 아니라 "흐름과 판단이 섞였는가", S2는 "Service에 비즈니스 분기가 숨었는가")에 집중한다. → [architecture-rules-as-archunit](../decisions/accepted/architecture-rules-as-archunit.md)
 
 ---
 
@@ -138,6 +139,24 @@ Adapter는 협력 수단을 가진 쪽)로 캡슐화하고, 상대 도메인 객
 
 전형적 위반: OrderService가 MemberRepository 직접 주입, Product가 Order 상태 변경.
 
+## S10. 접근 권한 판단 위치
+
+출처: [authorization-policy-placement](../decisions/accepted/authorization-policy-placement.md), [domain-boundary](../architecture/domain-boundary.md)
+
+철학: 접근 권한 판단(소유권·가시성·관계)은 Policy 또는 도메인 행위가 소유한다.
+Service에 권한 분기를 두지 않는다. 규칙이 도메인 상태 + 저장소 조회를 함께
+필요로 하면, 도메인이 규칙을 갖고 외부 사실(친구 여부 등)을 인자로 받는다
+(Application이 Reference 포트로 조회해 주입). 도메인은 Repository를 모른다.
+
+- 2: 권한 규칙이 도메인 행위 / Policy에 응집되어 있고, Service 본문에는 조회 →
+  권한 확인 호출 → 처리만 보인다. 외부 사실은 인자로 주입된다.
+- 1: 규칙은 Policy에 있으나 guard 한두 개가 Service에 남거나, 도메인이 외부 사실을
+  인자로 받지 않고 getter 비교가 한 곳 남는다.
+- 0: 권한 분기(owner/visibility/participant/관계)가 Service의 if 체인으로 흩어져 있다.
+
+전형적 위반: Service가 schedule.getVisibility() 등을 꺼내 PUBLIC/FRIENDS_ONLY를
+직접 분기하고 끝에 ForbiddenException을 던진다.
+
 ## T1. public behavior 단위 직접 테스트
 
 출처: [public-behavior-based-tdd](../decisions/accepted/public-behavior-based-tdd.md), [testing](../principles/testing.md)
@@ -227,9 +246,9 @@ Domain / Persistence Entity / DTO의 역할에 따라 허용 범위가 다르다
 
 출처: [git-convention](./git-convention.md)
 
-철학: 커밋은 메서드(public behavior) 단위, test → feat → refactor 순서,
-각 단계는 자기 type만 만든다. 형식과 순서는 스크립트가 검사하므로
-여기서는 "메서드 단위"(기계 판정 불가 부분)를 본다.
+철학: 한 커밋은 하나의 public behavior 또는 하나의 책임 변경만 포함하고,
+test → feat → refactor 순서를 지키며 각 단계는 자기 type만 만든다.
+형식과 순서는 스크립트가 검사하므로 여기서는 행위/책임 단위를 본다.
 
 - 2: 행위 하나당 커밋 하나가 지켜졌고, 보고서의 커밋 목록과 이력이 일치한다.
 - 1: 행위 두 개가 한 커밋에 묶인 곳이 한 번 있다.

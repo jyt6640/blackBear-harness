@@ -10,7 +10,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - `next-step/work/<작업명>/01-test-report.md`의 실패 테스트를 읽는다.
 - 시작 전에 [scripts/enforce-workflow.sh](./scripts/enforce-workflow.sh)를 실행해 `00-task-card.md`와 `01-test-report.md` 존재를 확인한다.
 - 작업 카드의 범위 안에서 최소 production code를 작성한다.
-- 메서드 단위로 feat 커밋을 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
+- public behavior 단위로 feat 커밋을 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
 - 기존 테스트가 통과하는 상태를 유지한다.
 - Review Agent가 산출물만 읽고 검토할 수 있게 `02-implementation-report.md`를 작성한다.
 
@@ -50,7 +50,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 ## 출력
 
 - 실패 테스트를 통과시키는 구현 코드
-- 메서드 단위 feat 커밋 (`feat(scope): 한국어 summary`)
+- public behavior 단위 feat 커밋 (`feat(scope): 한국어 summary`)
 - `next-step/work/<작업명>/02-implementation-report.md`
 
 `02-implementation-report.md`에는 아래를 기록한다.
@@ -84,7 +84,7 @@ Feat Agent는 `01-test-report.md`의 실패 테스트를 통과시키는 최소 
 - 대상 실패 테스트가 통과한다.
 - 기존 테스트도 통과한다.
 - 구현이 작업 카드 범위를 넘지 않는다.
-- feat 커밋이 메서드 단위로 분리됐고 보고서에 기록됐다.
+- feat 커밋이 public behavior 단위로 분리됐고 보고서에 기록됐다.
 - `02-implementation-report.md`가 작성됐다.
 - 사용자 릴레이 모드에서는 멈추고 /refactor-agent 실행을 요청한다.
 - 자동 로컬 에이전트 모드에서는 결과를 반환하고 종료한다. 다음 단계를 직접 시작하지 않는다.

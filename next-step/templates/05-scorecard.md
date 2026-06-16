@@ -33,6 +33,7 @@
 | S7 | 예외의 의미 변환과 위치 (기술 예외 → 저장소 의미 → 유스케이스 의미) | infrastructure-exception-translation | | |
 | S8 | 트랜잭션 경계 위치와 후속 작업 분리 판단 | transaction-boundary-in-service, follow-up-failure-boundary | | |
 | S9 | 도메인 간 협력 (Reference 포트, 다른 도메인 책임 침범 없음) | domain-reference-adapter, domain-boundary | | |
+| S10 | 접근 권한 판단 위치 (권한 규칙은 Policy / 도메인 행위, Service에 분기 없음; 조합 정책은 외부 사실 인자 주입) | authorization-policy-placement, domain-boundary | | |
 | T1 | public behavior 단위 직접 테스트 (Service 테스트로 대체 없음) | public-behavior-based-tdd | | |
 | T2 | 테스트 더블을 책임 기준으로 선택 (Service=Mock, Validator=Fake 우선) | test-double-by-responsibility | | |
 | T3 | 실패 확인 선행 (01 보고서에 실패 근거 존재) | tdd | | |
@@ -40,7 +41,7 @@
 | R1 | 의도가 드러나는 네이밍, Helper / Util / Manager 없음 | naming, common-util-package | | |
 | R2 | 메서드 설계 (한 의도, early return, boolean 정책 분기 없음) | method-design | | |
 | R3 | Lombok 사용 기준 (역할별 허용 범위, 생성·변경 경로 미개방) | lombok-usage-guideline | | |
-| P1 | 커밋이 메서드 단위, test → feat → refactor 순서 | git-convention | | |
+| P1 | 커밋이 public behavior/책임 단위, test → feat → refactor 순서 | git-convention | | |
 | P2 | 카드 범위 준수 (범위 밖 변경 / 관련 없는 리팩터링 없음) | 불변 철학(최소 변경) | | |
 
 ## 합계

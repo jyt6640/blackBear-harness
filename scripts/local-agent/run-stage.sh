@@ -56,10 +56,10 @@ esac
     echo "FAIL: --profile 또는 LOCAL_AGENT_PROFILE이 필요하다" >&2
     exit 1
 }
-local_agent_validate_name "작업명" "$TASK"
+ROOT="$(local_agent_root)"
+local_agent_validate_task_name "$ROOT" "$TASK"
 local_agent_validate_name "profile" "$PROFILE"
 
-ROOT="$(local_agent_root)"
 WORK="$(local_agent_work_dir "$ROOT" "$TASK")"
 CARD="$WORK/00-task-card.md"
 PROFILE_PATH="$(local_agent_profile_path "$PROFILE")"
@@ -158,7 +158,7 @@ if [ "${LOCAL_AGENT_PIPELINE_LOCKED:-0}" != "1" ]; then
     }
 fi
 
-local_agent_assert_clean_tracked_tree "$ROOT"
+local_agent_assert_clean_worktree "$ROOT"
 INPUT_HEAD="$(git -C "$ROOT" rev-parse HEAD)"
 rm -f "$WORK/$REPORT"
 [ "$ROLE" != "review" ] || rm -f "$WORK/05-scorecard.md"
@@ -206,8 +206,9 @@ PROMPT="$TMP_ROOT/prompt.md"
 
 역할 workflow gate는 실행기가 통과시켰다. 필요한 테스트와 검증 명령은 직접 실행한다.
 역할이 허용하는 코드와 \`next-step/work/$TASK/$REPORT\`만 변경한다.
-Test, Feat, Refactor는 역할 규칙에 맞는 커밋을 만들고 tracked worktree를 깨끗하게
+Test, Feat, Refactor는 역할 규칙에 맞는 커밋을 만들고 worktree를 깨끗하게
 남긴다. Review는 코드와 커밋을 변경하지 않고 보고서만 작성한다.
+보고서의 \`## 실제 참조 문서\`에는 실제로 확인한 문서만 위 참고 문서 경로 형식으로 기록한다.
 
 자동 모드이므로 다음 역할을 호출하거나 사용자에게 다음 스킬을 요청하지 않는다.
 완료 후 수행 결과만 짧게 반환하고 종료한다.
@@ -239,9 +240,11 @@ fi
 case "$ROLE" in
     test)
         local_agent_assert_commit_type "$ROOT" "$INPUT_HEAD" test no
+        local_agent_assert_stage_paths "$ROOT" "$INPUT_HEAD" test
         ;;
     feat)
         local_agent_assert_commit_type "$ROOT" "$INPUT_HEAD" feat no
+        local_agent_assert_stage_paths "$ROOT" "$INPUT_HEAD" feat
         ;;
     refactor)
         local_agent_assert_commit_type "$ROOT" "$INPUT_HEAD" refactor yes
@@ -251,8 +254,17 @@ case "$ROLE" in
             echo "FAIL: Review Agent가 커밋을 생성했다" >&2
             exit 1
         }
+        local_agent_assert_review_report_schema "$WORK/$REPORT"
         ;;
 esac
 
-local_agent_assert_clean_tracked_tree "$ROOT"
+local_agent_assert_referenced_docs "$WORK/$REPORT" "$INPUTS"
+local_agent_assert_clean_worktree "$ROOT"
+case "$ROLE" in
+    feat|refactor)
+        "$ROOT/scripts/check-philosophy.sh"
+        local_agent_verify_project "$ROOT"
+        local_agent_assert_clean_worktree "$ROOT"
+        ;;
+esac
 echo "OK: $ROLE 단계 완료"

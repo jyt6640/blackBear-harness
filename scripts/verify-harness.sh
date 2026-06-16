@@ -106,6 +106,11 @@ for section in "## 필수 상위 문서" "## 역할별 추가 문서" "### Test"
     grep -q "^$section" next-step/templates/00-task-card.md || err "00-task-card.md에 '$section' 섹션 없음"
 done
 grep -q '^## 재실행 단계' next-step/templates/03-review-report.md || err "03-review-report.md에 재실행 단계 섹션 없음"
+grep -q '^schema: review-report/v1$' next-step/templates/03-review-report.md || err "03-review-report.md에 review-report/v1 schema 없음"
+for template in 01-test-report.md 02-implementation-report.md 02-refactor-report.md 03-review-report.md; do
+    grep -q '^## 실제 참조 문서' "next-step/templates/$template" \
+        || err "$template에 '실제 참조 문서' 섹션 없음"
+done
 
 # 점수표 항목과 채점 기준의 ID 일치
 for iid in $(grep -oE '^\| [A-Z][0-9]+' next-step/templates/05-scorecard.md | tr -d '| '); do
@@ -130,6 +135,8 @@ for sc in \
     scripts/check-artifact-chain.sh \
     scripts/check-task-card.sh \
     scripts/check-philosophy.sh \
+    scripts/verify-fast.sh \
+    verify.sh \
     scripts/local-agent/run-backlog.sh \
     scripts/project-templates/verify.sh \
     .githooks/pre-commit \

@@ -197,6 +197,48 @@ null / blank 같은 HTTP 입력 필수값 검증을 Domain 또는 Service에 누
 
 ---
 
+## 접근 권한 판단
+
+"이 사용자가 이 리소스를 볼/바꿀 권한이 있는가"(소유권·가시성·관계 기반)는
+**Policy 책임**이다. Service의 if 체인에 두지 않는다.
+
+규칙 본체는 도메인이 소유한다. Domain 행위 또는 도메인 Policy로 표현한다.
+
+좋은 예시:
+
+- `schedule.validateViewableBy(viewerId, isFriend)`
+- `ScheduleAccessPolicy.validateViewable(schedule, viewerId, isFriend)`
+
+지양하는 예시:
+
+- Service에서 visibility / owner / participant를 getter로 꺼내 직접 분기
+
+→ [authorization-policy-placement](../decisions/accepted/authorization-policy-placement.md)
+
+---
+
+## 조합 정책 — 도메인 상태 + 저장소 조회
+
+규칙이 도메인 상태와 저장소 조회를 함께 필요로 하면(예: 가시성 규칙 + 친구 여부 조회),
+규칙을 Service에 흩지 않고 **도메인이 규칙을 갖고 외부 사실을 인자로 받는다.**
+
+- Application이 Reference 포트로 외부 사실을 조회한다.
+- 그 사실(boolean 등)을 도메인 행위에 **인자로 주입**한다.
+- 도메인은 Repository를 모른 채 규칙만 판단한다.
+
+좋은 예시:
+
+    // application: 조회 + 조율만
+    boolean isFriend = friendReference.areFriends(schedule.ownerId(), viewerId);
+    schedule.validateViewableBy(viewerId, isFriend);
+
+이렇게 하면 도메인 순수성을 지키면서 규칙의 주인이 도메인에 남는다.
+
+→ [authorization-policy-placement](../decisions/accepted/authorization-policy-placement.md),
+[domain-reference-adapter](../decisions/accepted/domain-reference-adapter.md)
+
+---
+
 ## 도메인 간 협력
 
 도메인은 협력할 수 있지만,

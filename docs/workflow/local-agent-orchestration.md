@@ -8,7 +8,8 @@ Test → Feat → Refactor → Review 실행을 로컬 LLM 역할 에이전트�
 ## 전제
 
 - 카드마다 하나의 branch와 worktree를 사용한다.
-- worktree의 tracked 변경은 단계 시작 전에 깨끗해야 한다.
+- worktree는 단계 시작 전과 완료 후 Git ignored 파일을 제외한 tracked/untracked
+  변경이 없어야 한다.
 - provider, model, 주소, token은 저장소 밖 Codex profile에 둔다.
 - 모델 context는 역할 하네스, 카드 지정 문서, 대상 코드를 처리할 만큼 충분해야 한다.
 - 실제 카드 실행 전 `scripts/local-agent/check-provider.sh`로 연결과 tool use를 확인한다.
@@ -84,15 +85,19 @@ scripts/local-agent/run-backlog.sh --profile <profile> --parallel 2            #
 3. 역할 하네스, 카드 지정 문서, 이전 산출물의 존재를 검사한다.
 4. 격리된 `CODEX_HOME`과 최소 `AGENTS.md`를 만든다.
 5. 역할 에이전트를 실행한다.
-6. 새 보고서, 커밋 type, clean worktree를 검사한다.
-7. 통과한 경우에만 다음 역할을 실행한다.
+6. 새 보고서, 실제 참조 문서, 커밋 type, 역할별 변경 경로, clean worktree를 검사한다.
+7. Feat / Refactor 완료 후 프로젝트 `verify.sh` green-bar를 실행기가 직접 확인한다.
+8. 통과한 경우에만 다음 역할을 실행한다.
 
 ---
 
 ## Review 반려
 
-Review Agent는 `03-review-report.md`의 `재실행 단계`에 `test`, `feat`,
-`refactor` 중 하나를 기록한다.
+Review Agent는 `03-review-report.md` frontmatter에 판정과 재실행 단계를 기록한다.
+
+- 승인: `approved / none`
+- 반려: `rejected / test|feat|refactor`
+- 상위 판단 필요: `blocked / none`
 
 파이프라인은 반려 시점의 HEAD를 새 Review 기준 commit으로 저장하고 지정 단계부터
 다시 실행한다. 제한 횟수를 넘거나 재실행 단계가 없으면 자동화를 중단하고 상위

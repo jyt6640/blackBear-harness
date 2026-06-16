@@ -190,6 +190,7 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 - 후속 작업 실패는 사용자의 성공 기준으로 트랜잭션 분리를 판단한다. → [follow-up-failure-boundary](./docs/decisions/accepted/follow-up-failure-boundary.md)
 - Repository의 기술 예외는 Infrastructure에서 저장소 의미 예외로 변환하고, Application이 필요한 경우 유스케이스 의미로 변환한다. → [infrastructure-exception-translation](./docs/decisions/accepted/infrastructure-exception-translation.md)
 - 책임이 불분명한 Helper / Util / Manager 클래스를 만들지 않는다. → [naming](./docs/principles/naming.md), [common-util-package](./docs/decisions/rejected/common-util-package.md)
+- 접근 권한 판단(소유권·가시성·관계)은 Policy 책임이다. Service에 분기로 두지 않고, 도메인 상태 + 저장소 조회 조합이면 도메인이 규칙을 갖고 외부 사실을 인자로 받는다. → [authorization-policy-placement](./docs/decisions/accepted/authorization-policy-placement.md)
 
 ## 테스트
 
@@ -205,10 +206,11 @@ decision의 적용 강도는 [docs/decisions/README.md](./docs/decisions/README.
 
 - 기능 개발은 테스트 산출물 없이 구현하지 않는다. → [agent-handoff-by-artifact](./docs/decisions/accepted/agent-handoff-by-artifact.md)
 - 자동 로컬 에이전트는 작업 카드에 컴파일된 상위 문서만 읽고, provider와 모델 설정은 저장소 밖 Codex profile에서 받는다. → [local-llm-agent-orchestration](./docs/decisions/accepted/local-llm-agent-orchestration.md)
-- 커밋은 테스트 커밋 → 구현 커밋 순서로 분리하고, 메서드 단위로 commit한다. → [git-convention](./docs/workflow/git-convention.md)
+- 커밋은 테스트 커밋 → 구현 커밋 순서로 분리하고, public behavior 또는 책임 단위로 commit한다. → [git-convention](./docs/workflow/git-convention.md)
 - 코드 리뷰 보강, 테스트 보강, 리팩터링도 public behavior 또는 책임 단위로 커밋한다. 리팩터링 커밋은 행위 변경 없이 하나의 구조 개선만 포함한다. → [git-convention](./docs/workflow/git-convention.md)
 - 커밋 메시지 type / scope는 영어, summary와 본문은 한국어로 작성한다. → [git-convention](./docs/workflow/git-convention.md)
 - 기계적으로 판정 가능한 규칙은 지침이 아니라 스크립트로 강제한다. → [enforcement-by-script](./docs/decisions/accepted/enforcement-by-script.md)
+- 근간 철학(architecture / principles) 중 AST로 판정 가능한 구조 규칙(Tier 1)은 ArchUnit 테스트로 강제하고 verify.sh green-bar에 포함한다. 의미 규칙은 Review / 점수표가, 스타일은 린터가 맡는다. → [architecture-rules-as-archunit](./docs/decisions/accepted/architecture-rules-as-archunit.md)
 - 하네스 절차는 스킬(얇은 런처)로 호출하되 정본은 항상 문서다. → [skill-as-thin-launcher](./docs/decisions/accepted/skill-as-thin-launcher.md)
 
 ---

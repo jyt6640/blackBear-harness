@@ -49,7 +49,8 @@ done
     echo "FAIL: --profile 또는 LOCAL_AGENT_PROFILE이 필요하다" >&2
     exit 1
 }
-local_agent_validate_name "작업명" "$TASK"
+ROOT="$(local_agent_root)"
+local_agent_validate_task_name "$ROOT" "$TASK"
 local_agent_validate_name "profile" "$PROFILE"
 case "$MAX_RETRIES" in
     ''|*[!0-9]*)
@@ -58,7 +59,6 @@ case "$MAX_RETRIES" in
         ;;
 esac
 
-ROOT="$(local_agent_root)"
 WORK="$(local_agent_work_dir "$ROOT" "$TASK")"
 CARD="$WORK/00-task-card.md"
 STATE_DIR="$WORK/.local-agent"
@@ -128,13 +128,18 @@ fi
 
 ATTEMPT=0
 while :; do
-    VERDICT="$(local_agent_extract_first_value "$REVIEW_REPORT" "## 판정")"
+    local_agent_assert_review_report_schema "$REVIEW_REPORT"
+    VERDICT="$(local_agent_extract_frontmatter_value "$REVIEW_REPORT" verdict)"
     case "$VERDICT" in
-        승인*)
+        approved)
             echo "OK: 자동 로컬 에이전트 파이프라인 승인"
             exit 0
             ;;
-        반려*)
+        rejected)
+            ;;
+        blocked)
+            echo "BLOCKED: Review가 상위 판단이 필요한 상태를 반환했다" >&2
+            exit 2
             ;;
         *)
             echo "FAIL: Review 판정을 해석할 수 없다: $VERDICT" >&2
@@ -147,7 +152,7 @@ while :; do
         exit 2
     fi
 
-    RESTART="$(local_agent_extract_first_value "$REVIEW_REPORT" "## 재실행 단계")"
+    RESTART="$(local_agent_extract_frontmatter_value "$REVIEW_REPORT" restart_stage)"
     case "$RESTART" in
         test|feat|refactor) ;;
         *)

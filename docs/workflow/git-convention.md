@@ -49,12 +49,13 @@ Git은 단순 버전 관리 도구가 아니라,
 
 Test → Feat → Refactor 단계는 각자 자기 type의 커밋만 만든다.
 
-- Test Agent: test 커밋만 만든다. 메서드(public behavior) 단위로 나눈다.
+- Test Agent: test 커밋만 만든다. public behavior 단위로 나눈다.
 - Feat Agent: feat 커밋만 만든다. 한 커밋은 하나의 테스트(행위)를 통과시키는 최소 구현이다.
 - Refactor Agent: refactor 커밋만 만든다. 한 커밋은 행위 변경 없는 하나의 구조 개선이다.
 - Review Agent: 커밋을 만들지 않는다. 커밋 단위 위반은 반려 사유다.
 
-릴레이에서는 단계가 묶여 진행되지만 커밋 단위는 여전히 메서드다.
+릴레이에서는 단계가 묶여 진행되지만 한 커밋은 하나의 public behavior 또는
+하나의 책임 변경만 포함한다.
 카드가 행위 3개를 다루면 test 커밋 3개 → feat 커밋 3개가 기본이다.
 각 단계는 자기 커밋 목록을 단계 보고서에 기록한다.
 
@@ -63,7 +64,8 @@ Test → Feat → Refactor 단계는 각자 자기 type의 커밋만 만든다.
 - 커밋 메시지 형식: `scripts/check-commit-message.sh` (commit-msg 훅)
 - 카드 범위의 type 제한과 순서: `scripts/check-commit-chain.sh <시작ref>`
 
-메서드 단위 여부는 기계 판정이 불가능하므로 Review Agent가 직접 검토한다.
+public behavior 또는 책임 단위 여부는 기계 판정이 불가능하므로 Review Agent가
+직접 검토한다.
 
 ---
 

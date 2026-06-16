@@ -58,7 +58,7 @@ Spring 백엔드 기능 개발을 Test → Feat → Refactor → Review 릴레�
 ### /test-agent — 실패 테스트
 
 - 카드의 행위를 public behavior 단위 실패 테스트로 작성하고 실패를 실행으로 확인한다.
-- 메서드 단위로 `test(scope):` 커밋을 만든다.
+- public behavior 단위로 `test(scope):` 커밋을 만든다.
 - `01-test-report.md` 작성 후 정지: "/feat-agent를 실행해주세요."
 
 ### /feat-agent — 최소 구현
@@ -142,7 +142,9 @@ Codex profile(`~/.codex/<profile>.config.toml`)로 관리한다.
 
 - 역할 게이트(enforce-workflow)와 산출물 체인
 - 단계별 커밋 type (test / feat / refactor, Review는 커밋 금지)
-- clean worktree
+- ignored 파일을 제외한 tracked/untracked clean worktree
+- 단계별 금지 source 경로와 실제 참조 문서
+- Feat / Refactor 완료 후 프로젝트 `verify.sh` green-bar
 
 역할 에이전트가 읽는 입력은 카드가 지정한 것뿐이다:
 자기 역할 AGENTS.md + 역할 docs + 카드의 `필수 상위 문서` / `역할별 추가 문서` + 이전 산출물.
@@ -150,7 +152,7 @@ Codex profile(`~/.codex/<profile>.config.toml`)로 관리한다.
 
 ### 반려와 중단
 
-- Review 반려 → `03-review-report.md`의 `재실행 단계`부터 제한 횟수 안에서 자동 재실행
+- Review 반려 → `03-review-report.md` frontmatter의 `restart_stage`부터 제한 횟수 안에서 자동 재실행
 - 한도 초과 또는 BLOCKED → 멈추고 사용자에게 보고.
   막힌 단계부터 사용자 릴레이(/test-agent 등)로 이어받을 수 있다.
 - 승인 → /orchestrate로 마무리 (04-summary, history 이동)는 동일하다.

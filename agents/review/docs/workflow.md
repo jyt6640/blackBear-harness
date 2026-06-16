@@ -92,7 +92,7 @@ Review Agent의 workflow는 작업 카드, 산출물 체인, diff를 하네스 �
 
 `next-step/work/<작업명>/03-review-report.md`에 아래를 기록한다.
 
-- 판정: 승인 / 반려 / 보류
+- frontmatter 판정: approved / rejected / blocked
 - 확인한 산출물
 - 주요 findings
 - 반려 시 수정 요구 목록
