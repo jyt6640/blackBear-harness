@@ -75,3 +75,23 @@ base 규칙을 바꾸려면 base 파일을 고치지 말고 **프로젝트 `docs
 
 base 버전은 [VERSION.md](../VERSION.md)에 있다.
 프로젝트 `AGENTS.md`의 base 선언 버전과 실제 base 버전이 다르면 `harness-sync`로 재검토한다.
+
+---
+
+## 6. 문서 크기/분리 기준
+
+공식 글자 수 제한은 없다(벤더 제한 아님). 아래는 backend-harness가 작고 찾기 쉬운
+구조를 유지하기 위한 **운영 기준**이다. 정본·강제는
+[document-size-and-splitting](decisions/accepted/document-size-and-splitting.md),
+검사는 `scripts/check-doc-size.sh`(verify-harness가 호출).
+
+- router(AGENTS.md)와 adapter(CLAUDE/GEMINI/skills/cursor)는 짧아야 한다. 초과는 FAIL.
+- role AGENTS.md가 길어지면 실행 절차를 `agents/<role>/docs/`로 분리한다. 초과는 FAIL.
+- 정본 docs는 의미 단위로 분리한다. 자주 읽는 문서는 작고 찾기 쉬워야 한다.
+- 100줄 이상 가이드 문서는 Index를 두거나 분리를 검토한다(WARN, decisions는 단일 주제라 면제).
+- 20,000자 이상 문서는 분리를 검토한다(WARN).
+- adapter가 길어지면 정본 복제 가능성을 의심한다.
+- 같은 주제를 여러 파일에 중복 설명하지 않는다.
+
+분리 신호와 한도 표는 decision 문서에 있다. 이번에는 기준과 검증 레일만 두고,
+현재 docs를 대규모로 쪼개지 않는다.

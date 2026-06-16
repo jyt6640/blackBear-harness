@@ -146,6 +146,7 @@ for sc in \
     scripts/check-artifact-chain.sh \
     scripts/check-task-card.sh \
     scripts/check-philosophy.sh \
+    scripts/check-doc-size.sh \
     scripts/verify-fast.sh \
     verify.sh \
     scripts/local-agent/run-backlog.sh \
@@ -155,6 +156,11 @@ for sc in \
 do
     [ -x "$sc" ] || err "강제 스크립트 없음 또는 실행 권한 없음: $sc"
 done
+
+# 13. 문서 크기/분리 기준 (hard=FAIL, soft=WARN)
+if [ -x scripts/check-doc-size.sh ]; then
+    scripts/check-doc-size.sh || err "문서 크기 hard limit 위반 (scripts/check-doc-size.sh)"
+fi
 
 if [ "$fail" -eq 0 ]; then
     echo "OK: 하네스 정합성 검증 통과"
