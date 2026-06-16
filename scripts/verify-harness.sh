@@ -73,21 +73,23 @@ for role in test feat refactor review; do
     for section in "## 책임" "## 입력" "## 출력" "## 금지" "## 완료 기준"; do
         grep -q "^$section" "$f" || err "$f에 '$section' 섹션 없음"
     done
+    # 철학 단일 출처(C8 환원): 역할 정본은 철학을 재서술하지 않고 docs/principles 정본을 참조한다.
+    grep -q 'docs/principles/' "$f" || err "$f가 docs/principles 정본을 참조하지 않는다 (철학은 정본 링크로, 재서술 금지)"
+    # 역할 루프는 단일 출처(loop-engineering)를 참조한다.
+    grep -q 'loop-engineering' "$f" || err "$f에 역할 루프(단일 출처 loop-engineering) 참조 없음"
     if ! find "agents/$role/docs" -maxdepth 1 -name "*.md" -type f 2>/dev/null | grep -q .; then
         err "역할 docs 없음: agents/$role/docs"
     fi
-    for d in agents/$role/docs/*.md; do
-        [ -e "$d" ] || continue
-        grep -q "정본이 우선" "$d" || err "$d에 정본 우선 선언 없음 (역할 docs는 공유 정본의 요약이다)"
-        case "$d" in
-            */workflow.md) ;;  # 프로세스 문서는 출처 인용 면제
-            *) grep -q "^## 출처 정본" "$d" || err "$d에 '출처 정본' 섹션 없음 (철학 요약 역할 docs는 상위 정본을 인용해야 한다)" ;;
-        esac
-    done
+    # 역할 docs/는 실행 체크리스트·절차만 둔다(철학 요약 계약은 폐지). 철학 정본은 docs/principles다.
     [ -f "agents/$role/docs/workflow.md" ] || err "역할 workflow 문서 없음: agents/$role/docs/workflow.md"
     script="agents/$role/scripts/enforce-workflow.sh"
     [ -x "$script" ] || err "역할 workflow 강제 스크립트 없음 또는 실행 불가: $script"
 done
+
+# 7b. prompt-improver 메타 역할 정본 존재 (TDD 릴레이 단계 아님 — docs/scripts 계약 면제)
+[ -f "agents/prompt-improver/AGENTS.md" ] || err "prompt-improver 역할 정본 없음: agents/prompt-improver/AGENTS.md"
+grep -q 'proposal-only\|proposal only\|승인 후' agents/prompt-improver/AGENTS.md 2>/dev/null \
+    || err "agents/prompt-improver/AGENTS.md에 proposal-only 적용 정책 없음"
 
 # 8. 작업 메모리 추적 방지
 if git ls-files 'next-step/work/*' | grep -q .; then
@@ -127,7 +129,7 @@ for iid in $(grep -oE '^\| [A-Z][0-9]+' templates/06-scorecard.md | tr -d '| ');
 done
 
 # 11. 필수 스킬 존재 (얇은 런처)
-for skill in orchestrate test feat refactor review local-agent loop-improve draft-decision harness-interview harness-sync; do
+for skill in orchestrate test feat refactor review local-agent loop-improve prompt-improver draft-decision harness-interview harness-sync; do
     [ -f ".claude/skills/$skill/SKILL.md" ] || err "필수 스킬 없음: .claude/skills/$skill/SKILL.md"
 done
 

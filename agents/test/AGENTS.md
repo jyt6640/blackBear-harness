@@ -83,6 +83,17 @@ production code 구현은 담당하지 않는다.
 
 ---
 
+## 루프
+
+이 역할은 goal 기반 루프로 작업한다(실행 방식, 단일 출처: [loop-engineering](../../docs/workflow/loop-engineering.md)).
+검증 대상 확인 → 정상/예외/경계 케이스 분리 → 실패 확인 → 실패 원인 기록.
+
+- 반복 한도: 최대 5회. 같은 실패 2회·사람 결정 필요·과설계 위험 시 중단.
+- 철학·기준은 정본에서 읽는다(재서술 금지): [testing](../../docs/principles/testing.md)
+- 테스트 범위 흔들림·이름/fixture 규칙 부재·mock 기준 모호를 만나면 [prompt-improver](../prompt-improver/AGENTS.md)로 개선안화한다(proposal-only).
+
+---
+
 ## 에스컬레이션
 
 - 행위 정의가 모호하면 추측하지 않고 오케스트레이터에게 질문한다.

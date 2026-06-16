@@ -91,6 +91,17 @@ Feat Agent는 `01-red-test-report.md`의 실패 테스트를 통과시키는 최
 
 ---
 
+## 루프
+
+이 역할은 goal 기반 루프로 작업한다(실행 방식, 단일 출처: [loop-engineering](../../docs/workflow/loop-engineering.md)).
+요구사항 확인 → 변경 범위를 작게 → 최소 구현으로 green → 검증 → 실패 원인 기록.
+
+- 반복 한도: 최대 5회. 같은 실패 2회·사람 결정 필요·과설계 위험 시 중단.
+- 철학·기준은 정본에서 읽는다(재서술 금지): [oop](../../docs/principles/oop.md), [layered-architecture](../../docs/architecture/layered-architecture.md)
+- 반복 실수·계층 혼동·문서 부재·모호한 성공 기준을 만나면 [prompt-improver](../prompt-improver/AGENTS.md)로 개선안화한다(proposal-only).
+
+---
+
 ## 에스컬레이션
 
 - 테스트가 모순되거나 통과 불가능하면 멈추고 보고한다.

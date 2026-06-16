@@ -29,8 +29,8 @@ for mdc in .cursor/rules/*.mdc; do
     grep -q '정본이 아니다' "$mdc" || echo "WARN: $mdc 에 '정본이 아니다' 선언 권장"
 done
 
-# Claude 스킬 런처: 각 역할 정본 agents/<role>/AGENTS.md를 가리켜야 한다
-for role in test feat refactor review; do
+# Claude 스킬 런처: 각 역할/메타 정본 agents/<name>/AGENTS.md를 가리켜야 한다
+for role in test feat refactor review prompt-improver; do
     s=".claude/skills/$role/SKILL.md"
     [ -f "$s" ] || { err "스킬 런처 없음: $s"; continue; }
     grep -q "agents/$role/AGENTS.md" "$s" || err "$s 가 정본 agents/$role/AGENTS.md를 참조하지 않는다"

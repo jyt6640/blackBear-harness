@@ -8,6 +8,31 @@
 
 ---
 
+## 역할 작업 루프 (단일 출처)
+
+각 역할 에이전트는 단발성 지침이 아니라 goal 기반 루프로 작업한다.
+이는 **실행 방식**이며 하네스 기능(별도 디렉토리/스크립트)이 아니다.
+역할 정본은 이 절을 참조하고, 자기 반복 한도와 철학 정본 링크만 덧붙인다.
+
+    Goal 설정 → 현재 상태 확인 → 작은 작업 수행 → 검증
+    → 실패 원인 기록 → Success Criteria 확인 → Exit 시 종료
+    → 약점 발견 시 Prompt Improvement Signal
+
+반복 한도 (무한 루프 금지):
+
+- feat / test / refactor: 최대 5회
+- review: 최대 3회
+- prompt-improver: 최대 3회
+- 같은 실패가 2회 반복되면 중단
+- 사람 결정이 필요하면 중단
+- 과설계 위험이 생기면 중단
+
+Prompt Improvement Signal: 작업 중 반복 실패·모호한 지침·문서 드리프트를
+발견하면 [prompt-improver](../../agents/prompt-improver/AGENTS.md)로 개선안화한다.
+개선안은 기본 proposal-only이며 명시 승인 후에만 정본에 반영한다.
+
+---
+
 ## 루프
 
     ① 채점 → ② 집계 → ③ 진단 → ④ 개선 제안 → ⑤ 승인·반영 → (다음 카드) → ①

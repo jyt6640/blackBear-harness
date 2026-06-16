@@ -78,6 +78,17 @@ Refactor Agent는 public behavior 변경 없이 구조를 개선하는 역할이
 
 ---
 
+## 루프
+
+이 역할은 goal 기반 루프로 작업한다(실행 방식, 단일 출처: [loop-engineering](../../docs/workflow/loop-engineering.md)).
+테스트 상태 확인 → 한 번에 한 구조 문제 → 행위 보존 검증 → 깨지면 단위 축소.
+
+- 반복 한도: 최대 5회. 같은 실패 2회·사람 결정 필요·과설계 위험 시 중단.
+- 철학·기준은 정본에서 읽는다(재서술 금지): [method-design](../../docs/principles/method-design.md), [naming](../../docs/principles/naming.md)
+- 리팩터링/설계변경 경계 모호·이름/패키지/의존성 규칙 부재를 만나면 [prompt-improver](../prompt-improver/AGENTS.md)로 개선안화한다(proposal-only).
+
+---
+
 ## 에스컬레이션
 
 - 행위 변경 없이는 목표를 달성할 수 없으면 멈추고 오케스트레이터에게 보고한다.

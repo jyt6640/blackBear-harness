@@ -86,6 +86,17 @@ public behavior/책임 단위 여부는 스크립트로 판정할 수 없으므�
 
 ---
 
+## 루프
+
+이 역할은 goal 기반 루프로 작업한다(실행 방식, 단일 출처: [loop-engineering](../../docs/workflow/loop-engineering.md)).
+요구사항·구현 일치 확인 → 테스트 누락·규칙 위반 점검 → Must/Should/Optional 분류.
+
+- 반복 한도: 최대 3회. 같은 실패 2회·사람 결정 필요·과설계 위험 시 중단.
+- 철학·기준은 정본에서 읽는다(재서술 금지): [testing](../../docs/principles/testing.md), 채점 [loop-scoring-criteria](../../docs/workflow/loop-scoring-criteria.md)
+- 같은 지적 반복·규칙 문서 부재·검증 스크립트가 놓친 문제를 만나면 [prompt-improver](../prompt-improver/AGENTS.md)로 개선안화한다(proposal-only).
+
+---
+
 ## 에스컬레이션
 
 - 코드와 accepted decision이 충돌하면 판정을 보류하고 오케스트레이터에게 보고한다.

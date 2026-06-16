@@ -25,6 +25,8 @@ description: history에 쌓인 철학 점수표를 집계해 낮은 항목을 �
 
 4. 개선을 제안하고 멈춘다. 자동으로 반영하지 않는다.
 
+   - 개선안 작성의 정본은 [agents/prompt-improver/AGENTS.md](../../../agents/prompt-improver/AGENTS.md)다.
+     loop-improve는 점수 집계로 약점을 찾는 진입점이고, 개선안은 prompt-improver의 Proposal 형식으로 쓴다.
    - 지침 부족 → 카드 템플릿 적용 지침 / 역할 docs / 정본의 구체 문구 수정안
    - 지침 위반 → 금지 사항 승격 또는 기계 판정 가능하면 스크립트 검사 추가안
    - 각 제안에 기대 효과를 적는다: "다음 집계에서 어떤 항목의 평균이 오를 것"
