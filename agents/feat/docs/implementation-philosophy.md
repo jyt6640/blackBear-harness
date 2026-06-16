@@ -1,36 +1,23 @@
-# Implementation Philosophy
+# Feat — 실행 체크리스트
 
-> 이 문서는 공유 정본의 실행 관점 요약이다.
+> 역할 실행 문서다. 철학 본문은 여기 쓰지 않는다.
 > [docs](../../../docs)의 정본, decisions와 충돌하면 정본이 우선한다.
-
-
-Feat Agent의 구현은 실패 테스트를 통과시키는 최소 변경이다.
-구조 기준을 지키되, 작업 카드 밖의 리팩터링이나 미래 확장은 하지 않는다.
-
----
 
 ## 출처 정본
 
-[oop](../../../docs/principles/oop.md), [method-design](../../../docs/principles/method-design.md)
-
-## 핵심 방향
-
-- 현재 프로젝트의 production code와 accepted decision을 우선한다.
-- Service는 흐름만 조율하고 판단은 Domain / Policy / Validator에 둔다.
-- Domain은 기술 구현을 알지 않는다.
-- Request DTO와 Command를 분리한다.
-- 현재 코드에 없는 패턴, 라이브러리, 프레임워크를 근거 없이 도입하지 않는다.
+철학은 정본에서 읽는다(여기 재서술하지 않는다):
+[oop](../../../docs/principles/oop.md), [method-design](../../../docs/principles/method-design.md), 기본 입장은 [decisions](../../../docs/decisions)
 
 ---
 
-## 구현 범위
+## 구현 범위 (체크리스트)
 
-구현은 `01-test-report.md`의 실패 테스트를 통과시키는 범위로 제한한다.
-테스트가 추가 요구를 암시하더라도 작업 카드에 없는 행위는 구현하지 않는다.
-
----
+- [ ] `01-red-test-report.md`의 실패 테스트를 통과시키는 범위로만 구현했는가
+- [ ] 테스트가 추가 요구를 암시해도 작업 카드에 없는 행위는 구현하지 않았는가
+- [ ] 현재 코드에 없는 패턴/라이브러리/프레임워크를 근거 없이 도입하지 않았는가
+- [ ] test 커밋 → feat 커밋 순서를 지켰는가
 
 ## 판단 보류
 
-상위 전제나 pending decision 영역에 닿으면 임의로 결정하지 않는다.
+상위 전제나 pending decision 영역에 닿으면 임의로 결정하지 않고 멈춰 질문한다.
 예: 인증 방식, Domain / Persistence Entity 분리, 이벤트 기반 처리, Aggregate 경계, Repository 예외 계약.

@@ -1,0 +1,16 @@
+---
+description: TDD 사이클(Red→Green→Refactor→Review)과 산출물 체인.
+globs:
+alwaysApply: false
+---
+
+# TDD 루프 어댑터 (Cursor)
+
+정본이 아니다. 규칙은 여기 쓰지 않는다.
+
+사이클·게이트 정본:
+- 워크플로: `docs/workflow/tdd.md`, `docs/workflow/task-card-flow.md`
+- 산출물 번호 규약: `docs/decisions/accepted/artifact-numbering-by-execution-order.md`
+- 산출물 템플릿: `templates/00-task-card.md` … `templates/06-scorecard.md`
+
+순서: 00 task-card → 01 red-test → 02 green-impl → 03 refactor → 04 review → 05 summary → 06 scorecard.

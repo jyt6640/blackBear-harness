@@ -1,0 +1,18 @@
+# jpa-llms.txt
+
+목적: LLM 역할 에이전트가 참조하는 JPA / Hibernate 압축 레퍼런스.
+정본 규칙이 아니다(영속성 규칙은 docs/architecture). 사실 확인용 인덱스다.
+버전 핀: Spring Data JPA 3.x / Hibernate 6.x. 갱신 시 이 헤더의 버전을 바꾼다.
+
+## 권위 있는 출처
+
+- Spring Data JPA: https://docs.spring.io/spring-data/jpa/reference/
+- Hibernate ORM User Guide: https://docs.jboss.org/hibernate/orm/current/userguide/html_single/
+
+## 자주 쓰는 사실 (채워 나간다)
+
+- Persistence Entity와 Domain 모델은 분리 가능(프로젝트 decision으로 결정).
+- 연관관계 지연로딩 기본, N+1은 fetch join / @EntityGraph로.
+- Repository 인터페이스는 Domain, 구현은 Infrastructure (base 기본 입장).
+
+> 이 파일은 시작 스텁이다. 실제 작업에서 반복 참조되는 항목만 추가한다(과확장 금지).

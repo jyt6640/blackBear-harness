@@ -52,10 +52,19 @@ if git ls-files --error-unmatch PHILOSOPHY_QNA_DRAFT.md >/dev/null 2>&1; then
     err "PHILOSOPHY_QNA_DRAFT.md가 git에 추적되고 있다 (미확정 논의는 커밋하지 않는다)"
 fi
 
-# 6. AGENTS.md 필수 섹션 존재
-for section in "# 오케스트레이터 책임" "# 작업 시퀀스" "# 산출물 체인" "# 실행 모드" "# 판단 우선순위" "# 불변 철학" "# 기본 입장" "# 작업 유형별 필수 문서" "# 최종 점검"; do
+# 6. AGENTS.md 필수 섹션 존재 (라우터: 규칙 본문은 정본으로 이주, 여기서는 가리킨다)
+for section in "# 문서 지도" "# 오케스트레이터 책임" "# 작업 시퀀스" "# 산출물 체인" "# 실행 모드" "# 판단 우선순위" "# 불변 철학" "# 정본과 어댑터"; do
     grep -q "^$section" AGENTS.md || err "AGENTS.md에 '$section' 섹션 없음"
 done
+
+# 6b. AGENTS.md 150줄 이하 (라우터 유지) → docs/decisions/accepted/cross-tool-adapter-layer.md
+agents_lines=$(wc -l < AGENTS.md | tr -d ' ')
+[ "$agents_lines" -le 150 ] || err "AGENTS.md가 150줄을 초과한다(${agents_lines}줄) — 라우터로 유지하라"
+
+# 6c. 어댑터 정합성 (one canon, N adapters)
+if [ -x scripts/check-adapter-sync.sh ]; then
+    scripts/check-adapter-sync.sh >/dev/null 2>&1 || err "어댑터 정합성 실패 (scripts/check-adapter-sync.sh)"
+fi
 
 # 7. 역할별 AGENTS.md 필수 섹션과 docs 존재
 for role in test feat refactor review; do

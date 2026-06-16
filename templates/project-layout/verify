@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# 프로젝트 green-bar 진입점.
+# base harness의 강제 스크립트를 이 프로젝트 소스에 대해 호출한다.
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+# base harness 경로 (submodule 또는 복사 위치). 프로젝트가 설정한다.
+HARNESS="${HARNESS_DIR:-.harness}"
+
+if [ ! -d "$HARNESS/scripts" ]; then
+    echo "FAIL: base harness를 찾을 수 없다 ($HARNESS). HARNESS_DIR를 설정하라." >&2
+    exit 1
+fi
+
+# 1. 기계 판정 철학 위반 (프로젝트 src 대상)
+"$HARNESS/scripts/check-philosophy" src/main/java
+
+# 2. 빌드·테스트 green-bar (프로젝트가 정의)
+#   예: ./gradlew test
+
+echo "OK: 프로젝트 verify 통과"

@@ -1,0 +1,17 @@
+---
+description: backend-harness 진입점. 정본은 AGENTS.md.
+globs:
+alwaysApply: true
+---
+
+# backend-harness 어댑터 (Cursor)
+
+정본이 아니다. 규칙은 여기 쓰지 않는다. one canon, N adapters.
+
+이 저장소의 정본 진입점은 루트 `AGENTS.md`다.
+작업 전 `AGENTS.md`를 읽고 그 라우터(작업 시퀀스·산출물 체인·판단 우선순위)를 따른다.
+
+- 역할 정본: `agents/<role>/AGENTS.md`
+- 규칙·철학 정본: `docs/`
+- 산출물 정본: `templates/`
+- 강제: `scripts/`

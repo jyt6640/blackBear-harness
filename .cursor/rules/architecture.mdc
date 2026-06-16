@@ -1,0 +1,17 @@
+---
+description: Spring 백엔드 아키텍처·철학 규칙 정본 위치.
+globs: "*.java"
+alwaysApply: false
+---
+
+# 아키텍처 규칙 어댑터 (Cursor)
+
+정본이 아니다. 규칙은 여기 쓰지 않는다.
+
+Java 코드를 다룰 때 읽는 정본:
+- 구조 규칙: `docs/architecture/`
+- 개발·테스트·리뷰 철학: `docs/principles/`
+- 기본 입장(결정): `docs/decisions/accepted/`
+- 기계 강제: `scripts/check-philosophy`
+
+규칙을 바꾸려면 정본을 고치고 `docs/decisions/`에 결정을 남긴다.

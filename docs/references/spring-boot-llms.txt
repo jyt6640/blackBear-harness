@@ -1,0 +1,18 @@
+# spring-boot-llms.txt
+
+목적: LLM 역할 에이전트가 참조하는 Spring Boot 압축 레퍼런스.
+정본 규칙이 아니다(규칙은 docs/principles, docs/architecture). 사실 확인용 인덱스다.
+버전 핀: Spring Boot 3.x / Java 17+. 갱신 시 이 헤더의 버전을 바꾼다.
+
+## 권위 있는 출처
+
+- Spring Boot Reference: https://docs.spring.io/spring-boot/docs/current/reference/html/
+- Spring Framework Core: https://docs.spring.io/spring-framework/reference/
+
+## 자주 쓰는 사실 (채워 나간다)
+
+- 계층: @RestController(HTTP I/O) → @Service(@Transactional 경계) → Repository → Domain
+- 예외: @RestControllerAdvice + @ExceptionHandler는 global 한 곳. Controller에서 try-catch 금지.
+- 설정: application.yml 프로파일 분리. 비밀값은 환경변수/secret manager.
+
+> 이 파일은 시작 스텁이다. 실제 작업에서 반복 참조되는 항목만 추가한다(과확장 금지).
