@@ -7,8 +7,17 @@ set -u
 input="${1:?사용법: check-commit-message.sh <메시지 파일 또는 문자열>}"
 if [ -f "$input" ]; then
     subject=$(head -n1 "$input")
+    body_src="$input"
 else
     subject="$input"
+    body_src=""
+fi
+
+# Co-Authored-By 트레일러 금지 (제목/본문 어디에도 허용하지 않는다)
+if { [ -n "$body_src" ] && grep -qiE '^[[:space:]]*Co-Authored-By:' "$body_src"; } \
+   || printf '%s' "$input" | grep -qiE 'Co-Authored-By:'; then
+    echo "FAIL: 커밋 메시지에 Co-Authored-By 트레일러가 있다. 제거하고 다시 커밋한다."
+    exit 1
 fi
 
 case "$subject" in
